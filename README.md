@@ -17,15 +17,15 @@ npm i dialogshift-sdk --save
 ```javascript
 <script
   type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/dialogshift-sdk/bundles/dialog-shift-sdk.umd.min.js"
+  src="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.umd.min.js"
 />
 ```
 
 ## Quick start (TypeScript & ES2015)
 
 ```javascript
-import * as Dialogshift from 'dialogsshift-sdk'
-import 'dialogsshift-sdk/bundles/dialogsshift-sdk.min.css'
+import * as Dialogshift from 'dialogshift-webchat-sdk'
+import 'dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.min.css'
 
 const chat = Dialogshift.instance({
   id: '%id%',
@@ -43,7 +43,7 @@ Your app will interact with the Dialogshift Web Client through the WebClient ins
     <title>Dialogshift SDK</title>
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/dialogshift-sdk/bundles/dialog-shift-sdk.umd.min.js"
+      src="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.umd.min.js"
     ></script>
   </head>
   <body>
@@ -58,37 +58,35 @@ Your app will interact with the Dialogshift Web Client through the WebClient ins
 
 ## Configuration
 
-| Property          | Type              | Description                                                  |
-| ----------------- | ----------------- | ------------------------------------------------------------ |
-| id                | string            | Chat id obtained from the [application dashboard](https://www.dialogshift.com/). |
-| locale?           | string            | Chat locale. Defaults to `en`.                               |
-| position?         | 'left' \| 'right' | Chat position on webpage. Defaults to `right`.               |
-| isChatboxVisible? | boolean           | Show chat window expanded if `true`. Defaults to `false`.    |
-| isButtonVisible?  | boolean           | Show toggle button if `true`. Defaults to `true`.            |
+| Property          | Type              | Description                                                                                                        |
+| ----------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
+| id                | string            | Chat id obtained from the [application dashboard](https://www.dialogshift.com/).                                   |
+| locale?           | string            | Chat locale. Defaults to `en`.                                                                                     |
+| position?         | 'left' \| 'right' | Chat position on webpage. Defaults to `right`.                                                                     |
+| isChatboxVisible? | boolean           | Show chat window expanded if `true`. Defaults to `false`.                                                          |
+| isButtonVisible?  | boolean           | Show toggle button if `true`. Defaults to `true`.                                                                  |
 | renderButton?     | boolean           | Render toggle button if `true`. If button is not rendered show or hide it later is impossible. Defaults to `true`. |
-| isTeaserVisible?  | boolean           | Show attention grabber button if `true`. Defaults to `false`. |
-| buttonText?       | string            | Text for toggle button. If text is setted icon and text render at same time. Defaults to no text. |
-| teaserText?       | string            | Text for attention grabber. Defaults to `👋🏻 Hi, can I help you?`. |
-
-
+| isTeaserVisible?  | boolean           | Show attention grabber button if `true`. Defaults to `false`.                                                      |
+| buttonText?       | string            | Text for toggle button. If text is setted icon and text render at same time. Defaults to no text.                  |
+| teaserText?       | string            | Text for attention grabber. Defaults to `👋🏻 Hi, can I help you?`.                                                  |
 
 ## Events
 
-| Name | Payload |Description |
-| ---- | ----------- |----------- |
-| ready |         | Fires whenever the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
-| error |  `errorMessage`, `errorType`       | Fires whenever error happened. |
-| chatbox.show.before || Fires before the chat window is shown. |
-| chatbox.show || Fires whenever the chat window is shown. |
-| chatbox.hide.before || Fires before the chat window is hidden. |
-| chatbox.hide || Fires whenever the chat window is hidden. |
-| button.show.before || Fires before the toggle button is shown. |
-| button.show || Fires whenever the toggle button is shown. |
-| button.hide.before || Fires before the toggle button is hidden. |
-| button.hide || Fires whenever the toggle button is hidden. |
-| message.sent |`message`| Fires whenever a visitor sent message. |
-| message.received |`message`| Fires whenever a visitor recieved message. |
-| history.received |[`message`]| Fires whenever a history is loaded. |
+| Name                | Payload                     | Description                                                                                                                                                                                                 |
+| ------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ready               |                             | Fires whenever the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
+| error               | `errorMessage`, `errorType` | Fires whenever error happened.                                                                                                                                                                              |
+| chatbox.show.before |                             | Fires before the chat window is shown.                                                                                                                                                                      |
+| chatbox.show        |                             | Fires whenever the chat window is shown.                                                                                                                                                                    |
+| chatbox.hide.before |                             | Fires before the chat window is hidden.                                                                                                                                                                     |
+| chatbox.hide        |                             | Fires whenever the chat window is hidden.                                                                                                                                                                   |
+| button.show.before  |                             | Fires before the toggle button is shown.                                                                                                                                                                    |
+| button.show         |                             | Fires whenever the toggle button is shown.                                                                                                                                                                  |
+| button.hide.before  |                             | Fires before the toggle button is hidden.                                                                                                                                                                   |
+| button.hide         |                             | Fires whenever the toggle button is hidden.                                                                                                                                                                 |
+| message.sent        | `message`                   | Fires whenever a visitor sent message.                                                                                                                                                                      |
+| message.received    | `message`                   | Fires whenever a visitor recieved message.                                                                                                                                                                  |
+| history.received    | [`message`]                 | Fires whenever a history is loaded.                                                                                                                                                                         |
 
 ## API Methods
 
@@ -104,10 +102,10 @@ Your app will interact with the Dialogshift Web Client through the WebClient ins
 | showButton    |                                      | Show toggle button.                                                                                                                                                     |
 | hideButton    |                                      | Hide toggle button.                                                                                                                                                     |
 | setButtonText | string text                          | Change toggle button text. `text` could be an empty string.                                                                                                             |
-| showTeaser    |                                      | Show teaser.                                                                                                                                                     |
-| hideTeaser    |                                      | Hide teaser.                                                                                                                                                     |
-| setTeaserText | string text                          | Change teaser text.           |
-| setPosition | 'left' \| 'right'                           | Change chat container position.           |
+| showTeaser    |                                      | Show teaser.                                                                                                                                                            |
+| hideTeaser    |                                      | Hide teaser.                                                                                                                                                            |
+| setTeaserText | string text                          | Change teaser text.                                                                                                                                                     |
+| setPosition   | 'left' \| 'right'                    | Change chat container position.                                                                                                                                         |
 
 ## Getting Help
 
