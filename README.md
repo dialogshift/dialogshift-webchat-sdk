@@ -9,7 +9,7 @@ You can install SDK using `npm` or you can use http link directly.
 ### Install from npm
 
 ```bash
-npm i dialogshift-sdk --save
+npm i dialogshift-webchat-sdk --save
 ```
 
 ### Include from CDN
@@ -17,8 +17,12 @@ npm i dialogshift-sdk --save
 ```javascript
 <script
   type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.umd.min.js"
-/>
+  src="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.umd.min.js"/>
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.min.css"/>
 ```
 
 ## Quick start (TypeScript & ES2015)
