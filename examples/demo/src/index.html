@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="//fonts.googleapis.com/css?family=Open+Sans"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk@0.0.2/bundles/dialogshift-webchat-sdk.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="src/style.css" />
+    <title>Dialogshift webchat SDK demo</title>
+  </head>
+  <body>
+    <h3>Chat container API</h3>
+    <div class="controls">
+      <button id="setposition-left" class="btn">.setPosition('left')</button>
+      <button id="setposition-right" class="btn">.setPosition('right')</button>
+    </div>
+
+    <h3>Button API</h3>
+    <div class="controls">
+      <button id="hide-chatbtn" class="btn">.hideButton()</button>
+      <button id="show-chatbtn" class="btn">.showButton()</button>
+      <button id="settext-chatbtn" class="btn">.setButtonText('Help')</button>
+      <button id="removetext-chatbtn" class="btn">.setButtonText('')</button>
+    </div>
+
+    <h3>Chatbox API</h3>
+    <div class="controls">
+      <button id="hide-chatbox" class="btn">.hideChatbox()</button>
+      <button id="show-chatbox" class="btn">.showChatbox()</button>
+    </div>
+
+    <h3>Teaser API</h3>
+    <div class="controls">
+      <button id="hide-teaser" class="btn">.hideTeaser()</button>
+      <button id="show-teaser" class="btn">.showTeaser()</button>
+      <button id="settext-teaser" class="btn">
+        .setTeaserText('Can I help you?')
+      </button>
+      <button id="changetext-teaser" class="btn">
+        .setTeaserText('Hi, can I help you?')
+      </button>
+    </div>
+
+    <h3>Happened events</h3>
+    <div id="event-list" class="event-list"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
