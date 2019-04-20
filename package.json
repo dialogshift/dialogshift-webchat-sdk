@@ -1,6 +1,6 @@
 {
   "name": "dialogshift-webchat-sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/dialogshift/dialogshift-webchat-sdk"
@@ -19,11 +19,11 @@
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "files": [
-    "dist/index.js",
-    "dist/index.d.ts",
-    "bundles/dialogshift-webchat-sdk.umd.min.js"
-  ],
+  // "files": [
+  //   "dist/index.js",
+  //   "dist/index.d.ts",
+  //   "bundles/dialogshift-webchat-sdk.umd.min.js"
+  // ],
   "scripts": {
     "build:umd": "rm -rf ./bundles && npm run webpack:dev && npm run webpack:prod",
     "build:es6": "rm -rf ./dist && tsc --outDir ./dist",
