@@ -2,7 +2,11 @@
 
 ## Installing
 
-Clone repository.
+Clone repository
+
+```bash
+git clone https://github.com/dialogshift/dialogshift-webchat-sdk
+```
 
 Run
 
@@ -14,4 +18,4 @@ npm run start
 
 ## Play with App
 
-Open http://localhost:8383/
+Open https://localhost:8383/
