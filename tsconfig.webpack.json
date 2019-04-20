@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "es3",
+    "module": "es6",
+    "lib": ["es2018", "dom"],
+    "declaration": false,
+    "sourceMap": true
+  }
+}

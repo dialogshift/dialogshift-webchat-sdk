@@ -1,0 +1,52 @@
+{
+  "name": "dialogshift-webchat-sdk",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dialogshift/dialogshift-webchat-sdk"
+  },
+  "author": "Dialogshift",
+  "license": "MIT",
+  "description": "A client library for Dialogshift web chat",
+  "keywords": [
+    "Dialogshift",
+    "Dialogshift javascript",
+    "Dialogshift chat",
+    "Dialogshift sdk"
+  ],
+  "engines": {
+    "node": ">= 11"
+  },
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "bundles/dialogshift-webchat-sdk.umd.min.js"
+  ],
+  "scripts": {
+    "build:umd": "rm -rf ./bundles && npm run webpack:dev && npm run webpack:prod",
+    "build:es6": "rm -rf ./dist && tsc --outDir ./dist",
+    "build:all": "npm run build:umd && npm run build:es6 && npm run build:styles",
+    "build:styles": "node-sass src/styles/main.scss bundles/dialogshift-webchat-sdk.min.css --output-style compressed --source-map true",
+    "bundle-stats": "npm run build:umd && webpack-bundle-analyzer bundles/stats.json",
+    "webpack:watch": "webpack --mode development --config webpack.config.js --progress --colors --watch",
+    "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
+    "webpack:prod": "webpack --mode production --config webpack.config.js --progress --colors",
+    "prepublish": "npm run lint && npm run build:all && npm run test",
+    "lint": "tslint -p tsconfig.json",
+    "test": "npm run lint"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "scss-compile": "^0.1.7",
+    "node-sass": "^4.11.0",
+    "ts-loader": "^5.3.3",
+    "tslint": "^5.12.1",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.3.3",
+    "webpack": "^4.29.5",
+    "webpack-bundle-analyzer": "^3.0.4",
+    "webpack-cli": "^3.2.3"
+  }
+}

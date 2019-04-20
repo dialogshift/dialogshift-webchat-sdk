@@ -1,0 +1,13 @@
+.ds-wrapper {
+  position: fixed;
+  bottom: 15px;
+  z-index: 10000;
+
+  &--pl {
+    left: 15px;
+  }
+
+  &--pr {
+    right: 15px;
+  }
+}

@@ -1,0 +1,20 @@
+.ds-teaser {
+  bottom: calc(15px + 60px + 15px);
+  position: fixed;
+  max-width: 260px;
+  border-radius: 20px;
+  background-color: #ededed;
+  padding: 15px;
+  transition: opacity 0.25s ease;
+  font-size: 18px;
+}
+
+.ds-wrapper--pr .ds-teaser {
+  right: 15px;
+  border-bottom-right-radius: 8px;
+}
+
+.ds-wrapper--pl .ds-teaser {
+  left: 15px;
+  border-bottom-left-radius: 8px;
+}
