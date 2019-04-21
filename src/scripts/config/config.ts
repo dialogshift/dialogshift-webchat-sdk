@@ -17,4 +17,5 @@ export const config = {
   teaserCls: 'ds-teaser',
 
   iframeHost: 'https://webchat.dev.co25.net',
+  apiEndpoint: 'https://core.dev.co25.net:5001',
 }

@@ -110,6 +110,8 @@ Your app will interact with the Dialogshift Web Client through the WebClient ins
 | hideTeaser    |                                      | Hide teaser.                                                                                                                                                            |
 | setTeaserText | string text                          | Change teaser text.                                                                                                                                                     |
 | setPosition   | 'left' \| 'right'                    | Change chat container position.                                                                                                                                         |
+| setContext    | string key, any value                | Set context variable for visitor.                                                                                                                                       |
+| getContext    | string key                           | Returns context variable.                                                                                                                                               |
 
 ## Getting Help
 
