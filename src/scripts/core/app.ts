@@ -7,6 +7,11 @@ import {
   IframeWidget,
   TeaserWidget,
 } from '../widgets/index'
+import { ApiService } from '../services'
+
+export interface Visitor {
+  id: string
+}
 
 export enum ChatPosition {
   left = 'left',
@@ -39,8 +44,12 @@ const appOptionsDefault = {
 }
 
 export enum ActionEventType {
-  'action' = 'action',
-  'message' = 'message',
+  action = 'action',
+  message = 'message',
+}
+
+export enum ActionEventName {
+  userReady = 'user.ready',
 }
 
 export interface ActionEvent {
@@ -58,6 +67,10 @@ export class App {
   private teaserWidget: TeaserWidget
   private broadcast: EventEmitter
 
+  private visitor: Visitor
+
+  private apiService: ApiService
+
   constructor(options: AppOptions) {
     if (!options) {
       throw Error('Please provide Dialogshift chat configuration')
@@ -66,6 +79,8 @@ export class App {
     if (!options.id) {
       throw Error('Dialogshift chat id is undefined.')
     }
+
+    this.apiService = new ApiService()
 
     this.options = Object.assign(appOptionsDefault, options)
 
@@ -95,8 +110,18 @@ export class App {
         if (message.type === ActionEventType.message) {
           this.broadcast.fire(message.name, message.payload)
         }
+
+        if (message.type === ActionEventType.action) {
+          this.proceedActionEvent(message)
+        }
       }
     })
+  }
+
+  private proceedActionEvent(message: any) {
+    if (message.name === ActionEventName.userReady) {
+      this.visitor = { id: message.payload.id }
+    }
   }
 
   private renderChatboxWidget() {
@@ -251,5 +276,17 @@ export class App {
 
   getTeaserWidget(): TeaserWidget {
     return this.teaserWidget
+  }
+
+  getContext(key: string): Promise<any> {
+    return this.apiService.getContext(this.getVisitor().id, key)
+  }
+
+  setContext(key: string, value: any): Promise<any> {
+    return this.apiService.setContext(this.getVisitor().id, key, value)
+  }
+
+  getVisitor(): Visitor {
+    return this.visitor
   }
 }

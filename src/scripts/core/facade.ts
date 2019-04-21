@@ -54,5 +54,17 @@ export const createFacade = (instance: App) => {
     setPosition(position: ChatPosition) {
       instance.getWrapperWidget().setPosition(position)
     },
+
+    getContext(key: string): Promise<any> {
+      return instance.getContext(key)
+    },
+
+    setContext(key: string, value: any): Promise<any> {
+      return instance.setContext(key, value)
+    },
+
+    getVisitor() {
+      return instance.getVisitor()
+    },
   }
 }
