@@ -1,4 +1,5 @@
 const path = require('path')
+const WebpackAutoInject = require('webpack-auto-inject-version')
 
 module.exports = (env, argv) => ({
   entry: {
@@ -30,4 +31,13 @@ module.exports = (env, argv) => ({
       },
     ],
   },
+  plugins: [
+    new WebpackAutoInject({
+      componentsOptions: {
+        InjectAsComment: {
+          tag: 'Build version: {version}',
+        },
+      },
+    }),
+  ],
 })
