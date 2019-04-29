@@ -11,6 +11,7 @@ export const config = {
 
   chatCls: 'ds-chat',
   chatLoadingCls: 'ds-chat--loading',
+  chatIsOpen: 'ds-chat--opened',
 
   iframeCls: 'ds-iframe',
 

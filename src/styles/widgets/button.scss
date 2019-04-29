@@ -70,3 +70,24 @@
     animation: pulse 1.5s infinite;
   }
 }
+
+@media (max-width: 576px) {
+  .ds-button--active {
+    z-index: 1;
+    -webkit-tap-highlight-color: transparent;
+    transition: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .ds-button--active:before {
+    display: none;
+  }
+
+  .ds-button--active:after {
+    transition: none;
+  }
+}

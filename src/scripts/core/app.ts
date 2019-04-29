@@ -8,6 +8,7 @@ import {
   TeaserWidget,
 } from '../widgets/index'
 import { ApiService } from '../services'
+import { getUrlParam } from './utils'
 
 export interface Visitor {
   id: string
@@ -89,8 +90,17 @@ export class App {
 
     this.broadcast = new EventEmitter()
 
+    this.init()
     this.render()
     this.bindEvents()
+  }
+
+  private init() {
+    const openUrlParam = getUrlParam('dschat')
+
+    if (openUrlParam === 'open') {
+      this.options.isChatboxVisible = true
+    }
   }
 
   private render() {

@@ -10,6 +10,11 @@ export class ChatboxWidget extends BaseWidget {
     super(options)
 
     this.setState('loading')
+
+    this.on('before:show', () => document.body.classList.add(config.chatIsOpen))
+    this.on('before:hide', () =>
+      document.body.classList.remove(config.chatIsOpen),
+    )
   }
 
   getBaseCls() {

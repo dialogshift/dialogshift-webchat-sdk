@@ -6,41 +6,6 @@
 @import 'widgets/iframe';
 @import 'widgets/teaser';
 
-@media (max-width: 576px) {
-  .sa-chat-container {
-    top: 0 !important;
-    right: 0 !important;
-    left: 0 !important;
-    bottom: 0 !important;
-    height: 100% !important;
-    width: 100% !important;
-    border-radius: 0;
-  }
-  .sa-chat-button {
-    width: 60px;
-    height: 60px;
-    -webkit-tap-highlight-color: transparent;
-    transition: none;
-  }
-  .sa-chat-button.sa-chat-button--round {
-    width: 40px;
-    height: 40px;
-    z-index: 10001 !important;
-    top: 12px;
-    right: 10px;
-  }
-  .sa-chat-button:after {
-    background-size: 16px;
-  }
-  .sa-chat-button--round:before {
-    opacity: 0;
-    display: none;
-  }
-  .sa-chat-button--round:after {
-    transition: none;
-  }
-}
-
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.7);
