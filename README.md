@@ -93,6 +93,20 @@ Your app will interact with the Dialogshift Web Client through the WebClient ins
 | message.received    | `message`                   | Fires whenever a visitor recieved message.                                                                                                                                                                  |
 | history.received    | [`message`]                 | Fires whenever a history is loaded.                                                                                                                                                                         |
 
+Event handler example
+
+```javascript
+import * as Dialogshift from 'dialogshift-webchat-sdk'
+
+const client = Dialogshift.instance({
+  id: '%id%',
+})
+
+client.on('ready', () => {
+  console.log('Chat is ready to communicate')
+})
+```
+
 ## API Methods
 
 | Name          | Parameters                           | Description                                                                                                                                                             |
@@ -114,6 +128,18 @@ Your app will interact with the Dialogshift Web Client through the WebClient ins
 | setContext    | string key, any value                | Set context variable for visitor.                                                                                                                                       |
 | getContext    | string key                           | Returns context variable.                                                                                                                                               |
 | getVisitor    |                                      | Returns current visitor.                                                                                                                                                |
+
+Show teaser example
+
+```javascript
+import * as Dialogshift from 'dialogshift-webchat-sdk'
+
+const client = Dialogshift.instance({
+  id: '%id%',
+})
+
+client.showTeaser()
+```
 
 ## Getting Help
 
