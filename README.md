@@ -14,6 +14,8 @@ npm i dialogshift-webchat-sdk --save
 
 ### Include from CDN
 
+[![](https://data.jsdelivr.com/v1/package/npm/dialogshift-webchat-sdk/badge)](https://www.jsdelivr.com/package/npm/dialogshift-webchat-sdk)
+
 ```javascript
 <script
   type="text/javascript"
