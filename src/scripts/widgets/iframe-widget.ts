@@ -5,6 +5,7 @@ interface IframeWidgetOptions extends BaseWidgetOptions {
   host: string
   id: string
   customerId?: string
+  initialElement?: string
 }
 
 export class IframeWidget extends BaseWidget {
@@ -12,6 +13,7 @@ export class IframeWidget extends BaseWidget {
   private id: string
   private customerId: string
   private loaded = false
+  private initialElement: string
 
   constructor(options: IframeWidgetOptions) {
     super(options)
@@ -38,6 +40,10 @@ export class IframeWidget extends BaseWidget {
 
     if (this.customerId) {
       iframeUrl += `&cid=${this.customerId}`
+    }
+
+    if (this.initialElement) {
+      iframeUrl += `&init=${this.initialElement}`
     }
 
     return iframeUrl

@@ -30,6 +30,7 @@ export interface AppOptions {
   buttonText?: string
   teaserText?: string
   showFooter?: boolean
+  initialElement: string
 }
 
 const appOptionsDefault = {
@@ -41,6 +42,7 @@ const appOptionsDefault = {
   renderButton: true,
   showFooter: true,
   teaserText: '👋🏻 Hi, can I help you?',
+  initialElement: '',
 }
 
 export enum ActionEventType {
@@ -50,6 +52,7 @@ export enum ActionEventType {
 
 export enum ActionEventName {
   userReady = 'user.ready',
+  tabOpen = 'tab.open',
 }
 
 export interface ActionEvent {
@@ -98,8 +101,8 @@ export class App {
     }
 
     this.createIframeWidget()
-    this.renderChatboxWidget()
     this.renderTeaserWidget()
+    this.renderChatboxWidget()
   }
 
   private bindEvents() {
@@ -121,6 +124,10 @@ export class App {
   private proceedActionEvent(message: any) {
     if (message.name === ActionEventName.userReady) {
       this.visitor = { id: message.payload.id }
+    }
+
+    if (message.name === ActionEventName.tabOpen) {
+      window.open(message.payload.targetUrl)
     }
   }
 
@@ -229,6 +236,7 @@ export class App {
     this.iframeWidget = new IframeWidget({
       host: config.iframeHost,
       id: this.options.id,
+      initialElement: this.options.initialElement,
     })
   }
 

@@ -17,7 +17,7 @@ npm i dialogshift-webchat-sdk --save
 ```javascript
 <script
   type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.umd.min.js"/>
+  src="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.umd.min.js"></script>
 
 <link
   rel="stylesheet"
@@ -73,6 +73,7 @@ Your app will interact with the Dialogshift Web Client through the WebClient ins
 | isTeaserVisible?  | boolean           | Show attention grabber button if `true`. Defaults to `false`.                                                      |
 | buttonText?       | string            | Text for toggle button. If text is setted icon and text render at same time. Defaults to no text.                  |
 | teaserText?       | string            | Text for attention grabber. Defaults to `👋🏻 Hi, can I help you?`.                                                  |
+| initialElement?   | string            | Trigers initial message                                                                                            |
 
 ## Events
 
