@@ -8,7 +8,7 @@ import {
   TeaserWidget,
 } from '../widgets/index'
 import { ApiService } from '../services'
-import { getUrlParam } from './utils'
+import { getUrlParam, isExternalUrl } from './utils'
 
 export interface Visitor {
   id: string
@@ -137,7 +137,13 @@ export class App {
     }
 
     if (message.name === ActionEventName.tabOpen) {
-      window.open(message.payload.targetUrl)
+      let url = message.payload.targetUrl
+
+      if (message.payload.urlType === 'openSameTab' && !isExternalUrl(url)) {
+        url += `${url.split('?')[1] ? '&' : '?'}dschat=open`
+      }
+
+      window.open(url)
     }
   }
 
