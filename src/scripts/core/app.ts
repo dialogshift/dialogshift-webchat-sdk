@@ -139,11 +139,16 @@ export class App {
     if (message.name === ActionEventName.tabOpen) {
       let url = message.payload.targetUrl
 
-      if (message.payload.urlType === 'openSameTab' && !isExternalUrl(url)) {
-        url += `${url.split('?')[1] ? '&' : '?'}dschat=open`
+      if (message.payload.urlType === 'openSameTab') {
+        if (!isExternalUrl(url)) {
+          url += `${url.split('?')[1] ? '&' : '?'}dschat=open`
+        }
+        window.open(url, '_self')
       }
 
-      window.open(url)
+      if (message.payload.urlType === 'openNewTab') {
+        window.open(url, '_blank')
+      }
     }
   }
 
