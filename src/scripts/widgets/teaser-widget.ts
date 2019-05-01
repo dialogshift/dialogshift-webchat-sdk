@@ -27,6 +27,6 @@ export class TeaserWidget extends BaseWidget {
   setText(text: string) {
     this.text = text
 
-    this.getBoxElem().innerText = text
+    this.getBoxElem().innerHTML = text
   }
 }
