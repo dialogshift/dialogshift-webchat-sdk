@@ -6,6 +6,7 @@ interface IframeWidgetOptions extends BaseWidgetOptions {
   id: string
   customerId?: string
   initialElement?: string
+  locale?: string
 }
 
 export class IframeWidget extends BaseWidget {
@@ -14,6 +15,7 @@ export class IframeWidget extends BaseWidget {
   private customerId: string
   private loaded = false
   private initialElement: string
+  private locale: string
 
   constructor(options: IframeWidgetOptions) {
     super(options)
@@ -44,6 +46,10 @@ export class IframeWidget extends BaseWidget {
 
     if (this.initialElement) {
       iframeUrl += `&init=${this.initialElement}`
+    }
+
+    if (this.locale) {
+      iframeUrl += `&lg=${this.locale}`
     }
 
     return iframeUrl

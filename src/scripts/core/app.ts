@@ -258,6 +258,7 @@ export class App {
       host: config.iframeHost,
       id: this.options.id,
       initialElement: this.options.initialElement,
+      locale: this.options.locale,
     })
   }
 
