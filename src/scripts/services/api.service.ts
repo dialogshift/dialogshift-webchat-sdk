@@ -7,7 +7,7 @@ export class ApiService {
   }
 
   getEndpoint(): string {
-    return config.apiEndpoint
+    return (config as any).env.apiEndpoint
   }
 
   setContext(visitorId: string, key: string, value: any): Promise<Response> {
