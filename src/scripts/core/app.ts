@@ -117,7 +117,7 @@ export class App {
 
   private bindEvents() {
     window.addEventListener('message', event => {
-      if (event.origin === config.iframeHost) {
+      if (event.origin === (config as any).env.iframeHost) {
         const message = event.data as ActionEvent
 
         if (message.type === ActionEventType.message) {
@@ -255,7 +255,7 @@ export class App {
 
   private createIframeWidget() {
     this.iframeWidget = new IframeWidget({
-      host: config.iframeHost,
+      host: (config as any).env.iframeHost,
       id: this.options.id,
       initialElement: this.options.initialElement,
       locale: this.options.locale,
