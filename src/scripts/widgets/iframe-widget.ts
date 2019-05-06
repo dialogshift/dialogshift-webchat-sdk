@@ -59,6 +59,18 @@ export class IframeWidget extends BaseWidget {
     if (this.isRendered() && !this.loaded) {
       this.loaded = true
       this.getBoxElem().src = this.buildUrl()
+
+      this.getBoxElem().addEventListener('load', () => {
+        this.getBoxElem().contentWindow.postMessage(
+          {
+            actionId: 'setConfig',
+            payload: {
+              theme: 'theme-embed',
+            },
+          },
+          '*',
+        )
+      })
     }
   }
 }
