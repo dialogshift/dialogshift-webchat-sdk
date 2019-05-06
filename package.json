@@ -1,6 +1,6 @@
 {
   "name": "dialogshift-webchat-sdk",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/dialogshift/dialogshift-webchat-sdk"
@@ -20,14 +20,11 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build:umd": "rm -rf ./bundles && npm run webpack:dev && npm run webpack:prod",
+    "build:umd": "rm -rf ./bundles && webpack --config webpack.config.js --progress --colors",
     "build:es6": "rm -rf ./dist && tsc --outDir ./dist",
     "build:all": "npm run build:umd && npm run build:es6 && npm run build:styles",
     "build:styles": "node-sass src/styles/main.scss bundles/dialogshift-webchat-sdk.min.css --output-style compressed --source-map true",
     "bundle-stats": "npm run build:umd && webpack-bundle-analyzer bundles/stats.json",
-    "webpack:watch": "webpack --mode development --config webpack.config.js --progress --colors --watch",
-    "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
-    "webpack:prod": "webpack --mode production --config webpack.config.js --progress --colors",
     "prepublish": "npm run lint && npm run build:all && npm run test",
     "lint": "tslint -p tsconfig.json",
     "test": "npm run lint"

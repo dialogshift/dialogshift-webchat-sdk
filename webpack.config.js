@@ -1,7 +1,11 @@
 const path = require('path')
+const webpack = require('webpack')
 const WebpackAutoInject = require('webpack-auto-inject-version')
 
+// const envConfig = require('./src/scripts/config/env-config.ts')
+
 module.exports = (env, argv) => ({
+  mode: process.env.NODE_ENV === 'prod' ? 'production' : 'development',
   entry: {
     index: './src/scripts/index.ts',
   },
@@ -10,9 +14,8 @@ module.exports = (env, argv) => ({
   },
   output: {
     path: path.join(__dirname, 'bundles'),
-    filename:
-      'dialogshift-webchat-sdk' +
-      (argv.mode === 'production' ? '.umd.min.js' : '.umd.js'),
+    filename: 'dialogshift-webchat-sdk' + '.umd.js',
+    // (argv.mode === 'production' ? '.umd.min.js' : '.umd.js'),
     libraryTarget: 'umd',
     umdNamedDefine: true,
     library: 'Dialogshift',
@@ -32,10 +35,16 @@ module.exports = (env, argv) => ({
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        // APP_CONFIG: JSON.stringify(envConfig[process.env.NODE_ENV]),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
+    }),
     new WebpackAutoInject({
       componentsOptions: {
         InjectAsComment: {
-          tag: 'Build version: {version}',
+          tag: 'Build version: {version} Environment: ' + process.env.NODE_ENV,
         },
       },
     }),
