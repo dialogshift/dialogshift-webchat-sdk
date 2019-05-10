@@ -18,3 +18,19 @@
   left: 25px;
   border-bottom-left-radius: 8px;
 }
+
+@media (max-width: 576px) {
+  .ds-wrapper {
+    &--pl {
+      .ds-teaser {
+        left: 15px;
+      }
+    }
+
+    &--pr {
+      .ds-teaser {
+        right: 15px;
+      }
+    }
+  }
+}
