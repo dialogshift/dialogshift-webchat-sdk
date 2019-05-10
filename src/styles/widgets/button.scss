@@ -92,12 +92,18 @@
     &--pl {
       .ds-button {
         left: 15px;
+        &--active {
+          right: 0;
+        }
       }
     }
 
     &--pr {
       .ds-button {
         right: 15px;
+        &--active {
+          right: 0;
+        }
       }
     }
   }
