@@ -19,6 +19,6 @@ export const config = {
 
   env: {
     apiEndpoint: 'https://core.prod.co25.net:5001',
-    iframeHost: 'https://webchat.prod.co25.net',
+    iframeHost: 'https://webchat.dialogshift.com',
   },
 }
