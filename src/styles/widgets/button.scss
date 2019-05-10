@@ -7,6 +7,8 @@
   cursor: pointer;
   transition: background-color 0.25s ease, opacity 0.25s;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  bottom: 15px;
 
   &:hover {
     // background-color: var(--orange-light);
@@ -89,5 +91,19 @@
 
   .ds-button--active:after {
     transition: none;
+  }
+}
+
+.ds-wrapper {
+  &--pl {
+    .ds-button {
+      left: 25px;
+    }
+  }
+
+  &--pr {
+    .ds-button {
+      right: 25px;
+    }
   }
 }
