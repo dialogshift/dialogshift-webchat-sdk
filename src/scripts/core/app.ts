@@ -10,6 +10,11 @@ import {
 import { ApiService } from '../services'
 import { getUrlParam, isExternalUrl } from './utils'
 
+export interface ChatConfig {
+  ga: string
+  showFooter: boolean
+}
+
 export interface Visitor {
   id: string
 }
@@ -70,10 +75,9 @@ export class App {
   private iframeWidget: IframeWidget
   private teaserWidget: TeaserWidget
   private broadcast: EventEmitter
-
   private visitor: Visitor
-
   private apiService: ApiService
+  private chatConfig: ChatConfig
 
   constructor(options: AppOptions) {
     if (!options) {
@@ -101,6 +105,8 @@ export class App {
     if (openUrlParam === 'open') {
       this.options.isChatboxVisible = true
     }
+
+    this.loadConfig()
   }
 
   private render() {
@@ -288,6 +294,17 @@ export class App {
     })
   }
 
+  private loadConfig() {
+    this.apiService.getConfig(this.options.id).then((data: any) => {
+      this.chatConfig = {
+        ga: data.ga,
+        showFooter: data.showFooter,
+      }
+
+      this.broadcast.fire('init')
+    })
+  }
+
   getBroadcast(): EventEmitter {
     return this.broadcast
   }
@@ -318,5 +335,9 @@ export class App {
 
   getVisitor(): Visitor {
     return this.visitor
+  }
+
+  getConfig(): ChatConfig {
+    return this.chatConfig
   }
 }

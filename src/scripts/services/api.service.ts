@@ -29,4 +29,10 @@ export class ApiService {
       `${this.getEndpoint()}/config/context/${visitorId}/${variable}`,
     )
   }
+
+  getConfig(clientId: string): Promise<Response> {
+    return this.getTransport().getRequest(
+      `${this.getEndpoint()}/config/webapp/${clientId}`,
+    )
+  }
 }
