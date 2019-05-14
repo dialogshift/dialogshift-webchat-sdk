@@ -82,6 +82,7 @@ Your app will interact with the Dialogshift Web Client through the WebClient ins
 | Name                | Payload                     | Description                                                                                                                                                                                                 |
 | ------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ready               |                             | Fires whenever the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
+| init                |                             | Fires whenever chat config is loaded.                                                                                                                                                                       |
 | error               | `errorMessage`, `errorType` | Fires whenever error happened.                                                                                                                                                                              |
 | chatbox.show.before |                             | Fires before the chat window is shown.                                                                                                                                                                      |
 | chatbox.show        |                             | Fires whenever the chat window is shown.                                                                                                                                                                    |
@@ -130,6 +131,7 @@ client.on('ready', () => {
 | setContext    | string key, any value                | Set context variable for visitor.                                                                                                                                       |
 | getContext    | string key                           | Returns context variable.                                                                                                                                               |
 | getVisitor    |                                      | Returns current visitor.                                                                                                                                                |
+| getConfig     |                                      | Returns chat config.                                                                                                                                                    |
 
 Show teaser example
 
