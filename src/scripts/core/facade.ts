@@ -66,5 +66,9 @@ export const createFacade = (instance: App) => {
     getVisitor() {
       return instance.getVisitor()
     },
+
+    getConfig() {
+      return instance.getConfig()
+    },
   }
 }
