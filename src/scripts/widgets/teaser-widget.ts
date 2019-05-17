@@ -7,6 +7,7 @@ interface TeaserWidgetOptions extends BaseWidgetOptions {
 
 export class TeaserWidget extends BaseWidget {
   private text: string
+  private crossElem: HTMLElement
 
   constructor(options: TeaserWidgetOptions) {
     super(options)
@@ -21,7 +22,19 @@ export class TeaserWidget extends BaseWidget {
       this.setText(this.text)
     }
 
+    this.crossElem = this.createNode()
+    this.crossElem.classList.add(config.teaserCrossCls)
+    this.bindEvents()
+
+    this.getBoxElem().appendChild(this.crossElem)
+
     super.render()
+  }
+
+  bindEvents() {
+    this.crossElem.addEventListener('click', () => {
+      this.hide()
+    })
   }
 
   setText(text: string) {

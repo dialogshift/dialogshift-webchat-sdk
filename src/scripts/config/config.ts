@@ -18,6 +18,7 @@ export const config = {
   iframeCls: 'ds-iframe',
 
   teaserCls: 'ds-teaser',
+  teaserCrossCls: 'ds-teaser__cross',
 
   env: environment,
 }
