@@ -19,6 +19,7 @@ export const config = {
 
   teaserCls: 'ds-teaser',
   teaserCrossCls: 'ds-teaser__cross',
+  teaserTextCls: 'ds-teaser__text',
 
   env: environment,
 }
