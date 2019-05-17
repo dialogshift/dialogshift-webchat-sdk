@@ -8,6 +8,7 @@ interface TeaserWidgetOptions extends BaseWidgetOptions {
 export class TeaserWidget extends BaseWidget {
   private text: string
   private crossElem: HTMLElement
+  private textElem: HTMLElement
 
   constructor(options: TeaserWidgetOptions) {
     super(options)
@@ -18,15 +19,20 @@ export class TeaserWidget extends BaseWidget {
   }
 
   render() {
-    if (this.text) {
-      this.setText(this.text)
-    }
-
     this.crossElem = this.createNode()
     this.crossElem.classList.add(config.teaserCrossCls)
+
+    this.textElem = this.createNode()
+    this.textElem.classList.add(config.teaserTextCls)
+
     this.bindEvents()
 
     this.getBoxElem().appendChild(this.crossElem)
+    this.getBoxElem().appendChild(this.textElem)
+
+    if (this.text) {
+      this.setText(this.text)
+    }
 
     super.render()
   }
@@ -40,6 +46,6 @@ export class TeaserWidget extends BaseWidget {
   setText(text: string) {
     this.text = text
 
-    this.getBoxElem().innerHTML = text
+    this.textElem.innerHTML = text
   }
 }
