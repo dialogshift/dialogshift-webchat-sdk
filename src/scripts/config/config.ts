@@ -1,3 +1,5 @@
+import { environment } from './env'
+
 export const config = {
   wrapperCls: 'ds-wrapper',
   wrapperNoButtonCls: 'ds-wrapper--no-button',
@@ -17,8 +19,5 @@ export const config = {
 
   teaserCls: 'ds-teaser',
 
-  env: {
-    apiEndpoint: 'https://core.dev.co25.net:5001',
-    iframeHost: 'https://webchat.dev.co25.net',
-  },
+  env: environment,
 }
