@@ -21,5 +21,7 @@ export const config = {
   teaserCrossCls: 'ds-teaser__cross',
   teaserTextCls: 'ds-teaser__text',
 
+  unreadCls: 'ds-unread',
+
   env: environment,
 }

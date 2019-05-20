@@ -1,17 +1,12 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
 
-interface ButtonWidgetOptions extends BaseWidgetOptions {
-  text?: string
-}
-
 type ButtonWidgetState = 'default' | 'active'
 
 export class ButtonWidget extends BaseWidget {
-  private text: string
   private pressed = false
 
-  constructor(options: ButtonWidgetOptions) {
+  constructor(options: BaseWidgetOptions) {
     super(options)
   }
 
@@ -22,10 +17,6 @@ export class ButtonWidget extends BaseWidget {
   render() {
     const boxElem = this.getBoxElem()
     boxElem.classList.add(config.buttonLogoCls)
-
-    if (this.text) {
-      this.setText(this.text)
-    }
 
     this.bindEvents()
 
@@ -54,16 +45,13 @@ export class ButtonWidget extends BaseWidget {
     }
   }
 
-  setText(text: string) {
-    this.text = text
-
-    const boxElem = this.getBoxElem()
-    boxElem.innerText = text
+  setContent(text: string) {
+    super.setContent(text)
 
     if (text) {
-      boxElem.classList.add(config.buttonWithTextCls)
+      this.getBoxElem().classList.add(config.buttonWithTextCls)
     } else {
-      boxElem.classList.remove(config.buttonWithTextCls)
+      this.getBoxElem().classList.remove(config.buttonWithTextCls)
     }
   }
 }
