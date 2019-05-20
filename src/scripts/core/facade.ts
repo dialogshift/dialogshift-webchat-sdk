@@ -36,7 +36,7 @@ export const createFacade = (instance: App) => {
     },
 
     setButtonText(text: string) {
-      instance.getButtonWidget().setText(text)
+      instance.getButtonWidget().setContent(text)
     },
 
     showTeaser() {
@@ -48,7 +48,7 @@ export const createFacade = (instance: App) => {
     },
 
     setTeaserText(text: string) {
-      instance.getTeaserWidget().setText(text)
+      instance.getTeaserWidget().setContent(text)
     },
 
     setPosition(position: ChatPosition) {

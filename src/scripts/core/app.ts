@@ -6,13 +6,19 @@ import {
   ChatboxWidget,
   IframeWidget,
   TeaserWidget,
+  // UnreadWidget,
 } from '../widgets/index'
 import { ApiService } from '../services'
-import { getUrlParam, isExternalUrl } from './utils'
+import { getUrlParam, isExternalUrl, injectCss } from './utils'
 
 export interface ChatConfig {
   ga: string
   showFooter: boolean
+  teaserText?: {
+    de: string
+    en: string,
+  }
+  websiteElementCss?: string
 }
 
 export interface Visitor {
@@ -47,7 +53,6 @@ const appOptionsDefault = {
   isTeaserVisible: false,
   renderButton: true,
   showFooter: true,
-  teaserText: '👋🏻 Hi, can I help you?',
   initialElement: '',
 }
 
@@ -74,6 +79,7 @@ export class App {
   private chatboxWidget: ChatboxWidget
   private iframeWidget: IframeWidget
   private teaserWidget: TeaserWidget
+  // private unreadWidget: UnreadWidget
   private broadcast: EventEmitter
   private visitor: Visitor
   private apiService: ApiService
@@ -89,14 +95,10 @@ export class App {
     }
 
     this.apiService = new ApiService()
-
     this.options = Object.assign(appOptionsDefault, options)
-
     this.broadcast = new EventEmitter()
 
     this.init()
-    this.render()
-    this.bindEvents()
   }
 
   private init() {
@@ -106,7 +108,10 @@ export class App {
       this.options.isChatboxVisible = true
     }
 
-    this.loadConfig()
+    this.loadConfig().then(() => {
+      this.render()
+      this.bindEvents()
+    })
   }
 
   private render() {
@@ -119,6 +124,7 @@ export class App {
     this.createIframeWidget()
     this.renderTeaserWidget()
     this.renderChatboxWidget()
+    // this.renderUnreadWidget()
   }
 
   private bindEvents() {
@@ -216,7 +222,7 @@ export class App {
 
   private renderButtonWidget() {
     this.buttonWidget = new ButtonWidget({
-      text: this.options.buttonText,
+      content: this.options.buttonText,
       renderTo: this.wrapperWidget.getBoxElem(),
       visible: this.options.isButtonVisible,
       events: [
@@ -271,7 +277,7 @@ export class App {
   private renderTeaserWidget() {
     this.teaserWidget = new TeaserWidget({
       renderTo: this.wrapperWidget.getBoxElem(),
-      text: this.options.teaserText,
+      content: this.options.teaserText,
       visible: this.options.isTeaserVisible,
       events: [
         {
@@ -294,14 +300,38 @@ export class App {
     })
   }
 
-  private loadConfig() {
-    this.apiService.getConfig(this.options.id).then((data: any) => {
+  // private renderUnreadWidget() {
+  //   this.unreadWidget = new UnreadWidget({
+  //     renderTo: this.wrapperWidget.getBoxElem(),
+  //     content: 10,
+  //     visible: true,
+  //   })
+  // }
+
+  private loadConfig(): Promise<ChatConfig> {
+    return this.apiService.getConfig(this.options.id).then((data: any) => {
       this.chatConfig = {
         ga: data.ga,
         showFooter: data.showFooter,
+        teaserText: data.teaserText,
+        websiteElementCss: data.websiteElementCss,
+      }
+
+      if (data.websiteElementCss) {
+        injectCss(data.websiteElementCss)
+      }
+
+      if (
+        !this.options.teaserText &&
+        data.teaserText &&
+        data.teaserText[this.options.locale]
+      ) {
+        this.options.teaserText = data.teaserText[this.options.locale]
       }
 
       this.broadcast.fire('init')
+
+      return this.chatConfig
     })
   }
 
