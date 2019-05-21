@@ -5,6 +5,7 @@ export interface BaseWidgetOptions extends ObservableOptions {
   baseCls?: string
   renderTo?: HTMLElement
   animationDelay?: number
+  content?: string | number
 }
 
 export class BaseWidget extends Observable {
@@ -13,6 +14,8 @@ export class BaseWidget extends Observable {
   private renderTo: HTMLElement
   private animationDelay = 250
   private boxElem: HTMLElement
+  private contentElem: HTMLElement
+  private content: string
 
   constructor(options: BaseWidgetOptions) {
     super({ events: options.events })
@@ -48,6 +51,20 @@ export class BaseWidget extends Observable {
     return this.boxElem
   }
 
+  getContentElem(): HTMLElement {
+    if (!this.contentElem) {
+      this.contentElem = this.createNode()
+
+      if (this.getBaseCls()) {
+        this.contentElem.classList.add(`${this.getBaseCls()}__content`)
+      }
+
+      this.getBoxElem().appendChild(this.contentElem)
+    }
+
+    return this.contentElem
+  }
+
   render(renderTo?: HTMLElement) {
     if (!renderTo && !this.renderTo) {
       throw Error('Please provide parent node to render widget')
@@ -69,6 +86,10 @@ export class BaseWidget extends Observable {
     if (!this.visible) {
       boxElem.style.display = 'none'
       boxElem.style.opacity = '0'
+    }
+
+    if (this.content) {
+      this.setContent(this.content)
     }
 
     renderToNode.appendChild(boxElem)
@@ -126,5 +147,15 @@ export class BaseWidget extends Observable {
 
   removeCls(cls: string) {
     this.getBoxElem().classList.remove(cls)
+  }
+
+  setContent(content: string, safe = false) {
+    this.content = content
+
+    if (safe) {
+      this.getContentElem().innerText = content
+    } else {
+      this.getContentElem().innerHTML = content
+    }
   }
 }

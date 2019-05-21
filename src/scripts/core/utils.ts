@@ -1,4 +1,7 @@
-export function getUrlParam(name: string, defaultReturn = null): string | null {
+export const getUrlParam = (
+  name: string,
+  defaultReturn = null,
+): string | null => {
   const url = new URL(location.href)
   const param = url.searchParams.get(name)
 
@@ -9,7 +12,7 @@ export function getUrlParam(name: string, defaultReturn = null): string | null {
   return defaultReturn
 }
 
-export function isExternalUrl(url): boolean {
+export const isExternalUrl = (url): boolean => {
   const match = url.match(
     /^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/,
   )
@@ -37,4 +40,12 @@ export function isExternalUrl(url): boolean {
   }
 
   return false
+}
+
+export const injectCss = (css: string) => {
+  const style = document.createElement('style')
+  style.type = 'text/css'
+  style.innerHTML = css
+
+  document.querySelector('head').appendChild(style)
 }
