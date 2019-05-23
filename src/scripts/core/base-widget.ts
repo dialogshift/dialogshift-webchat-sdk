@@ -12,10 +12,10 @@ export class BaseWidget extends Observable {
   private visible = true
   private baseCls = ''
   private renderTo: HTMLElement
-  private animationDelay = 250
+  protected animationDelay = 250
   private boxElem: HTMLElement
   private contentElem: HTMLElement
-  private content: string
+  private content: string | number
 
   constructor(options: BaseWidgetOptions) {
     super({ events: options.events })
@@ -149,13 +149,13 @@ export class BaseWidget extends Observable {
     this.getBoxElem().classList.remove(cls)
   }
 
-  setContent(content: string, safe = false) {
+  setContent(content: string | number, safe = false) {
     this.content = content
 
     if (safe) {
-      this.getContentElem().innerText = content
+      this.getContentElem().innerText = content.toString()
     } else {
-      this.getContentElem().innerHTML = content
+      this.getContentElem().innerHTML = content.toString()
     }
   }
 }
