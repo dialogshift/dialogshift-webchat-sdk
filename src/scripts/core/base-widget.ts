@@ -27,6 +27,22 @@ export class BaseWidget extends Observable {
     }
   }
 
+  protected showNode() {
+    const boxElem = this.getBoxElem()
+    boxElem.style.display = 'block'
+
+    setTimeout(() => {
+      boxElem.style.opacity = '1'
+    })
+  }
+
+  protected hideNode() {
+    const boxElem = this.getBoxElem()
+    boxElem.style.opacity = '0'
+
+    setTimeout(() => (boxElem.style.display = 'none'))
+  }
+
   isVisible(): boolean {
     return this.visible
   }
@@ -84,8 +100,7 @@ export class BaseWidget extends Observable {
     const boxElem = this.getBoxElem()
 
     if (!this.visible) {
-      boxElem.style.display = 'none'
-      boxElem.style.opacity = '0'
+      this.hideNode()
     }
 
     if (this.content) {
@@ -114,12 +129,8 @@ export class BaseWidget extends Observable {
     this.fire('before:show')
     this.visible = true
 
-    const boxElem = this.getBoxElem()
-    boxElem.style.display = 'block'
+    this.showNode()
 
-    setTimeout(() => {
-      boxElem.style.opacity = '1'
-    })
     setTimeout(() => this.fire('show'), this.animationDelay)
   }
 
@@ -131,14 +142,9 @@ export class BaseWidget extends Observable {
     this.fire('before:hide')
     this.visible = false
 
-    const boxElem = this.getBoxElem()
-    boxElem.style.opacity = '0'
+    this.hideNode()
 
-    setTimeout(() => {
-      boxElem.style.display = 'none'
-
-      this.fire('hide')
-    },         this.animationDelay)
+    setTimeout(() => this.fire('hide'), this.animationDelay)
   }
 
   addCls(cls: string) {

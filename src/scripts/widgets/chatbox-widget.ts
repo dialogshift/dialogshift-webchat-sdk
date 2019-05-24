@@ -30,4 +30,25 @@ export class ChatboxWidget extends BaseWidget {
       this.getBoxElem().classList.remove(config.chatLoadingCls)
     }
   }
+
+  protected showNode() {
+    const boxElem = this.getBoxElem()
+
+    boxElem.style.zIndex = '1'
+    boxElem.style.visibility = 'visible'
+
+    setTimeout(() => {
+      boxElem.style.opacity = '1'
+    })
+  }
+
+  protected hideNode() {
+    const boxElem = this.getBoxElem()
+    boxElem.style.opacity = '0'
+
+    setTimeout(() => {
+      boxElem.style.zIndex = '-1'
+      boxElem.style.visibility = 'hidden'
+    })
+  }
 }
