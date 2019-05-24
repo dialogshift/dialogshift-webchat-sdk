@@ -9,8 +9,8 @@
   border-radius: 12px;
   overflow: hidden !important;
   opacity: 0;
+  z-index: -1;
   background-color: #fff;
-  display: none;
   transition: opacity 0.25s ease;
 }
 
