@@ -1,12 +1,12 @@
 import { config } from '../config/config'
-import { EventEmitter } from './event-emitter'
+import { EventEmitter, Event } from './event-emitter'
 import {
   WrapperWidget,
   ButtonWidget,
   ChatboxWidget,
   IframeWidget,
   TeaserWidget,
-  // UnreadWidget,
+  UnreadWidget,
 } from '../widgets/index'
 import { ApiService } from '../services'
 import { getUrlParam, isExternalUrl, injectCss } from './utils'
@@ -79,7 +79,7 @@ export class App {
   private chatboxWidget: ChatboxWidget
   private iframeWidget: IframeWidget
   private teaserWidget: TeaserWidget
-  // private unreadWidget: UnreadWidget
+  private unreadWidget: UnreadWidget
   private broadcast: EventEmitter
   private visitor: Visitor
   private apiService: ApiService
@@ -124,7 +124,7 @@ export class App {
     this.createIframeWidget()
     this.renderTeaserWidget()
     this.renderChatboxWidget()
-    // this.renderUnreadWidget()
+    this.renderUnreadWidget()
   }
 
   private bindEvents() {
@@ -139,6 +139,12 @@ export class App {
         if (message.type === ActionEventType.action) {
           this.proceedActionEvent(message)
         }
+      }
+    })
+
+    this.broadcast.on('message.received', (event: Event) => {
+      if (!this.chatboxWidget.isVisible() && !event.data.fromHistory) {
+        this.unreadWidget.increase(1)
       }
     })
   }
@@ -174,6 +180,7 @@ export class App {
             this.broadcast.fire('chatbox.show.before')
 
             this.teaserWidget.hide()
+            this.unreadWidget.reset()
 
             if (this.buttonWidget) {
               this.buttonWidget.setState('active')
@@ -300,13 +307,12 @@ export class App {
     })
   }
 
-  // private renderUnreadWidget() {
-  //   this.unreadWidget = new UnreadWidget({
-  //     renderTo: this.wrapperWidget.getBoxElem(),
-  //     content: 10,
-  //     visible: true,
-  //   })
-  // }
+  private renderUnreadWidget() {
+    this.unreadWidget = new UnreadWidget({
+      renderTo: this.wrapperWidget.getBoxElem(),
+      visible: false,
+    })
+  }
 
   private loadConfig(): Promise<ChatConfig> {
     return this.apiService.getConfig(this.options.id).then((data: any) => {
