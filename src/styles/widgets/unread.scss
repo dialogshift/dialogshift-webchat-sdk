@@ -1,6 +1,5 @@
 .ds-unread {
   position: fixed;
-  right: 0;
   bottom: 60px;
   border-radius: 11px;
   background-color: var(--brand-green);
@@ -14,4 +13,10 @@
   min-width: 8px;
   text-align: center;
   transition: opacity 0.15s;
+}
+
+@media (max-width: 576px) {
+  .ds-unread {
+    right: 15px;
+  }
 }
