@@ -70,5 +70,13 @@ export const createFacade = (instance: App) => {
     getConfig() {
       return instance.getConfig()
     },
+
+    setUnreadCounter(amount: number) {
+      instance.getUnreadWidget().setCounter(amount)
+    },
+
+    increaseUnreadCounter(amount: number) {
+      instance.getUnreadWidget().increase(amount)
+    },
   }
 }

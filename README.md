@@ -76,6 +76,7 @@ Your app will interact with the Dialogshift Web Client through the WebClient ins
 | buttonText?       | string            | Text for toggle button. If text is setted icon and text render at same time. Defaults to no text.                  |
 | teaserText?       | string            | Text for attention grabber. Defaults to `👋🏻 Hi, can I help you?`.                                                  |
 | initialElement?   | string            | Trigers initial message                                                                                            |
+| unreadCounter?    | number            | Amount of unread messages                                                                                          |
 
 ## Events
 
@@ -112,26 +113,28 @@ client.on('ready', () => {
 
 ## API Methods
 
-| Name          | Parameters                           | Description                                                                                                                                                             |
-| ------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| instance      | config chatConfig                    | Returns the chat singleton instance.                                                                                                                                    |
-| on            | string eventName, function handler   | Listen on a new event by type and handler. The handler will not be listen if it is a duplicate.                                                                         |
-| once          | string eventName, function handler   | Listen on an once event by type and handler. The handler will not be listen if it is a duplicate.                                                                       |
-| off           | string eventName?, function handler? | Listen off an event by type and handler. Or listen off events by type, when if only type argument is passed. Or listen off all events, when if no arguments are passed. |
-| offAll        |                                      | Listen off all events.                                                                                                                                                  |
-| showChatbox   |                                      | Show chatbox.                                                                                                                                                           |
-| hideChatbox   |                                      | Hide chatbox.                                                                                                                                                           |
-| showButton    |                                      | Show toggle button.                                                                                                                                                     |
-| hideButton    |                                      | Hide toggle button.                                                                                                                                                     |
-| setButtonText | string text                          | Change toggle button text. `text` could be an empty string.                                                                                                             |
-| showTeaser    |                                      | Show teaser.                                                                                                                                                            |
-| hideTeaser    |                                      | Hide teaser.                                                                                                                                                            |
-| setTeaserText | string text                          | Change teaser text.                                                                                                                                                     |
-| setPosition   | 'left' \| 'right'                    | Change chat container position.                                                                                                                                         |
-| setContext    | string key, any value                | Set context variable for visitor.                                                                                                                                       |
-| getContext    | string key                           | Returns context variable.                                                                                                                                               |
-| getVisitor    |                                      | Returns current visitor.                                                                                                                                                |
-| getConfig     |                                      | Returns chat config.                                                                                                                                                    |
+| Name                  | Parameters                           | Description                                                                                                                                                             |
+| --------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| instance              | config chatConfig                    | Returns the chat singleton instance.                                                                                                                                    |
+| on                    | string eventName, function handler   | Listen on a new event by type and handler. The handler will not be listen if it is a duplicate.                                                                         |
+| once                  | string eventName, function handler   | Listen on an once event by type and handler. The handler will not be listen if it is a duplicate.                                                                       |
+| off                   | string eventName?, function handler? | Listen off an event by type and handler. Or listen off events by type, when if only type argument is passed. Or listen off all events, when if no arguments are passed. |
+| offAll                |                                      | Listen off all events.                                                                                                                                                  |
+| showChatbox           |                                      | Show chatbox.                                                                                                                                                           |
+| hideChatbox           |                                      | Hide chatbox.                                                                                                                                                           |
+| showButton            |                                      | Show toggle button.                                                                                                                                                     |
+| hideButton            |                                      | Hide toggle button.                                                                                                                                                     |
+| setButtonText         | string text                          | Change toggle button text. `text` could be an empty string.                                                                                                             |
+| showTeaser            |                                      | Show teaser.                                                                                                                                                            |
+| hideTeaser            |                                      | Hide teaser.                                                                                                                                                            |
+| setTeaserText         | string text                          | Change teaser text.                                                                                                                                                     |
+| setPosition           | 'left' \| 'right'                    | Change chat container position.                                                                                                                                         |
+| setContext            | string key, any value                | Set context variable for visitor.                                                                                                                                       |
+| getContext            | string key                           | Returns context variable.                                                                                                                                               |
+| getVisitor            |                                      | Returns current visitor.                                                                                                                                                |
+| getConfig             |                                      | Returns chat config.                                                                                                                                                    |
+| setUnreadCounter      | number amout                         | Set value to unread counter widget. If `amount = 0` widget will be hidden.                                                                                              |
+| increaseUnreadCounter | number amout                         | Increase value to unread counter widget.                                                                                                                                |
 
 Show teaser example
 
