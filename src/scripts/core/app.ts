@@ -43,6 +43,7 @@ export interface AppOptions {
   teaserText?: string
   showFooter?: boolean
   initialElement: string
+  unreadCounter?: number
 }
 
 const appOptionsDefault = {
@@ -54,6 +55,7 @@ const appOptionsDefault = {
   renderButton: true,
   showFooter: true,
   initialElement: '',
+  unreadCounter: 0,
 }
 
 export enum ActionEventType {
@@ -180,7 +182,10 @@ export class App {
             this.broadcast.fire('chatbox.show.before')
 
             this.teaserWidget.hide()
-            this.unreadWidget.reset()
+
+            if (this.unreadWidget) {
+              this.unreadWidget.reset()
+            }
 
             if (this.buttonWidget) {
               this.buttonWidget.setState('active')
@@ -309,8 +314,9 @@ export class App {
 
   private renderUnreadWidget() {
     this.unreadWidget = new UnreadWidget({
+      visible: this.options.unreadCounter > 0 ? true : false,
       renderTo: this.wrapperWidget.getBoxElem(),
-      visible: false,
+      unreadCounter: this.options.unreadCounter,
     })
   }
 
@@ -359,6 +365,10 @@ export class App {
 
   getTeaserWidget(): TeaserWidget {
     return this.teaserWidget
+  }
+
+  getUnreadWidget(): UnreadWidget {
+    return this.unreadWidget
   }
 
   getContext(key: string): Promise<any> {
