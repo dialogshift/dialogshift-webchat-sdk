@@ -13,7 +13,7 @@ jobs:
       - run: apt-get update
       - run: apt-get -qq install python-pip python-dev jq yui-compressor
       - run: pip install awscli
-      - run: yui-compressor bundels/dialogshift-webchat-sdk.umd.js
+      - run: yui-compressor bundles/dialogshift-webchat-sdk.umd.js
       - run: mkdir sdk
       - run: mkdir sdk/$(jq -r '.version' package.json)
       - run: cp bundles/* sdk/$(jq -r '.version' package.json)
