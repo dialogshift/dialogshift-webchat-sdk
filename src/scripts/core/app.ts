@@ -43,6 +43,7 @@ export interface AppOptions {
   teaserText?: string
   showFooter?: boolean
   initialElement: string
+  triggerInitialElement: boolean
   unreadCounter?: number
 }
 
@@ -55,6 +56,7 @@ const appOptionsDefault = {
   renderButton: true,
   showFooter: true,
   initialElement: '',
+  triggerInitialElement: true,
   unreadCounter: 0,
 }
 
@@ -385,5 +387,10 @@ export class App {
 
   getConfig(): ChatConfig {
     return this.chatConfig
+  }
+
+  removeInitialElement() {
+    this.options.initialElement = ''
+    this.iframeWidget.removeInitialElement()
   }
 }
