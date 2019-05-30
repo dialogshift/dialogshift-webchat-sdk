@@ -1,1 +1,1 @@
-export * from './env.prod'
+export * from './env.dev'
