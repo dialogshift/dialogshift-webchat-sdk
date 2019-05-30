@@ -73,4 +73,8 @@ export class IframeWidget extends BaseWidget {
       })
     }
   }
+
+  removeInitialElement() {
+    this.initialElement = ''
+  }
 }

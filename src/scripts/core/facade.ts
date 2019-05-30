@@ -19,7 +19,11 @@ export const createFacade = (instance: App) => {
       instance.getBroadcast().offAll()
     },
 
-    showChatbox() {
+    showChatbox(options = { triggerInitialElement: true }) {
+      if (!options.triggerInitialElement) {
+        instance.removeInitialElement()
+      }
+
       instance.getChatboxWidget().show()
     },
 
