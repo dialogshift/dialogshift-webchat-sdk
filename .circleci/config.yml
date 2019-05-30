@@ -10,7 +10,6 @@ jobs:
       
       - run: npm run build:all
       
-
       - run: apt-get update
       - run: apt-get -qq install python-pip python-dev jq
       - run: pip install awscli
