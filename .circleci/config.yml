@@ -18,6 +18,7 @@ jobs:
       - run: mkdir sdk/$(jq -r '.version' package.json)
       - run: cp bundles/* sdk/$(jq -r '.version' package.json)
       - run: aws s3 sync sdk s3://webchat.dev.co25.net/sdk --region eu-central-1
+      - run: aws s3 sync bundles s3://webchat.dev.co25.net/sdk/latest --region eu-central-1
 
 workflows:
   version: 2
