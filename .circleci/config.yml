@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build_prodx:
+  build_prod:
     docker:
       - image: node:10
     working_directory: /home/ubuntu/ds-sdk
