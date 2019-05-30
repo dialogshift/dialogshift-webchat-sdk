@@ -14,6 +14,7 @@ jobs:
       - run: apt-get update
       - run: apt-get -qq install python-pip python-dev jq
       - run: pip install awscli
+      - run: mkdir sdk
       - run: mkdir sdk/$(jq -r '.version' package.json)
       - run: cp bundles/* sdk/$(jq -r '.version' package.json)
       - run: aws s3 sync sdk s3://webchat.dev.co25.net/sdk --region eu-central-1
