@@ -35,8 +35,27 @@ jobs:
       - run: mkdir sdk
       - run: mkdir sdk/$(jq -r '.version' package.json)
       - run: cp bundles/* sdk/$(jq -r '.version' package.json)
-      - run: aws s3 sync sdk s3://webchat.dev.co25.net/sdk --region eu-central-1
+      - run: aws s3 sync sdk s3://webchat.stage.co25.net/sdk --region eu-central-1
       - run: aws s3 sync bundles s3://webchat.stage.co25.net/sdk/latest --region eu-central-1
+  
+  build_prod:
+    docker:
+      - image: node:10
+    working_directory: /home/ubuntu/ds-sdk
+    steps:
+      - checkout
+      - run: cp src/scripts/config/env.prod.js src/scripts/config/env.js
+      - run: npm install
+      - run: npm run build:all
+      - run: apt-get update
+      - run: apt-get -qq install python-pip python-dev jq yui-compressor
+      - run: pip install awscli
+      - run: yui-compressor -o bundles/dialogshift-webchat-sdk.umd.min.js bundles/dialogshift-webchat-sdk.umd.js
+      - run: mkdir sdk
+      - run: mkdir sdk/$(jq -r '.version' package.json)
+      - run: cp bundles/* sdk/$(jq -r '.version' package.json)
+      - run: aws s3 sync sdk s3://webchat.prod.co25.net/sdk --region eu-central-1
+      - run: aws s3 sync bundles s3://webchat.prod.co25.net/sdk/latest --region eu-central-1
 
 workflows:
   version: 2
@@ -52,3 +71,8 @@ workflows:
           filters:
             branches:
               only: stage
+      
+      - build_prod:
+          filters:
+            branches:
+              only: master
