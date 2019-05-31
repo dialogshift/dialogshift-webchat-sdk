@@ -1,1 +1,1 @@
-export * from './env.stage'
+export * from './env.prod'
