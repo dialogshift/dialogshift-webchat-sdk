@@ -8,7 +8,11 @@ import {
   TeaserWidget,
   UnreadWidget,
 } from '../widgets/index'
-import { ApiService } from '../services'
+import {
+  ApiService,
+  WebchatService,
+  WebchatServiceTriggerOptions,
+} from '../services'
 import { getUrlParam, isExternalUrl, injectCss } from './utils'
 
 export interface ChatConfig {
@@ -87,6 +91,7 @@ export class App {
   private broadcast: EventEmitter
   private visitor: Visitor
   private apiService: ApiService
+  private webchatService: WebchatService
   private chatConfig: ChatConfig
 
   constructor(options: AppOptions) {
@@ -115,6 +120,12 @@ export class App {
     this.loadConfig().then(() => {
       this.render()
       this.bindEvents()
+    })
+  }
+
+  private initWebchatService() {
+    this.webchatService = new WebchatService({
+      targetWindow: this.iframeWidget.getBoxElem(),
     })
   }
 
@@ -285,6 +296,12 @@ export class App {
       id: this.options.id,
       initialElement: this.options.initialElement,
       locale: this.options.locale,
+      events: [
+        {
+          type: 'render',
+          callback: () => this.initWebchatService(),
+        },
+      ],
     })
   }
 
@@ -392,5 +409,11 @@ export class App {
   removeInitialElement() {
     this.options.initialElement = ''
     this.iframeWidget.removeInitialElement()
+  }
+
+  triggerElement(options: WebchatServiceTriggerOptions) {
+    if (this.webchatService) {
+      this.webchatService.triggerElement(options)
+    }
   }
 }
