@@ -7,12 +7,7 @@
   padding: 15px;
   transition: opacity 0.25s ease;
   font-size: 18px;
-
-  &:hover {
-    .ds-teaser__cross {
-      opacity: 1;
-    }
-  }
+  cursor: pointer;
 
   &__cross {
     position: absolute;
@@ -29,6 +24,10 @@
     opacity: 0.75;
     transition: opacity 0.25s ease;
     cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 
