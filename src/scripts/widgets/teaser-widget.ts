@@ -24,6 +24,11 @@ export class TeaserWidget extends BaseWidget {
   }
 
   bindEvents() {
-    this.crossElem.addEventListener('click', () => this.hide())
+    this.crossElem.addEventListener('click', event => {
+      event.stopPropagation()
+      this.hide()
+    })
+
+    this.getBoxElem().addEventListener('click', () => this.fire('click'))
   }
 }
