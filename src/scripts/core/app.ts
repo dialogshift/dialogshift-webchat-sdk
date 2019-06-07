@@ -310,6 +310,10 @@ export class App {
           type: 'hide',
           callback: event => this.broadcast.fire('teaser.hide'),
         },
+        {
+          type: 'click',
+          callback: event => this.chatboxWidget.show(),
+        },
       ],
     })
   }
