@@ -82,5 +82,9 @@ export const createFacade = (instance: App) => {
     increaseUnreadCounter(amount: number) {
       instance.getUnreadWidget().increase(amount)
     },
+
+    triggerElement(options: any) {
+      instance.triggerElement(options)
+    },
   }
 }

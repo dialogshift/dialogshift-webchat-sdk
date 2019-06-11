@@ -63,7 +63,7 @@ export class IframeWidget extends BaseWidget {
       this.getBoxElem().addEventListener('load', () => {
         this.getBoxElem().contentWindow.postMessage(
           {
-            actionId: 'setConfig',
+            type: 'setConfig',
             payload: {
               theme: 'theme-embed',
             },
@@ -76,5 +76,13 @@ export class IframeWidget extends BaseWidget {
 
   removeInitialElement() {
     this.initialElement = ''
+  }
+
+  setContent() {
+    throw new Error('Method is not allowed for an iframe')
+  }
+
+  getContentElem(): HTMLElement {
+    throw new Error('Method is not allowed for an iframe')
   }
 }
