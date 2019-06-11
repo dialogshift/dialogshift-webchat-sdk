@@ -132,22 +132,61 @@ Bind and unbind methods described in section [API Methods](#api-methods).
 Event `render` example
 
 ```javascript
-Dialogshift.instance().on('render', () => {
+const chat = Dialogshift.instance()
+
+chat.instance().on('render', () => {
   console.log('Widgets are rendered')
 
-  Dialogshift.instance().showChatbox()
+  chat.instance().showChatbox()
 })
 ```
 
 Event `ready` example
 
 ```javascript
-Dialogshift.instance().on('ready', () => {
-  console.log('Widgets are rendered')
+const chat = Dialogshift.instance()
 
-  Dialogshift.instance().showChatbox()
+chat.on('ready', () => {
+  console.log('SDK connected to a channel')
+
+  chat.triggerElement({
+    successor: 'welcome-message',
+  })
 })
 ```
+
+Event `chatbox.show` example
+
+```javascript
+const chat = Dialogshift.instance()
+
+chat.on('chatbox.show.before', () => {
+  console.log('Chat window is going to be shown')
+})
+
+chat.on('chatbox.show', () => {
+  console.log('Chat window shown')
+})
+```
+
+Event `message.sent` example
+
+```javascript
+const chat = Dialogshift.instance()
+
+chat.on('message.sent', message => {
+  console.log(message.requestType)
+  console.log('The visitor sent message')
+})
+```
+
+#### Message structure
+
+| Name        | Description                                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------------- |
+| requestType | Type of the sended message. Possible values `command`, `text`, `button`, `feedback`, `trigger`. |
+
+Message contains different fields correspond to request type.
 
 ## API Methods
 
