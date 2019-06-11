@@ -92,7 +92,7 @@ export class App {
     }
 
     if (!options.id) {
-      throw Error('Dialogshift chat id is undefined.')
+      throw Error('Dialogshift app id is undefined.')
     }
 
     this.apiService = new ApiService()
@@ -112,6 +112,7 @@ export class App {
     this.loadConfig().then(() => {
       this.render()
       this.bindEvents()
+      this.broadcast.fire('render')
     })
   }
 
@@ -343,8 +344,6 @@ export class App {
       ) {
         this.options.teaserText = data.teaserText[this.options.locale]
       }
-
-      this.broadcast.fire('init')
 
       return this.chatConfig
     })

@@ -12,8 +12,10 @@ A client library for embed [DialogShift](https://www.dialogshift.com/) Webchat t
 ## Table of Contents
 
 - [About](#about)
-- [Getting Started](#getting_started)
+- [Getting Started](#getting-started)
 - [Configuration](#сonfiguration)
+- [Events](#events)
+- [API Methods](#api-methods)
 
 ## About <a name = "about"></a>
 
@@ -23,7 +25,7 @@ Messaging is an intuitive communication tool and has the ability to bring brands
 
 Webchat SDK allow you to embed DialogShift Webchat to your webpage, customize and control chat widgets, change chating flow as you need, communicate with Conversational AI platform. Webchat widgets are fully responsive and you can use them on desktop, tablet or mobile pages. You can use SDK on native JavaScript or on TypeScript.
 
-## Getting Started <a name = "getting_started"></a>
+## Getting Started <a name = "getting-started"></a>
 
 You can install SDK using `npm` or you can use CDN link directly. To obtain `app id` signup and copy id in [Member Area](https://member.dialogshift.com/). Read [Quick Start Guide](https://support.dialogshift.com/tutorial-quickstart/) for details.
 
@@ -75,6 +77,8 @@ Add the following code towards the end of `<body>` section of your page.
 
 ## Configuration <a name = "configuration"></a>
 
+Configuration options to pass to `Dialogshift.instance(...options)` method.
+
 | Property          | Type              | Description                                                                                                        |
 | ----------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
 | id                | string            | Chat id obtained from the [application dashboard](https://www.dialogshift.com/).                                   |
@@ -106,34 +110,42 @@ const client = Dialogshift.instance({
 
 ## Events
 
-| Name                | Payload                     | Description                                                                                                                                                                                                 |
-| ------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ready               |                             | Fires whenever the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
-| init                |                             | Fires whenever chat config is loaded.                                                                                                                                                                       |
-| error               | `errorMessage`, `errorType` | Fires whenever error happened.                                                                                                                                                                              |
-| chatbox.show.before |                             | Fires before the chat window is shown.                                                                                                                                                                      |
-| chatbox.show        |                             | Fires whenever the chat window is shown.                                                                                                                                                                    |
-| chatbox.hide.before |                             | Fires before the chat window is hidden.                                                                                                                                                                     |
-| chatbox.hide        |                             | Fires whenever the chat window is hidden.                                                                                                                                                                   |
-| button.show.before  |                             | Fires before the toggle button is shown.                                                                                                                                                                    |
-| button.show         |                             | Fires whenever the toggle button is shown.                                                                                                                                                                  |
-| button.hide.before  |                             | Fires before the toggle button is hidden.                                                                                                                                                                   |
-| button.hide         |                             | Fires whenever the toggle button is hidden.                                                                                                                                                                 |
-| message.sent        | `message`                   | Fires whenever a visitor sent message.                                                                                                                                                                      |
-| message.received    | `message`                   | Fires whenever a visitor recieved message.                                                                                                                                                                  |
-| history.received    | [`message`]                 | Fires whenever a history is loaded.                                                                                                                                                                         |
+You can subscribe to events to receive callbacks when events happen.
+Bind and unbind methods described in section [API Methods](#api-methods).
 
-Event handler example
+| Name                | Payload     | Description                                                                                                                                                                                                 |
+| ------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| render              |             | Fires whenever the chat DOM is ready, widgets are rendered and chat config is loaded. You can call API methods but can't send messages because chat is not connected.                                       |
+| ready               |             | Fires whenever the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
+| chatbox.show.before |             | Fires before the chat window is shown.                                                                                                                                                                      |
+| chatbox.show        |             | Fires whenever the chat window is shown.                                                                                                                                                                    |
+| chatbox.hide.before |             | Fires before the chat window is hidden.                                                                                                                                                                     |
+| chatbox.hide        |             | Fires whenever the chat window is hidden.                                                                                                                                                                   |
+| button.show.before  |             | Fires before the toggle button is shown.                                                                                                                                                                    |
+| button.show         |             | Fires whenever the toggle button is shown.                                                                                                                                                                  |
+| button.hide.before  |             | Fires before the toggle button is hidden.                                                                                                                                                                   |
+| button.hide         |             | Fires whenever the toggle button is hidden.                                                                                                                                                                 |
+| message.sent        | `message`   | Fires whenever a visitor sent message.                                                                                                                                                                      |
+| message.received    | `message`   | Fires whenever a visitor recieved message.                                                                                                                                                                  |
+| history.received    | [`message`] | Fires whenever a history is loaded.                                                                                                                                                                         |
+
+Event `render` example
 
 ```javascript
-import * as Dialogshift from 'dialogshift-webchat-sdk'
+Dialogshift.instance().on('render', () => {
+  console.log('Widgets are rendered')
 
-const client = Dialogshift.instance({
-  id: '%id%',
+  Dialogshift.instance().showChatbox()
 })
+```
 
-client.on('ready', () => {
-  console.log('Chat is ready to communicate')
+Event `ready` example
+
+```javascript
+Dialogshift.instance().on('ready', () => {
+  console.log('Widgets are rendered')
+
+  Dialogshift.instance().showChatbox()
 })
 ```
 
