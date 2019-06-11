@@ -1,20 +1,56 @@
-# SDK Documentation (BETA version)
+<p align="center">
+  <a href="" rel="noopener">
+ <img src="https://www.dialogshift.com/static/v3/figma/Macbook-Mockup.png" alt="Dialogshift Webchat SDK"></a>
+</p>
 
-A client library for build integration with [Dialogshift](https://www.dialogshift.com/) on websites. Written in TypeScript and published in `UMD` and `ES2015`.
+# Dialogshift Webchat SDK
 
-## Installation
+[![npm version](https://badge.fury.io/js/dialogshift-webchat-sdk.svg)](http://badge.fury.io/js/dialogshift-webchat-sdk)
 
-You can install SDK using `npm` or you can use http link directly.
+A client library for embed [DialogShift](https://www.dialogshift.com/) Webchat to webpages. Written in TypeScript and published in `UMD` and `ES2015`.
+
+## Table of Contents
+
+- [About](#about)
+- [Getting Started](#getting_started)
+- [Configuration](#сonfiguration)
+
+## About <a name = "about"></a>
+
+DialogShift is a Conversational AI platform that helps businesses to improve the communication with their customers, enhance the customer experience and ultimately grow revenue through customer retention and automation.
+
+Messaging is an intuitive communication tool and has the ability to bring brands much closer to their customers, increasing the engagement through more frequent 1:1 touchpoints.
+
+Webchat SDK allow you to embed DialogShift Webchat to your webpage, customize and control chat widgets, change chating flow as you need, communicate with Conversational AI platform. Webchat widgets are fully responsive and you can use them on desktop, tablet or mobile pages. You can use SDK on native JavaScript or on TypeScript.
+
+## Getting Started <a name = "getting_started"></a>
+
+You can install SDK using `npm` or you can use CDN link directly. To obtain `app id` signup and copy id in [Member Area](https://member.dialogshift.com/). Read [Quick Start Guide](https://support.dialogshift.com/tutorial-quickstart/) for details.
+
+Replace `%id%` in snippets below with your `app id` and initialize Dialogshift chat instance. Your app will interact with the DialogShift Webchat Client through the instance `Dialogshift.instance()`, which will available in your scope.
 
 ### Install from npm
+
+Install package
 
 ```bash
 npm i dialogshift-webchat-sdk --save
 ```
 
+Import and initialize chat instance
+
+```javascript
+import * as Dialogshift from 'dialogshift-webchat-sdk'
+import 'dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.min.css'
+
+const chat = Dialogshift.instance({
+  id: '%id%',
+})
+```
+
 ### Include from CDN
 
-[![](https://data.jsdelivr.com/v1/package/npm/dialogshift-webchat-sdk/badge)](https://www.jsdelivr.com/package/npm/dialogshift-webchat-sdk)
+Add the following code towards the end of `<head>` section of your page.
 
 ```javascript
 <script
@@ -27,42 +63,17 @@ npm i dialogshift-webchat-sdk --save
   href="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.min.css"/>
 ```
 
-## Quick start (TypeScript & ES2015)
-
-```javascript
-import * as Dialogshift from 'dialogshift-webchat-sdk'
-import 'dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.min.css'
-
-const chat = Dialogshift.instance({
-  id: '%id%',
-})
-```
-
-## Quick start (HTML & UMD)
-
-Your app will interact with the Dialogshift Web Client through the WebClient instance, which now is available in your scope.
+Add the following code towards the end of `<body>` section of your page.
 
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Dialogshift SDK</title>
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.umd.min.js"
-    ></script>
-  </head>
-  <body>
-    <script type="text/javascript">
-      var chat = Dialogshift.instance({
-        id: '%id%',
-      })
-    </script>
-  </body>
-</html>
+<script type="text/javascript">
+  var chat = Dialogshift.instance({
+    id: '%id%',
+  })
+</script>
 ```
 
-## Configuration
+## Configuration <a name = "configuration"></a>
 
 | Property          | Type              | Description                                                                                                        |
 | ----------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
@@ -74,9 +85,24 @@ Your app will interact with the Dialogshift Web Client through the WebClient ins
 | renderButton?     | boolean           | Render toggle button if `true`. If button is not rendered show or hide it later is impossible. Defaults to `true`. |
 | isTeaserVisible?  | boolean           | Show attention grabber button if `true`. Defaults to `false`.                                                      |
 | buttonText?       | string            | Text for toggle button. If text is setted icon and text render at same time. Defaults to no text.                  |
-| teaserText?       | string            | Text for attention grabber. Defaults to `👋🏻 Hi, can I help you?`.                                                  |
-| initialElement?   | string            | Trigers initial message                                                                                            |
-| unreadCounter?    | number            | Amount of unread messages                                                                                          |
+| teaserText?       | string            | Text for attention grabber.                                                                                        |
+| initialElement?   | string            | Trigers initial message.                                                                                           |
+| unreadCounter?    | number            | Amount of unread messages.                                                                                         |
+
+Configuration example
+
+```javascript
+const client = Dialogshift.instance({
+  id: '%id%',
+  locale: 'de',
+  position: 'left',
+  isTeaserVisible: true,
+  buttonText: 'Help',
+  teaserText: '👋🏻 Hi, can I help you?',
+  initialElement: 'welcome-message'
+  unreadCounter: 2,
+})
+```
 
 ## Events
 

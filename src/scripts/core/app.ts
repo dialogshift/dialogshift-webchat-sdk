@@ -32,7 +32,6 @@ export enum ChatPosition {
 
 export interface AppOptions {
   id: string
-  visitorId?: string
   locale?: string
   position?: ChatPosition
   isChatboxVisible?: boolean
@@ -43,7 +42,6 @@ export interface AppOptions {
   teaserText?: string
   showFooter?: boolean
   initialElement: string
-  triggerInitialElement: boolean
   unreadCounter?: number
 }
 
@@ -56,7 +54,6 @@ const appOptionsDefault = {
   renderButton: true,
   showFooter: true,
   initialElement: '',
-  triggerInitialElement: true,
   unreadCounter: 0,
 }
 
