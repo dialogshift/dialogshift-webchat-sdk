@@ -86,5 +86,10 @@ export const createFacade = (instance: App) => {
     triggerElement(options: any) {
       instance.triggerElement(options)
     },
+
+    isChatboxVisible(): boolean {
+      const chatbox = instance.getChatboxWidget()
+      return chatbox ? chatbox.isVisible() : false
+    },
   }
 }

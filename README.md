@@ -75,39 +75,6 @@ Add the following code towards the end of `<body>` section of your page.
 </script>
 ```
 
-## Configuration <a name = "configuration"></a>
-
-Configuration options to pass to `Dialogshift.instance(...options)` method.
-
-| Property          | Type              | Description                                                                                                        |
-| ----------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
-| id                | string            | Chat id obtained from the [application dashboard](https://www.dialogshift.com/).                                   |
-| locale?           | string            | Chat locale. Defaults to `en`.                                                                                     |
-| position?         | 'left' \| 'right' | Chat position on webpage. Defaults to `right`.                                                                     |
-| isChatboxVisible? | boolean           | Show chat window expanded if `true`. Defaults to `false`.                                                          |
-| isButtonVisible?  | boolean           | Show toggle button if `true`. Defaults to `true`.                                                                  |
-| renderButton?     | boolean           | Render toggle button if `true`. If button is not rendered show or hide it later is impossible. Defaults to `true`. |
-| isTeaserVisible?  | boolean           | Show attention grabber button if `true`. Defaults to `false`.                                                      |
-| buttonText?       | string            | Text for toggle button. If text is setted icon and text render at same time. Defaults to no text.                  |
-| teaserText?       | string            | Text for attention grabber.                                                                                        |
-| initialElement?   | string            | Trigers initial message.                                                                                           |
-| unreadCounter?    | number            | Amount of unread messages.                                                                                         |
-
-Configuration example
-
-```javascript
-const client = Dialogshift.instance({
-  id: '%id%',
-  locale: 'de',
-  position: 'left',
-  isTeaserVisible: true,
-  buttonText: 'Help',
-  teaserText: '👋🏻 Hi, can I help you?',
-  initialElement: 'welcome-message'
-  unreadCounter: 2,
-})
-```
-
 ## Events
 
 You can subscribe to events to receive callbacks when events happen.
@@ -190,40 +157,104 @@ Message contains different fields correspond to request type.
 
 ## API Methods
 
-| Name                  | Parameters                           | Description                                                                                                                                                             |
-| --------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| instance              | config chatConfig                    | Returns the chat singleton instance.                                                                                                                                    |
-| on                    | string eventName, function handler   | Listen on a new event by type and handler. The handler will not be listen if it is a duplicate.                                                                         |
-| once                  | string eventName, function handler   | Listen on an once event by type and handler. The handler will not be listen if it is a duplicate.                                                                       |
-| off                   | string eventName?, function handler? | Listen off an event by type and handler. Or listen off events by type, when if only type argument is passed. Or listen off all events, when if no arguments are passed. |
-| offAll                |                                      | Listen off all events.                                                                                                                                                  |
-| showChatbox           |                                      | Show chatbox.                                                                                                                                                           |
-| hideChatbox           |                                      | Hide chatbox.                                                                                                                                                           |
-| showButton            |                                      | Show toggle button.                                                                                                                                                     |
-| hideButton            |                                      | Hide toggle button.                                                                                                                                                     |
-| setButtonText         | string text                          | Change toggle button text. `text` could be an empty string.                                                                                                             |
-| showTeaser            |                                      | Show teaser.                                                                                                                                                            |
-| hideTeaser            |                                      | Hide teaser.                                                                                                                                                            |
-| setTeaserText         | string text                          | Change teaser text.                                                                                                                                                     |
-| setPosition           | 'left' \| 'right'                    | Change chat container position.                                                                                                                                         |
-| setContext            | string key, any value                | Set context variable for visitor.                                                                                                                                       |
-| getContext            | string key                           | Returns context variable.                                                                                                                                               |
-| getVisitor            |                                      | Returns current visitor.                                                                                                                                                |
-| getConfig             |                                      | Returns chat config.                                                                                                                                                    |
-| setUnreadCounter      | number amout                         | Set value to unread counter widget. If `amount = 0` widget will be hidden.                                                                                              |
-| increaseUnreadCounter | number amout                         | Increase value to unread counter widget.                                                                                                                                |
+| Name                  | Parameters                                | Description                                                                                                                                                             |
+| --------------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| instance              | [chatConfig](#chatConfig) config?         | Creates new one chat instance or returns previously created singleton instance.                                                                                         |
+| on                    | string eventName, function handler        | Listen on a new event by type and handler. The handler will not be listen if it is a duplicate.                                                                         |
+| once                  | string eventName, function handler        | Listen on an once event by type and handler. The handler will not be listen if it is a duplicate.                                                                       |
+| off                   | string eventName?, function handler?      | Listen off an event by type and handler. Or listen off events by type, when if only type argument is passed. Or listen off all events, when if no arguments are passed. |
+| offAll                |                                           | Listen off all events.                                                                                                                                                  |
+| showChatbox           | options? {triggerInitialElement: boolean} | Show chatbox.                                                                                                                                                           |
+| hideChatbox           |                                           | Hide chatbox.                                                                                                                                                           |
+| showButton            |                                           | Show toggle button.                                                                                                                                                     |
+| hideButton            |                                           | Hide toggle button.                                                                                                                                                     |
+| setButtonText         | string text                               | Change toggle button text. `text` could be an empty string.                                                                                                             |
+| showTeaser            |                                           | Show teaser.                                                                                                                                                            |
+| hideTeaser            |                                           | Hide teaser.                                                                                                                                                            |
+| setTeaserText         | string text                               | Change teaser text.                                                                                                                                                     |
+| setPosition           | 'left' \| 'right'                         | Change chat container position.                                                                                                                                         |
+| setContext            | string key, any value                     | Set context variable for visitor.                                                                                                                                       |
+| getContext            | string key                                | Returns context variable.                                                                                                                                               |
+| getVisitor            |                                           | Returns current visitor.                                                                                                                                                |
+| getConfig             |                                           | Returns chat config.                                                                                                                                                    |
+| setUnreadCounter      | number amout                              | Set value to unread counter widget. If `amount = 0` widget will be hidden.                                                                                              |
+| increaseUnreadCounter | number amout                              | Increase value to unread counter widget.                                                                                                                                |
+| isChatboxVisible      |                                           | Returns `true` if chatbox is opened.                                                                                                                                    |
 
-Show teaser example
+##### `chatConfig`
+
+Configuration options to pass to `Dialogshift.instance(...chatConfig)` method.
+
+| Property          | Type              | Description                                                                                                        |
+| ----------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
+| id                | string            | Chat id obtained from the [application dashboard](https://www.dialogshift.com/).                                   |
+| locale?           | string            | Chat locale. Defaults to `en`.                                                                                     |
+| position?         | 'left' \| 'right' | Chat position on webpage. Defaults to `right`.                                                                     |
+| isChatboxVisible? | boolean           | Show chat window expanded if `true`. Defaults to `false`.                                                          |
+| isButtonVisible?  | boolean           | Show toggle button if `true`. Defaults to `true`.                                                                  |
+| renderButton?     | boolean           | Render toggle button if `true`. If button is not rendered show or hide it later is impossible. Defaults to `true`. |
+| isTeaserVisible?  | boolean           | Show attention grabber button if `true`. Defaults to `false`.                                                      |
+| buttonText?       | string            | Text for toggle button. If text is setted icon and text render at same time. Defaults to no text.                  |
+| teaserText?       | string            | Text for attention grabber.                                                                                        |
+| initialElement?   | string            | Trigers initial message.                                                                                           |
+| unreadCounter?    | number            | Amount of unread messages.                                                                                         |
+
+`chatConfig` example
 
 ```javascript
-import * as Dialogshift from 'dialogshift-webchat-sdk'
-
 const client = Dialogshift.instance({
   id: '%id%',
+  locale: 'de',
+  position: 'left',
+  isTeaserVisible: true,
+  buttonText: 'Help',
+  teaserText: '👋🏻 Hi, can I help you?',
+  initialElement: 'welcome-message'
+  unreadCounter: 2,
 })
-
-client.showTeaser()
 ```
+
+#### on(string eventName, function handler)
+
+Listen on a new event by type and handler. The handler will not be listen if it is a duplicate.
+
+```javascript
+Dialogshift.instance().on('ready', () => {
+  console.log('Chat is ready to send messages')
+})
+```
+
+#### once(string eventName, function handler)
+
+Listen on an once event by type and handler. The handler will not be listen if it is a duplicate.
+
+```javascript
+Dialogshift.instance().once('chatbox.show', () => {
+  console.log('Chat is opened for the first time')
+})
+```
+
+#### off(string eventName?, function handler?)
+
+Listen off an event by type and handler. Or listen off events by type, when if only type argument is passed. Or listen off all events, when if no arguments are passed.
+
+```javascript
+Dialogshift.instance().off('chatbox.show')
+
+//OR
+
+Dialogshift.instance().off()
+```
+
+#### offAll()
+
+Listen off all events.
+
+```javascript
+Dialogshift.instance().offAll()
+```
+
+++++++++++++++++++++++++++++++++++++
 
 ## Getting Help
 
