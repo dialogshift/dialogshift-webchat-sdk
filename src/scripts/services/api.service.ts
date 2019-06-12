@@ -13,6 +13,7 @@ export class ApiService {
   setContext(visitorId: string, key: string, value: any): Promise<Response> {
     const context = {}
     context[key] = value
+
     const data = {
       custid: visitorId,
       context: JSON.stringify(context),
@@ -25,9 +26,13 @@ export class ApiService {
   }
 
   getContext(visitorId: string, variable: string): Promise<Response> {
-    return this.getTransport().getRequest(
-      `${this.getEndpoint()}/config/context/${visitorId}/${variable}`,
-    )
+    return this.getTransport()
+      .getRequest(
+        `${this.getEndpoint()}/config/context/${visitorId}/${variable}`,
+      )
+      .then(response => {
+        return response[variable] ? response[variable] : null
+      })
   }
 
   getConfig(clientId: string): Promise<Response> {
