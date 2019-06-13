@@ -16,13 +16,7 @@ import {
 import { getUrlParam, isExternalUrl, injectCss } from './utils'
 
 export interface ChatConfig {
-  ga: string
-  showFooter: boolean
-  teaserText?: {
-    de: string
-    en: string,
-  }
-  websiteElementCss?: string
+  [key: string]: any
 }
 
 export interface Visitor {
@@ -117,7 +111,7 @@ export class App {
     this.loadConfig().then(() => {
       this.render()
       this.bindEvents()
-      this.broadcast.fire('render')
+      this.broadcast.fire('init')
     })
   }
 
@@ -343,12 +337,7 @@ export class App {
 
   private loadConfig(): Promise<ChatConfig> {
     return this.apiService.getConfig(this.options.id).then((data: any) => {
-      this.chatConfig = {
-        ga: data.ga,
-        showFooter: data.showFooter,
-        teaserText: data.teaserText,
-        websiteElementCss: data.websiteElementCss,
-      }
+      this.chatConfig = data
 
       if (data.websiteElementCss) {
         injectCss(data.websiteElementCss)

@@ -82,7 +82,7 @@ Bind and unbind methods described in section [API Methods](#api-methods).
 
 | Name                | Payload     | Description                                                                                                                                                                                                 |
 | ------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| render              |             | Fires whenever the chat DOM is ready, widgets are rendered and chat config is loaded. You can call API methods but can't send messages because chat is not connected.                                       |
+| init                |             | Fires whenever the chat DOM is ready, widgets are rendered and chat config is loaded. You can call API methods but can't send messages because chat is not connected.                                       |
 | ready               |             | Fires whenever the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
 | chatbox.show.before |             | Fires before the chat window is shown.                                                                                                                                                                      |
 | chatbox.show        |             | Fires whenever the chat window is shown.                                                                                                                                                                    |
@@ -95,6 +95,8 @@ Bind and unbind methods described in section [API Methods](#api-methods).
 | message.sent        | `message`   | Fires whenever a visitor sent message.                                                                                                                                                                      |
 | message.received    | `message`   | Fires whenever a visitor recieved message.                                                                                                                                                                  |
 | history.received    | [`message`] | Fires whenever a history is loaded.                                                                                                                                                                         |
+
+OLOLOLOLOLOLOLOLOLOL init event
 
 Event `render` example
 
@@ -157,33 +159,11 @@ Message contains different fields correspond to request type.
 
 ## API Methods
 
-| Name                  | Parameters                                | Description                                                                                                                                                             |
-| --------------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| instance              | [chatConfig](#chatConfig) config?         | Creates new one chat instance or returns previously created singleton instance.                                                                                         |
-| on                    | string eventName, function handler        | Listen on a new event by type and handler. The handler will not be listen if it is a duplicate.                                                                         |
-| once                  | string eventName, function handler        | Listen on an once event by type and handler. The handler will not be listen if it is a duplicate.                                                                       |
-| off                   | string eventName?, function handler?      | Listen off an event by type and handler. Or listen off events by type, when if only type argument is passed. Or listen off all events, when if no arguments are passed. |
-| offAll                |                                           | Listen off all events.                                                                                                                                                  |
-| showChatbox           | options? {triggerInitialElement: boolean} | Show chatbox.                                                                                                                                                           |
-| hideChatbox           |                                           | Hide chatbox.                                                                                                                                                           |
-| showButton            |                                           | Show toggle button.                                                                                                                                                     |
-| hideButton            |                                           | Hide toggle button.                                                                                                                                                     |
-| setButtonText         | string text                               | Change toggle button text. `text` could be an empty string.                                                                                                             |
-| showTeaser            |                                           | Show teaser.                                                                                                                                                            |
-| hideTeaser            |                                           | Hide teaser.                                                                                                                                                            |
-| setTeaserText         | string text                               | Change teaser text.                                                                                                                                                     |
-| setPosition           | 'left' \| 'right'                         | Change chat container position.                                                                                                                                         |
-| setContext            | string key, any value                     | Set context variable for visitor.                                                                                                                                       |
-| getContext            | string key                                | Returns context variable.                                                                                                                                               |
-| getVisitor            |                                           | Returns current visitor.                                                                                                                                                |
-| getConfig             |                                           | Returns chat config.                                                                                                                                                    |
-| setUnreadCounter      | number amout                              | Set value to unread counter widget. If `amount = 0` widget will be hidden.                                                                                              |
-| increaseUnreadCounter | number amout                              | Increase value to unread counter widget.                                                                                                                                |
-| isChatboxVisible      |                                           | Returns `true` if chatbox is opened.                                                                                                                                    |
+#### instance(chatConfig config): ChatInstance
+
+Creates new one chat instance or returns previously created singleton instance.
 
 ##### `chatConfig`
-
-Configuration options to pass to `Dialogshift.instance(...chatConfig)` method.
 
 | Property          | Type              | Description                                                                                                        |
 | ----------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
@@ -199,7 +179,7 @@ Configuration options to pass to `Dialogshift.instance(...chatConfig)` method.
 | initialElement?   | string            | Trigers initial message.                                                                                           |
 | unreadCounter?    | number            | Amount of unread messages.                                                                                         |
 
-`chatConfig` example
+First time initialization.
 
 ```javascript
 const client = Dialogshift.instance({
@@ -212,6 +192,10 @@ const client = Dialogshift.instance({
   initialElement: 'welcome-message'
   unreadCounter: 2,
 })
+
+// After you can get the same instance
+
+console.log(client === Dialogshift.instance()) // true
 ```
 
 #### on(string eventName, function handler)
@@ -254,11 +238,11 @@ Listen off all events.
 Dialogshift.instance().offAll()
 ```
 
-#### showChatbox(showChatboxOptions?)
+#### showChatbox(ShowChatboxOptions options?)
 
 Show chatbox.
 
-`showChatboxOptions`
+`ShowChatboxOptions`
 | Name | Type | Description |
 | ---------------------- | ------- | -------------------------------------------------------------- |
 | triggerInitialElement? | boolean | Triger initial message after the first open. Default to `true` |
@@ -341,24 +325,36 @@ Change chat container position regarding left or right of the window.
 Dialogshift.instance().setPosition('left')
 ```
 
+#### isChatboxVisible(): boolean
+
+Returns `true` if chatbox is opened.
+
+```javascript
+Dialogshift.instance().isChatboxVisible()
+```
+
 #### setContext(string key, string | object value): Promise
 
 Set context variable for visitor.
 
 ```javascript
-client.setContext('currentUser', 'John Doe').then(() => {
-  console.log('Context is written')
-})
+Dialogshift.instance()
+  .setContext('currentUser', 'John Doe')
+  .then(() => {
+    console.log('Context is written')
+  })
 
 // OR rewrite previous variable
 
-client.setContext('currentUser', 'Jane Doe').then(() => {
-  console.log('Context is overwritten')
-})
+Dialogshift.instance()
+  .setContext('currentUser', 'Jane Doe')
+  .then(() => {
+    console.log('Context is overwritten')
+  })
 
 // OR write object
 
-client
+Dialogshift.instance()
   .setContext('currentUser', {
     firstName: 'John',
     lastName: 'Doe',
@@ -373,24 +369,27 @@ client
 Returns context variable.
 
 ```javascript
-client
-  .setContext('visitor', {
-    firstName: 'John',
-    lastName: 'Doe',
-  })
-
-...
-
-client.getContext('visitor').then(visitor => {
-  console.log(visitor.firstName) // John
-  console.log(visitor.lastName) // Doe
+Dialogshift.instance().setContext('visitor', {
+  firstName: 'John',
+  lastName: 'Doe',
 })
+
+// ...
+
+Dialogshift.instance()
+  .getContext('visitor')
+  .then(visitor => {
+    console.log(visitor.firstName) // John
+    console.log(visitor.lastName) // Doe
+  })
 
 // OR returns null if context is not setted
 
-client.getContext('user').then(user => {
-  console.log(user === null) // true
-})
+Dialogshift.instance()
+  .getContext('user')
+  .then(user => {
+    console.log(user === null) // true
+  })
 ```
 
 #### getVisitor(): Visitor
@@ -403,8 +402,28 @@ Returns current visitor.
 | id | string | Autogenerated unique current visitor id |
 
 ```javascript
-const visitor = client.getVisitor()
+const visitor = Dialogshift.instance().getVisitor()
 console.log(visitor.id) // 558fb68e593c4b5a98eca3af69785e0a
+```
+
+#### setUnreadCounter(number amout)
+
+Set value to unread counter widget. If `amount = 0` widget will be hidden.
+
+```javascript
+Dialogshift.instance().setUnreadCounter(2)
+
+// OR to hide counter
+
+Dialogshift.instance().setUnreadCounter(0)
+```
+
+#### increaseUnreadCounter()
+
+Increase unread counter widget value.
+
+```javascript
+Dialogshift.instance().increaseUnreadCounter()
 ```
 
 #### getConfig(): Config
@@ -422,7 +441,7 @@ websiteElementCss: ""
 | id | string | Autogenerated unique current visitor id |
 
 ```javascript
-const visitor = client.getVisitor()
+const visitor = Dialogshift.instance().getVisitor()
 console.log(visitor.id) // 558fb68e593c4b5a98eca3af69785e0a
 ```
 
