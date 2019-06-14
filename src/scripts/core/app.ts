@@ -16,13 +16,7 @@ import {
 import { getUrlParam, isExternalUrl, injectCss } from './utils'
 
 export interface ChatConfig {
-  ga: string
-  showFooter: boolean
-  teaserText?: {
-    de: string
-    en: string,
-  }
-  websiteElementCss?: string
+  [key: string]: any
 }
 
 export interface Visitor {
@@ -36,7 +30,6 @@ export enum ChatPosition {
 
 export interface AppOptions {
   id: string
-  visitorId?: string
   locale?: string
   position?: ChatPosition
   isChatboxVisible?: boolean
@@ -47,7 +40,6 @@ export interface AppOptions {
   teaserText?: string
   showFooter?: boolean
   initialElement: string
-  triggerInitialElement: boolean
   unreadCounter?: number
 }
 
@@ -60,7 +52,6 @@ const appOptionsDefault = {
   renderButton: true,
   showFooter: true,
   initialElement: '',
-  triggerInitialElement: true,
   unreadCounter: 0,
 }
 
@@ -100,7 +91,7 @@ export class App {
     }
 
     if (!options.id) {
-      throw Error('Dialogshift chat id is undefined.')
+      throw Error('Dialogshift app id is undefined.')
     }
 
     this.apiService = new ApiService()
@@ -120,6 +111,10 @@ export class App {
     this.loadConfig().then(() => {
       this.render()
       this.bindEvents()
+
+      setTimeout(() => {
+        this.broadcast.fire('init')
+      },         20)
     })
   }
 
@@ -345,12 +340,7 @@ export class App {
 
   private loadConfig(): Promise<ChatConfig> {
     return this.apiService.getConfig(this.options.id).then((data: any) => {
-      this.chatConfig = {
-        ga: data.ga,
-        showFooter: data.showFooter,
-        teaserText: data.teaserText,
-        websiteElementCss: data.websiteElementCss,
-      }
+      this.chatConfig = data
 
       if (data.websiteElementCss) {
         injectCss(data.websiteElementCss)
@@ -363,8 +353,6 @@ export class App {
       ) {
         this.options.teaserText = data.teaserText[this.options.locale]
       }
-
-      this.broadcast.fire('init')
 
       return this.chatConfig
     })
