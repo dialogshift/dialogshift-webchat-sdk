@@ -111,7 +111,10 @@ export class App {
     this.loadConfig().then(() => {
       this.render()
       this.bindEvents()
-      this.broadcast.fire('init')
+
+      setTimeout(() => {
+        this.broadcast.fire('init')
+      },         20)
     })
   }
 
