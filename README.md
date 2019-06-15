@@ -13,9 +13,10 @@ A client library for embed [DialogShift](https://www.dialogshift.com/) Webchat t
 
 - [About](#about)
 - [Getting Started](#getting-started)
-- [Configuration](#сonfiguration)
-- [Events](#events)
+- [How it works](#how-it-works)
 - [API Methods](#api-methods)
+- [Events](#events)
+- [Resources](#resources)
 
 ## About <a name = "about"></a>
 
@@ -25,13 +26,47 @@ Messaging is an intuitive communication tool and has the ability to bring brands
 
 Webchat SDK allow you to embed DialogShift Webchat to your webpage, customize and control chat widgets, change chating flow as you need, communicate with Conversational AI platform. Webchat widgets are fully responsive and you can use them on desktop, tablet or mobile pages. You can use SDK on native JavaScript or on TypeScript.
 
+## How it works <a name = "how-it-works"></a>
+
+SDK and chat workflow phases.
+
+#### Loading scripts
+
+Start when you inject js and css scripts to a webpage.
+After scripts are loaded SDK is waiting for initialization.
+
+#### SDK initialization
+
+Starts when you first time calls `Dialogshift.instance(...options)`.
+
+2. SDK loads [Webconfig](https://support.dialogshift.com/sdk-quickstart/) with settings, custom css, custom options.
+3. Render toggle button and other widgets to webpage.
+4. Fires event `init`. You can read chat config or work with widgets.
+
+#### Chat loading
+
+Starts when user first time opens chat window.
+
+1. SDK loads the whole chat app inside iframe.
+2. Chat establish connection with a message layer.
+3. Chat loads message history and trigger initial message if needs.
+4. Fires event `ready`.
+
+#### SDK destroying
+
+Starts when user calls `Dialogshift.destroy()`.
+
+1. SDK unbind all events.
+2. SDK loads removes chat iframe, widgtes, custom css from a webpage.
+3. Fires event `destroy`.
+
 ## Getting Started <a name = "getting-started"></a>
 
 You can install SDK using `npm` or you can use CDN link directly. To obtain `app id` signup and copy id in [Member Area](https://member.dialogshift.com/). Read [Quick Start Guide](https://support.dialogshift.com/tutorial-quickstart/) for details.
 
 Replace `%id%` in snippets below with your `app id` and initialize Dialogshift chat instance. Your app will interact with the DialogShift Webchat Client through the instance `Dialogshift.instance()`, which will available in your scope.
 
-### Install from npm
+#### Install from npm
 
 Install package
 
@@ -50,7 +85,7 @@ const chat = Dialogshift.instance({
 })
 ```
 
-### Include from CDN
+#### Include from CDN
 
 Add the following code towards the end of `<head>` section of your page.
 
@@ -75,89 +110,7 @@ Add the following code towards the end of `<body>` section of your page.
 </script>
 ```
 
-## Events
-
-You can subscribe to events to receive callbacks when events happen.
-Bind and unbind methods described in section [API Methods](#api-methods).
-
-| Name                | Payload     | Description                                                                                                                                                                                                 |
-| ------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| init                |             | Fires whenever the chat DOM is ready, widgets are rendered and chat config is loaded. You can call API methods but can't send messages because chat is not connected.                                       |
-| ready               |             | Fires whenever the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
-| chatbox.show.before |             | Fires before the chat window is shown.                                                                                                                                                                      |
-| chatbox.show        |             | Fires whenever the chat window is shown.                                                                                                                                                                    |
-| chatbox.hide.before |             | Fires before the chat window is hidden.                                                                                                                                                                     |
-| chatbox.hide        |             | Fires whenever the chat window is hidden.                                                                                                                                                                   |
-| button.show.before  |             | Fires before the toggle button is shown.                                                                                                                                                                    |
-| button.show         |             | Fires whenever the toggle button is shown.                                                                                                                                                                  |
-| button.hide.before  |             | Fires before the toggle button is hidden.                                                                                                                                                                   |
-| button.hide         |             | Fires whenever the toggle button is hidden.                                                                                                                                                                 |
-| message.sent        | `message`   | Fires whenever a visitor sent message.                                                                                                                                                                      |
-| message.received    | `message`   | Fires whenever a visitor recieved message.                                                                                                                                                                  |
-| history.received    | [`message`] | Fires whenever a history is loaded.                                                                                                                                                                         |
-
-OLOLOLOLOLOLOLOLOLOL init event
-
-Event `render` example
-
-```javascript
-const chat = Dialogshift.instance()
-
-chat.instance().on('render', () => {
-  console.log('Widgets are rendered')
-
-  chat.instance().showChatbox()
-})
-```
-
-Event `ready` example
-
-```javascript
-const chat = Dialogshift.instance()
-
-chat.on('ready', () => {
-  console.log('SDK connected to a channel')
-
-  chat.triggerElement({
-    successor: 'welcome-message',
-  })
-})
-```
-
-Event `chatbox.show` example
-
-```javascript
-const chat = Dialogshift.instance()
-
-chat.on('chatbox.show.before', () => {
-  console.log('Chat window is going to be shown')
-})
-
-chat.on('chatbox.show', () => {
-  console.log('Chat window shown')
-})
-```
-
-Event `message.sent` example
-
-```javascript
-const chat = Dialogshift.instance()
-
-chat.on('message.sent', message => {
-  console.log(message.requestType)
-  console.log('The visitor sent message')
-})
-```
-
-#### Message structure
-
-| Name        | Description                                                                                     |
-| ----------- | ----------------------------------------------------------------------------------------------- |
-| requestType | Type of the sended message. Possible values `command`, `text`, `button`, `feedback`, `trigger`. |
-
-Message contains different fields correspond to request type.
-
-## API Methods
+## API Methods <a name = "api-methods"></a>
 
 #### instance(chatConfig config): ChatInstance
 
@@ -428,15 +381,103 @@ Dialogshift.instance().increaseUnreadCounter()
 
 #### getConfig(): Config
 
-Returns chat config created in [Member Area](https://member.dialogshift.com/)
+Returns chat config created in [Member Area](https://member.dialogshift.com/#/app/configuration)
 
 ```javascript
 const visitor = Dialogshift.instance().getVisitor()
 console.log(visitor.id) // 958fb68a593c4b5a98eca3af6178590a
 ```
 
+## Events <a name = "events"></a>
+
+You can subscribe to events to receive callbacks when events happen.
+Bind and unbind methods described in section [API Methods](#api-methods).
+
+| Name                | Payload     | Description                                                                                                                                                                                                 |
+| ------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| init                |             | Fires whenever the chat DOM is ready, widgets are rendered and chat config is loaded. You can call API methods but can't send messages because chat is not connected.                                       |
+| ready               |             | Fires whenever the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
+| chatbox.show.before |             | Fires before the chat window is shown.                                                                                                                                                                      |
+| chatbox.show        |             | Fires whenever the chat window is shown.                                                                                                                                                                    |
+| chatbox.hide.before |             | Fires before the chat window is hidden.                                                                                                                                                                     |
+| chatbox.hide        |             | Fires whenever the chat window is hidden.                                                                                                                                                                   |
+| button.show.before  |             | Fires before the toggle button is shown.                                                                                                                                                                    |
+| button.show         |             | Fires whenever the toggle button is shown.                                                                                                                                                                  |
+| button.hide.before  |             | Fires before the toggle button is hidden.                                                                                                                                                                   |
+| button.hide         |             | Fires whenever the toggle button is hidden.                                                                                                                                                                 |
+| message.sent        | `message`   | Fires whenever a visitor sent message.                                                                                                                                                                      |
+| message.received    | `message`   | Fires whenever a visitor recieved message.                                                                                                                                                                  |
+| history.received    | [`message`] | Fires whenever a history is loaded.                                                                                                                                                                         |
+
+Event `render` example
+
+```javascript
+const chat = Dialogshift.instance()
+
+chat.instance().on('init', () => {
+  console.log('Widgets are rendered and webconfig is loaded')
+
+  chat.instance().showChatbox()
+})
+```
+
+Event `ready` example
+
+```javascript
+const chat = Dialogshift.instance()
+
+chat.on('ready', () => {
+  console.log('SDK connected to a channel')
+
+  chat.triggerElement({
+    successor: 'welcome-message',
+  })
+})
+```
+
+Event `chatbox.show` example
+
+```javascript
+const chat = Dialogshift.instance()
+
+chat.on('chatbox.show.before', () => {
+  console.log('Chat window is going to be shown')
+})
+
+chat.on('chatbox.show', () => {
+  console.log('Chat window shown')
+})
+```
+
+Event `message.sent` example
+
+```javascript
+const chat = Dialogshift.instance()
+
+chat.on('message.sent', message => {
+  console.log(message.requestType)
+  console.log('The visitor sent message')
+})
+```
+
+#### Message structure
+
+| Name        | Description                                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------------- |
+| requestType | Type of the sended message. Possible values `command`, `text`, `button`, `feedback`, `trigger`. |
+
+Message contains different fields correspond to request type.
+
 ++++++++++++++++++++++++++++++++++++
 
-## Getting Help
+## Getting Help <a name = "getting-help"></a>
 
-Please use [Github issue tracker](https://github.com/dialogshift/dialogshift-webchat-sdk/issues) for questions, feature requests, bug reports or email us to support@dialogshift.com
+Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift-webchat-sdk/issues) for questions, feature requests, suggestions, bug reports or any kind of feedback. Or email us to support@dialogshift.com
+
+## Resources <a name = "resources"></a>
+
+[DialogShift website](https://www.dialogshift.com)
+[Member area](https://member.dialogshift.com)
+[Introduction to DialogShift conversational framework](https://support.dialogshift.com)
+[Webchat config description](https://support.dialogshift.com)
+[Webchat SDK NPM page](https://www.npmjs.com/package/dialogshift-webchat-sdk)
