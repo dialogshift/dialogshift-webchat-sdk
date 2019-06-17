@@ -16,6 +16,7 @@ A client library for embed [Dialogshift](https://www.dialogshift.com/) Webchat t
 - [How it works](#how-it-works)
 - [API methods](#api-methods)
 - [Events](#events)
+- [Getting help](#getting-help)
 - [Resources](#resources)
 
 ## About <a name = "about"></a>
@@ -60,7 +61,7 @@ Starts when user calls `Dialogshift.destroy()`.
 2. SDK loads removes chat iframe, widgtes, custom css from a webpage.
 3. Fires event `destroy`.
 
-## Getting Started <a name = "getting-started"></a>
+## Getting started <a name = "getting-started"></a>
 
 You can install SDK using `npm` or you can use CDN link directly. To obtain `app id` signup and copy id in [Member Area](https://member.dialogshift.com/). Read [Quick Start Guide](https://support.dialogshift.com/tutorial-quickstart/) for details.
 
@@ -110,7 +111,7 @@ Add the following code towards the end of `<body>` section of your page.
 </script>
 ```
 
-## API Methods <a name = "api-methods"></a>
+## API methods <a name = "api-methods"></a>
 
 #### instance(chatConfig config): ChatInstance
 
@@ -487,7 +488,7 @@ Message contains different fields correspond to request type.
 
 ++++++++++++++++++++++++++++++++++++
 
-## Getting Help <a name = "getting-help"></a>
+## Getting help <a name = "getting-help"></a>
 
 Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift-webchat-sdk/issues) for questions, feature requests, suggestions, bug reports or any kind of feedback. Or email us to support@dialogshift.com
 
