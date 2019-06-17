@@ -146,20 +146,20 @@ const client = Dialogshift.instance({
   unreadCounter: 2,
 })
 
-// After you can get the same instance
+// Returns the same instance
 
 console.log(client === Dialogshift.instance()) // true
 ```
 
-#### destroy(): Config
+#### destroy()
 
-Destroys current instance
+Destroys current instance.
 
 ```javascript
 Dialogshift.instance().destroy()
 ```
 
-#### isDestroyed(): Config
+#### isDestroyed(): boolean
 
 Returns `true` if chat is destroyed.
 
@@ -212,7 +212,8 @@ Dialogshift.instance().offAll()
 Show chatbox.
 
 `ShowChatboxOptions`
-| Name | Type | Description |
+
+| Name                   | Type    | Description                                                    |
 | ---------------------- | ------- | -------------------------------------------------------------- |
 | triggerInitialElement? | boolean | Triger initial message after the first open. Default to `true` |
 
