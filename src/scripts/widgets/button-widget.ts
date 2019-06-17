@@ -10,6 +10,16 @@ export class ButtonWidget extends BaseWidget {
     super(options)
   }
 
+  private bindEvents() {
+    this.getBoxElem().addEventListener('click', () => {
+      this.pressed = !this.pressed
+
+      this.fire('toggle', {
+        isPressed: this.pressed,
+      })
+    })
+  }
+
   getBaseCls() {
     return config.buttonCls
   }
@@ -21,16 +31,6 @@ export class ButtonWidget extends BaseWidget {
     this.bindEvents()
 
     super.render()
-  }
-
-  bindEvents() {
-    this.getBoxElem().addEventListener('click', () => {
-      this.pressed = !this.pressed
-
-      this.fire('toggle', {
-        isPressed: this.pressed,
-      })
-    })
   }
 
   setState(state: ButtonWidgetState) {
