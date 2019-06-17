@@ -12,8 +12,8 @@ A client library for embed [Dialogshift](https://www.dialogshift.com/) webchat t
 ## Table of Contents
 
 - [About](#about)
-- [Getting started](#getting-started)
 - [How it works](#how-it-works)
+- [Getting started](#getting-started)
 - [API methods](#api-methods)
 - [Events](#events)
 - [Getting help](#getting-help)
