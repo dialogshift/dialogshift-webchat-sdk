@@ -40,9 +40,9 @@ After scripts are loaded SDK is waiting for initialization.
 
 Starts when user calls `Dialogshift.instance(...options)` for the first time.
 
-2. SDK loads [Webconfig](https://support.dialogshift.com/sdk-quickstart/) with settings, custom css, custom options.
-3. Renders toggle button and other widgets on webpage.
-4. Fires event `init`. User can read chat config or work with widgets.
+1. SDK loads [Webconfig](https://support.dialogshift.com/sdk-quickstart/) with settings, custom css, custom options.
+2. Renders toggle button and other widgets on webpage.
+3. Fires event `init`. User can read chat config or work with widgets.
 
 #### Chat loading
 
@@ -62,9 +62,9 @@ Starts when user calls `Dialogshift.destroy()`.
 
 ## Getting started <a name = "getting-started"></a>
 
-You can install SDK using `npm` or you can use CDN link directly. To obtain `app id` signup and copy id in [Member Area](https://member.dialogshift.com/). Read [Quick Start Guide](https://support.dialogshift.com/tutorial-quickstart/) for details.
+You can install SDK using `npm` or use CDN link directly. To obtain app `id` signup and copy `id` in [Member area](https://member.dialogshift.com/). Read [Quick Start Guide](https://support.dialogshift.com/tutorial-quickstart/) for details.
 
-Replace `%id%` in snippets below with your `app id` and initialize Dialogshift chat instance. Your app will interact with the DialogShift Webchat Client through the instance `Dialogshift.instance()`, which will available in your scope.
+Replace `%id%` in snippets below with your app `id` and initialize Dialogshift chat instance. Your app will interact with the chat client through the instance `Dialogshift.instance()`, which will available in your scope.
 
 #### Install from npm
 
