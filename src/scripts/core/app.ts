@@ -84,6 +84,7 @@ export class App {
   private apiService: ApiService
   private webchatService: WebchatService
   private chatConfig: ChatConfig
+  private destroyed = false
 
   constructor(options: AppOptions) {
     if (!options) {
@@ -407,5 +408,28 @@ export class App {
     if (this.webchatService) {
       this.webchatService.triggerElement(options)
     }
+  }
+
+  destroy() {
+    if (this.destroyed) {
+      return
+    }
+
+    this.destroyed = true
+
+    this.unreadWidget.destroy()
+    this.teaserWidget.destroy()
+    this.buttonWidget.destroy()
+    this.iframeWidget.destroy()
+    this.chatboxWidget.destroy()
+    this.wrapperWidget.destroy()
+
+    this.broadcast.fire('destroy')
+
+    this.broadcast.offAll()
+  }
+
+  isDestroyed() {
+    return this.destroyed
   }
 }

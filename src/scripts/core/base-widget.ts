@@ -16,6 +16,7 @@ export class BaseWidget extends Observable {
   private boxElem: HTMLElement
   private contentElem: HTMLElement
   private content: string | number
+  private destroyed = false
 
   constructor(options: BaseWidgetOptions) {
     super({ events: options.events })
@@ -41,6 +42,10 @@ export class BaseWidget extends Observable {
     boxElem.style.opacity = '0'
 
     setTimeout(() => (boxElem.style.display = 'none'))
+  }
+
+  isDestroyed(): boolean {
+    return this.destroyed
   }
 
   isVisible(): boolean {
@@ -163,5 +168,27 @@ export class BaseWidget extends Observable {
     } else {
       this.getContentElem().innerHTML = content.toString()
     }
+  }
+
+  destroy() {
+    super.destroy()
+
+    const contentElem = this.getContentElem()
+
+    if (contentElem && contentElem.parentNode) {
+      contentElem.parentNode.removeChild(contentElem)
+    }
+    this.contentElem = null
+
+    const boxElem = this.getBoxElem()
+
+    if (boxElem && boxElem.parentNode) {
+      boxElem.parentNode.removeChild(boxElem)
+    }
+    this.boxElem = null
+
+    this.destroyed = true
+
+    this.fire('destroy')
   }
 }

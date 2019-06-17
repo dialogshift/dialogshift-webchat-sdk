@@ -23,4 +23,8 @@ export class Observable extends EventEmitter {
       }
     })
   }
+
+  destroy() {
+    this.offAll()
+  }
 }
