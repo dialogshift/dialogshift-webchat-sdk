@@ -17,20 +17,6 @@ export class ChatboxWidget extends BaseWidget {
     )
   }
 
-  getBaseCls() {
-    return config.chatCls
-  }
-
-  setState(state: ChatboxWidgetState) {
-    if (state === 'loading') {
-      this.getBoxElem().classList.add(config.chatLoadingCls)
-    }
-
-    if (state === 'ready') {
-      this.getBoxElem().classList.remove(config.chatLoadingCls)
-    }
-  }
-
   protected showNode() {
     const boxElem = this.getBoxElem()
 
@@ -50,5 +36,19 @@ export class ChatboxWidget extends BaseWidget {
       boxElem.style.zIndex = '-1'
       boxElem.style.visibility = 'hidden'
     })
+  }
+
+  getBaseCls() {
+    return config.chatCls
+  }
+
+  setState(state: ChatboxWidgetState) {
+    if (state === 'loading') {
+      this.getBoxElem().classList.add(config.chatLoadingCls)
+    }
+
+    if (state === 'ready') {
+      this.getBoxElem().classList.remove(config.chatLoadingCls)
+    }
   }
 }
