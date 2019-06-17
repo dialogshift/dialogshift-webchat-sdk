@@ -38,28 +38,27 @@ After scripts are loaded SDK is waiting for initialization.
 
 #### SDK initialization
 
-Starts when you first time calls `Dialogshift.instance(...options)`.
+Starts when user calls `Dialogshift.instance(...options)` for the first time.
 
 2. SDK loads [Webconfig](https://support.dialogshift.com/sdk-quickstart/) with settings, custom css, custom options.
-3. Render toggle button and other widgets to webpage.
-4. Fires event `init`. You can read chat config or work with widgets.
+3. Renders toggle button and other widgets on webpage.
+4. Fires event `init`. User can read chat config or work with widgets.
 
 #### Chat loading
 
-Starts when user first time opens chat window.
+Starts when user first time manually or programmatically opens chat window.
 
-1. SDK loads the whole chat app inside iframe.
-2. Chat establish connection with a message layer.
-3. Chat loads message history and trigger initial message if needs.
+1. SDK loads chat app inside iframe.
+2. Chat establishes connection with a message layer.
+3. Chat loads message history and trigger an initial message if needs.
 4. Fires event `ready`.
 
 #### Chat destroying
 
 Starts when user calls `Dialogshift.destroy()`.
 
-1. SDK unbind all events.
-2. SDK loads removes chat iframe, widgtes, custom css from a webpage.
-3. Fires event `destroy`.
+1. SDK unbinds all events, removes chat iframe and widgtes from a webpage.
+2. Fires event `destroy`.
 
 ## Getting started <a name = "getting-started"></a>
 
