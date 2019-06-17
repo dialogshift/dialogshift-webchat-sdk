@@ -46,7 +46,7 @@ Starts when user calls `Dialogshift.instance(...options)` for the first time.
 
 #### Chat loading
 
-Starts when user first time manually or programmatically opens chat window.
+Starts when chat window is manually or programmatically opened for the first time.
 
 1. SDK loads chat app inside iframe.
 2. Chat establishes connection with a message layer.
@@ -55,7 +55,7 @@ Starts when user first time manually or programmatically opens chat window.
 
 #### Chat destroying
 
-Starts when user calls `Dialogshift.destroy()`.
+Starts when `Dialogshift.destroy()` is called.
 
 1. SDK unbinds all events, removes chat iframe and widgtes from a webpage.
 2. Fires event `destroy`.
@@ -114,7 +114,7 @@ Add the following code towards the end of `<body>` section of your page.
 
 #### instance(chatConfig config): ChatInstance
 
-Creates new one chat instance or returns previously created singleton instance.
+Creates new one chat instance or returns previously created instance. Returns singleton instance.
 
 ##### `chatConfig`
 
