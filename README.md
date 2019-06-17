@@ -33,7 +33,7 @@ SDK and chat workflow phases.
 
 #### Loading scripts
 
-Start when you inject js and css scripts to a webpage.
+Starts when js and css scripts are injected to a webpage.
 After scripts are loaded SDK is waiting for initialization.
 
 #### SDK initialization
