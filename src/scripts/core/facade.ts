@@ -91,5 +91,13 @@ export const createFacade = (instance: App) => {
       const chatbox = instance.getChatboxWidget()
       return chatbox ? chatbox.isVisible() : false
     },
+
+    destroy() {
+      instance.destroy()
+    },
+
+    isDestroyed() {
+      return instance.isDestroyed()
+    },
   }
 }

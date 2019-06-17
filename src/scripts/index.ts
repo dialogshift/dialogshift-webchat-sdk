@@ -3,7 +3,7 @@ import { App, AppOptions } from './core/app'
 
 let facade = null
 const instance = (options?: AppOptions) => {
-  if (facade) {
+  if (facade && !facade.isDestroyed()) {
     return facade
   }
 

@@ -82,7 +82,7 @@ export class IframeWidget extends BaseWidget {
     throw new Error('Method is not allowed for an iframe')
   }
 
-  getContentElem(): HTMLElement {
-    throw new Error('Method is not allowed for an iframe')
+  getContentElem(): null {
+    return null
   }
 }
