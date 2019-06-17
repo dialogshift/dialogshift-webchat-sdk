@@ -7,7 +7,7 @@
 
 [![npm version](https://badge.fury.io/js/dialogshift-webchat-sdk.svg)](http://badge.fury.io/js/dialogshift-webchat-sdk)
 
-A client library for embed [Dialogshift](https://www.dialogshift.com/) Webchat to webpages. Written in TypeScript and published in `UMD` and `ES2015`.
+A client library for embed [Dialogshift](https://www.dialogshift.com/) webchat to webpages. Written in TypeScript and published in `UMD` and `ES2015`.
 
 ## Table of Contents
 
@@ -21,11 +21,11 @@ A client library for embed [Dialogshift](https://www.dialogshift.com/) Webchat t
 
 ## About <a name = "about"></a>
 
-DialogShift is a Conversational AI platform that helps businesses to improve the communication with their customers, enhance the customer experience and ultimately grow revenue through customer retention and automation.
+Dialogshift is a Conversational AI platform that helps businesses to improve the communication with their customers, enhance the customer experience and ultimately grow revenue through customer retention and automation.
 
 Messaging is an intuitive communication tool and has the ability to bring brands much closer to their customers, increasing the engagement through more frequent 1:1 touchpoints.
 
-Webchat SDK allow you to embed DialogShift Webchat to your webpage, customize and control chat widgets, change chating flow as you need, communicate with Conversational AI platform. Webchat widgets are fully responsive and you can use them on desktop, tablet or mobile pages. You can use SDK on native JavaScript or on TypeScript.
+This SDK allows to embed Dialogshift webchat to webpages, customize and control chat widgets, change conversational flow as you need, communicate with Conversational AI platform. Webchat widgets are fully responsive for desktop, tablet or mobile pages. SDK has native JavaScript and TypeScript versions.
 
 ## How it works <a name = "how-it-works"></a>
 
