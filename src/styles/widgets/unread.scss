@@ -4,7 +4,6 @@
   border-radius: 11px;
   background-color: var(--brand-green);
   color: #fff;
-  right: 25px;
   padding: 3px 6px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
   font-size: 15px;
@@ -15,8 +14,26 @@
   transition: opacity 0.15s;
 }
 
+.ds-wrapper--pr .ds-unread {
+  right: 25px;
+}
+
+.ds-wrapper--pl .ds-unread {
+  left: 25px;
+}
+
 @media (max-width: 576px) {
-  .ds-unread {
-    right: 15px;
+  .ds-wrapper {
+    &--pl {
+      .ds-teaser {
+        left: 15px;
+      }
+    }
+
+    &--pr {
+      .ds-teaser {
+        right: 15px;
+      }
+    }
   }
 }
