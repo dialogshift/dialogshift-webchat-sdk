@@ -428,7 +428,7 @@ Bind and unbind methods described in section [API Methods](#api-methods).
 | message.received    | `message`   | Fires whenever a visitor recieved message.                                                                                                                                                                   |
 | history.received    | [`message`] | Fires once when a history is loaded.                                                                                                                                                                         |
 
-Event `render` example.
+Event `init` example.
 
 ```javascript
 const chat = Dialogshift.instance()
