@@ -52,7 +52,7 @@ Starts when user first time opens chat window.
 3. Chat loads message history and trigger initial message if needs.
 4. Fires event `ready`.
 
-#### SDK destroying
+#### Chat destroying
 
 Starts when user calls `Dialogshift.destroy()`.
 
@@ -149,6 +149,22 @@ const client = Dialogshift.instance({
 // After you can get the same instance
 
 console.log(client === Dialogshift.instance()) // true
+```
+
+#### destroy(): Config
+
+Destroys current instance
+
+```javascript
+Dialogshift.instance().destroy()
+```
+
+#### isDestroyed(): Config
+
+Returns `true` if chat is destroyed.
+
+```javascript
+Dialogshift.instance().isDestroyed()
 ```
 
 #### on(string eventName, function handler)
@@ -393,21 +409,22 @@ console.log(visitor.id) // 958fb68a593c4b5a98eca3af6178590a
 You can subscribe to events to receive callbacks when events happen.
 Bind and unbind methods described in section [API Methods](#api-methods).
 
-| Name                | Payload     | Description                                                                                                                                                                                                 |
-| ------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| init                |             | Fires whenever the chat DOM is ready, widgets are rendered and chat config is loaded. You can call API methods but can't send messages because chat is not connected.                                       |
-| ready               |             | Fires whenever the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
-| chatbox.show.before |             | Fires before the chat window is shown.                                                                                                                                                                      |
-| chatbox.show        |             | Fires whenever the chat window is shown.                                                                                                                                                                    |
-| chatbox.hide.before |             | Fires before the chat window is hidden.                                                                                                                                                                     |
-| chatbox.hide        |             | Fires whenever the chat window is hidden.                                                                                                                                                                   |
-| button.show.before  |             | Fires before the toggle button is shown.                                                                                                                                                                    |
-| button.show         |             | Fires whenever the toggle button is shown.                                                                                                                                                                  |
-| button.hide.before  |             | Fires before the toggle button is hidden.                                                                                                                                                                   |
-| button.hide         |             | Fires whenever the toggle button is hidden.                                                                                                                                                                 |
-| message.sent        | `message`   | Fires whenever a visitor sent message.                                                                                                                                                                      |
-| message.received    | `message`   | Fires whenever a visitor recieved message.                                                                                                                                                                  |
-| history.received    | [`message`] | Fires whenever a history is loaded.                                                                                                                                                                         |
+| Name                | Payload     | Description                                                                                                                                                                                                  |
+| ------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| init                |             | Fires once when the chat DOM is ready, widgets are rendered and chat config is loaded. You can call API methods but can't send messages because chat is not connected.                                       |
+| ready               |             | Fires once when the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
+| chatbox.show.before |             | Fires before the chat window is shown.                                                                                                                                                                       |
+| destroy             |             | Fires once when the chat is destroyed.                                                                                                                                                                       |
+| chatbox.show        |             | Fires whenever the chat window is shown.                                                                                                                                                                     |
+| chatbox.hide.before |             | Fires before the chat window is hidden.                                                                                                                                                                      |
+| chatbox.hide        |             | Fires whenever the chat window is hidden.                                                                                                                                                                    |
+| button.show.before  |             | Fires before the toggle button is shown.                                                                                                                                                                     |
+| button.show         |             | Fires whenever the toggle button is shown.                                                                                                                                                                   |
+| button.hide.before  |             | Fires before the toggle button is hidden.                                                                                                                                                                    |
+| button.hide         |             | Fires whenever the toggle button is hidden.                                                                                                                                                                  |
+| message.sent        | `message`   | Fires whenever a visitor sent message.                                                                                                                                                                       |
+| message.received    | `message`   | Fires whenever a visitor recieved message.                                                                                                                                                                   |
+| history.received    | [`message`] | Fires once when a history is loaded.                                                                                                                                                                         |
 
 Event `render` example
 
