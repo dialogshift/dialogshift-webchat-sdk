@@ -494,7 +494,11 @@ Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift
 ## Resources <a name = "resources"></a>
 
 [DialogShift website](https://www.dialogshift.com)
+
 [Member area](https://member.dialogshift.com)
+
 [Introduction to DialogShift conversational framework](https://support.dialogshift.com)
+
 [Webchat config description](https://support.dialogshift.com)
+
 [Webchat SDK NPM page](https://www.npmjs.com/package/dialogshift-webchat-sdk)
