@@ -486,8 +486,6 @@ chat.on('message.sent', message => {
 
 Message contains different fields correspond to request type.
 
-++++++++++++++++++++++++++++++++++++
-
 ## Getting help <a name = "getting-help"></a>
 
 Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift-webchat-sdk/issues) for questions, feature requests, suggestions, bug reports or any kind of feedback. Or email us to support@dialogshift.com
@@ -498,8 +496,8 @@ Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift
 
 [Member area](https://member.dialogshift.com)
 
-[Introduction to DialogShift conversational framework](https://support.dialogshift.com)
+[Introduction to Dialogshift conversational framework](https://support.dialogshift.com)
 
 [Webchat config description](https://support.dialogshift.com)
 
-[Webchat SDK NPM page](https://www.npmjs.com/package/dialogshift-webchat-sdk)
+[SDK NPM page](https://www.npmjs.com/package/dialogshift-webchat-sdk)
