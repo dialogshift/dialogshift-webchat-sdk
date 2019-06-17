@@ -7,14 +7,14 @@
 
 [![npm version](https://badge.fury.io/js/dialogshift-webchat-sdk.svg)](http://badge.fury.io/js/dialogshift-webchat-sdk)
 
-A client library for embed [DialogShift](https://www.dialogshift.com/) Webchat to webpages. Written in TypeScript and published in `UMD` and `ES2015`.
+A client library for embed [Dialogshift](https://www.dialogshift.com/) Webchat to webpages. Written in TypeScript and published in `UMD` and `ES2015`.
 
 ## Table of Contents
 
 - [About](#about)
-- [Getting Started](#getting-started)
+- [Getting started](#getting-started)
 - [How it works](#how-it-works)
-- [API Methods](#api-methods)
+- [API methods](#api-methods)
 - [Events](#events)
 - [Resources](#resources)
 
@@ -493,7 +493,7 @@ Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift
 
 ## Resources <a name = "resources"></a>
 
-[DialogShift website](https://www.dialogshift.com)
+[https://www.dialogshift.com](https://www.dialogshift.com)
 
 [Member area](https://member.dialogshift.com)
 
