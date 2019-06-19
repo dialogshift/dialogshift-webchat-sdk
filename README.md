@@ -399,11 +399,21 @@ Dialogshift.instance().increaseUnreadCounter()
 
 #### getConfig(): Config
 
-Returns chat config created in [Member Area](https://member.dialogshift.com/#/app/configuration)
+Returns chat config created in [Member Area](https://member.dialogshift.com/#/app/configuration).
 
 ```javascript
 const visitor = Dialogshift.instance().getVisitor()
 console.log(visitor.id) // 958fb68a593c4b5a98eca3af6178590a
+```
+
+#### triggerElement()
+
+Triggers [conversational element](https://support.dialogshift.com/cms-introduction/) created in [Member Area](https://member.dialogshift.com/#/app/configuration).
+
+```javascript
+Dialogshift.instance().triggerElement({
+  successor: 'welcome-message',
+})
 ```
 
 ## Events <a name = "events"></a>
