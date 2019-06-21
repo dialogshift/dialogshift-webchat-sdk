@@ -25,7 +25,7 @@ Dialogshift is a Conversational AI platform that helps businesses to improve the
 
 Messaging is an intuitive communication tool and has the ability to bring brands much closer to their customers, increasing the engagement through more frequent 1:1 touchpoints.
 
-This SDK allows to embed Dialogshift webchat to webpages, customize and control chat widgets, change conversational flow as you need, communicate with Conversational AI platform. Webchat widgets are fully responsive for desktop, tablet or mobile pages. SDK has native JavaScript and TypeScript versions.
+This SDK allows to embedding Dialogshift webchat to webpages, customize and control chat widgets, change conversational flow as you need, communicate with Conversational AI platform. Webchat widgets are fully responsive for desktop, tablet or mobile pages. SDK has native JavaScript and TypeScript versions.
 
 ## How it works <a name = "how-it-works"></a>
 
@@ -169,7 +169,7 @@ Dialogshift.instance().isDestroyed()
 
 #### on(string eventName, function handler)
 
-Listen on a new event by type and handler. The handler will not be listen if it is a duplicate.
+Listen on a new event by type and handler. The handler will not be listened if it is a duplicate.
 
 ```javascript
 Dialogshift.instance().on('ready', () => {
@@ -179,7 +179,7 @@ Dialogshift.instance().on('ready', () => {
 
 #### once(string eventName, function handler)
 
-Listen on an once event by type and handler. The handler will not be listen if it is a duplicate.
+Listen on a once event by type and handler. The handler will not be listened if it is a duplicate.
 
 ```javascript
 Dialogshift.instance().once('chatbox.show', () => {
@@ -435,7 +435,7 @@ Bind and unbind methods described in section [API Methods](#api-methods).
 | button.hide.before  |             | Fires before the toggle button is hidden.                                                                                                                                                                    |
 | button.hide         |             | Fires whenever the toggle button is hidden.                                                                                                                                                                  |
 | message.sent        | `message`   | Fires whenever a visitor sent message.                                                                                                                                                                       |
-| message.received    | `message`   | Fires whenever a visitor recieved message.                                                                                                                                                                   |
+| message.received    | `message`   | Fires whenever a visitor received message.                                                                                                                                                                   |
 | history.received    | [`message`] | Fires once when a history is loaded.                                                                                                                                                                         |
 
 Event `init` example.
@@ -491,9 +491,9 @@ chat.on('message.sent', message => {
 
 #### Message structure
 
-| Name        | Description                                                                                     |
-| ----------- | ----------------------------------------------------------------------------------------------- |
-| requestType | Type of the sended message. Possible values `command`, `text`, `button`, `feedback`, `trigger`. |
+| Name        | Description                                                                                   |
+| ----------- | --------------------------------------------------------------------------------------------- |
+| requestType | Type of the sent message. Possible values `command`, `text`, `button`, `feedback`, `trigger`. |
 
 Message contains different fields correspond to request type.
 
