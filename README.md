@@ -92,12 +92,12 @@ Add the following code towards the end of `<head>` section of your page.
 ```javascript
 <script
   type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.umd.min.js"></script>
+  src="https://cdn.dialogshift.com/sdk/latest/dialogshift-webchat-sdk.umd.js"></script>
 
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://cdn.jsdelivr.net/npm/dialogshift-webchat-sdk/bundles/dialogshift-webchat-sdk.min.css"/>
+  href="https://cdn.dialogshift.com/sdk/latest/dialogshift-webchat-sdk.min.css"/>
 ```
 
 Add the following code towards the end of `<body>` section of your page.
@@ -305,7 +305,7 @@ Dialogshift.instance().isChatboxVisible()
 
 #### setContext(string key, string | object value): Promise
 
-Set context variable for visitor.
+Set context variable for visitor. [Read more](https://support.dialogshift.com/cms-context/) about context.
 
 ```javascript
 Dialogshift.instance()
@@ -416,6 +416,14 @@ Dialogshift.instance().triggerElement({
 })
 ```
 
+#### isReady()
+
+Returns `true` if chat is fully loaded and ready to communicate.
+
+```javascript
+Dialogshift.instance().isReady()
+```
+
 ## Events <a name = "events"></a>
 
 You can subscribe to events to receive callbacks when events happen.
@@ -506,6 +514,8 @@ Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift
 [https://www.dialogshift.com](https://www.dialogshift.com)
 
 [Member area](https://member.dialogshift.com)
+
+[Examples](https://support.dialogshift.com/sdk-examples/)
 
 [Introduction to Dialogshift conversational framework](https://support.dialogshift.com)
 
