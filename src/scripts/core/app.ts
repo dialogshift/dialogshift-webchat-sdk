@@ -85,6 +85,7 @@ export class App {
   private webchatService: WebchatService
   private chatConfig: ChatConfig
   private destroyed = false
+  private ready = false
 
   constructor(options: AppOptions) {
     if (!options) {
@@ -237,6 +238,7 @@ export class App {
     this.chatboxWidget.render(this.wrapperWidget.getBoxElem())
 
     this.broadcast.on('ready', () => {
+      this.ready = true
       this.chatboxWidget.setState('ready')
     })
   }
@@ -429,7 +431,11 @@ export class App {
     this.broadcast.offAll()
   }
 
-  isDestroyed() {
+  isDestroyed(): boolean {
     return this.destroyed
+  }
+
+  isReady() {
+    return !this.destroyed && this.ready
   }
 }
