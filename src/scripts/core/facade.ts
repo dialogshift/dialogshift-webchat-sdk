@@ -99,5 +99,9 @@ export const createFacade = (instance: App) => {
     isDestroyed() {
       return instance.isDestroyed()
     },
+
+    isReady() {
+      return instance.isReady()
+    },
   }
 }
