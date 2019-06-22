@@ -9,6 +9,8 @@
 
 A client library for embed [Dialogshift](https://www.dialogshift.com/) webchat to webpages. Written in TypeScript and published in `UMD` and `ES2015`.
 
+[SDK Demo](https://dialogshift-demo.glitch.me/)
+
 ## Table of Contents
 
 - [About](#about)
@@ -416,7 +418,7 @@ Dialogshift.instance().triggerElement({
 })
 ```
 
-#### isReady()
+#### isReady(): boolean
 
 Returns `true` if chat is fully loaded and ready to communicate.
 
@@ -510,6 +512,8 @@ Message contains different fields correspond to request type.
 Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift-webchat-sdk/issues) for questions, feature requests, suggestions, bug reports or any kind of feedback. Or email us to support@dialogshift.com
 
 ## Resources <a name = "resources"></a>
+
+[SDK Demo](https://dialogshift-demo.glitch.me/)
 
 [https://www.dialogshift.com](https://www.dialogshift.com)
 
