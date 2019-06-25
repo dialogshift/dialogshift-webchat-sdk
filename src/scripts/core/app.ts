@@ -145,6 +145,7 @@ export class App {
         const message = event.data as ActionEvent
 
         if (message.type === ActionEventType.message) {
+          console.log(message)
           this.broadcast.fire(message.name, message.payload)
         }
 
