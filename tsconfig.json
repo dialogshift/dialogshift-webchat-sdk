@@ -4,13 +4,14 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "target": "es3",
-    "module": "es6",
+    "module": "commonjs",
     "lib": ["es2018", "dom"],
     "declaration": true,
     "sourceMap": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "strict": false
   },
   "files": ["src/scripts/index.ts"],
-  "include": ["src/scripts/**/*", "test/**/*"],
+  "include": ["src/scripts/**/*", "testы/**/*"],
   "exclude": ["node_modules"]
 }
