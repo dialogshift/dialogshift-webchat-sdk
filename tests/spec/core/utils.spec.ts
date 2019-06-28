@@ -12,7 +12,7 @@ describe('Utils', () => {
     })
 
     it('should return expected GET param from URL', () => {
-      const value = '1'
+      const value = '12'
       const url = 'https://www.dialog.com?dschat=1'
       const param = parseUrlParam(url, 'dschat')
 
