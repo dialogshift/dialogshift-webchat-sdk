@@ -431,44 +431,45 @@ Dialogshift.instance().isReady()
 You can subscribe to events to receive callbacks when events happen.
 Bind and unbind methods described in section [API Methods](#api-methods).
 
-| Name                | Payload     | Description                                                                                                                                                                                                  |
-| ------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| init                |             | Fires once when the chat DOM is ready, widgets are rendered and chat config is loaded. You can call API methods but can't send messages because chat is not connected.                                       |
-| ready               |             | Fires once when the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
-| chatbox.show.before |             | Fires before the chat window is shown.                                                                                                                                                                       |
-| destroy             |             | Fires once when the chat is destroyed.                                                                                                                                                                       |
-| chatbox.show        |             | Fires whenever the chat window is shown.                                                                                                                                                                     |
-| chatbox.hide.before |             | Fires before the chat window is hidden.                                                                                                                                                                      |
-| chatbox.hide        |             | Fires whenever the chat window is hidden.                                                                                                                                                                    |
-| button.show.before  |             | Fires before the toggle button is shown.                                                                                                                                                                     |
-| button.show         |             | Fires whenever the toggle button is shown.                                                                                                                                                                   |
-| button.hide.before  |             | Fires before the toggle button is hidden.                                                                                                                                                                    |
-| button.hide         |             | Fires whenever the toggle button is hidden.                                                                                                                                                                  |
-| message.sent        | `message`   | Fires whenever a visitor sent message.                                                                                                                                                                       |
-| message.received    | `message`   | Fires whenever a visitor received message.                                                                                                                                                                   |
-| history.received    | [`message`] | Fires once when a history is loaded.                                                                                                                                                                         |
+| Name                | Payload          | Description                                                                                                                                                                                                  |
+| ------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| init                |                  | Fires once when the chat DOM is ready, widgets are rendered and chat config is loaded. You can call API methods but can't send messages because chat is not connected.                                       |
+| ready               |                  | Fires once when the chat DOM is ready, configuration is loaded and chat connected to conversational channel. You can send messages. Mind that chat connects to conversational channel only after first open. |
+| chatbox.show.before |                  | Fires before the chat window is shown.                                                                                                                                                                       |
+| destroy             |                  | Fires once when the chat is destroyed.                                                                                                                                                                       |
+| chatbox.show        |                  | Fires whenever the chat window is shown.                                                                                                                                                                     |
+| chatbox.hide.before |                  | Fires before the chat window is hidden.                                                                                                                                                                      |
+| chatbox.hide        |                  | Fires whenever the chat window is hidden.                                                                                                                                                                    |
+| button.show.before  |                  | Fires before the toggle button is shown.                                                                                                                                                                     |
+| button.show         |                  | Fires whenever the toggle button is shown.                                                                                                                                                                   |
+| button.hide.before  |                  | Fires before the toggle button is hidden.                                                                                                                                                                    |
+| button.hide         |                  | Fires whenever the toggle button is hidden.                                                                                                                                                                  |
+| message.sent        | `RequestModel`   | Fires whenever a visitor sent message.                                                                                                                                                                       |
+| message.receive     | `MessageModel`   | Fires whenever a visitor received message.                                                                                                                                                                   |
+| history.receive     | [`MessageModel`] | Fires once when a history is loaded.                                                                                                                                                                         |
+| command.receive     | `CommandModel`   | Fires whenever a visitor received command.                                                                                                                                                                   |
 
 Event `init` example.
 
 ```javascript
-const chat = Dialogshift.instance()
+const client = Dialogshift.instance()
 
-chat.instance().on('init', () => {
+client.on('init', () => {
   console.log('Widgets are rendered and webconfig is loaded')
 
-  chat.instance().showChatbox()
+  client.showChatbox()
 })
 ```
 
 Event `ready` example.
 
 ```javascript
-const chat = Dialogshift.instance()
+const client = Dialogshift.instance()
 
-chat.on('ready', () => {
+client.on('ready', () => {
   console.log('SDK connected to a channel')
 
-  chat.triggerElement({
+  client.triggerElement({
     successor: 'welcome-message',
   })
 })
@@ -477,13 +478,13 @@ chat.on('ready', () => {
 Event `chatbox.show` example.
 
 ```javascript
-const chat = Dialogshift.instance()
+const client = Dialogshift.instance()
 
-chat.on('chatbox.show.before', () => {
+client.on('chatbox.show.before', () => {
   console.log('Chat window is going to be shown')
 })
 
-chat.on('chatbox.show', () => {
+client.on('chatbox.show', () => {
   console.log('Chat window shown')
 })
 ```
@@ -491,21 +492,71 @@ chat.on('chatbox.show', () => {
 Event `message.sent` example.
 
 ```javascript
-const chat = Dialogshift.instance()
+const client = Dialogshift.instance()
 
-chat.on('message.sent', message => {
-  console.log(message.requestType)
-  console.log('The visitor sent message')
+client.on('message.sent', event => {
+  const requestModel = event.data
+
+  if (requestModel.requestType === 'text') {
+    console.log('The visitor sent message: ' + requestModel.text)
+  }
 })
 ```
 
-#### Message structure
+`RequestModel`
 
 | Name        | Description                                                                                   |
 | ----------- | --------------------------------------------------------------------------------------------- |
 | requestType | Type of the sent message. Possible values `command`, `text`, `button`, `feedback`, `trigger`. |
 
-Message contains different fields correspond to request type.
+RequestModel contains different fields correspond to requestType.
+
+Event `message.receive` example.
+
+```javascript
+const client = Dialogshift.instance()
+
+client.on('message.receive', event => {
+  const messageModel = event.data
+  console.log(messageModel)
+  console.log('The visitor got message')
+})
+```
+
+`MessageModel`
+
+| Name        | Type     | Description                                                                                                                       |
+| ----------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| datetime    | datetime | Time in a `datetime` format.                                                                                                      |
+| fromHistory | boolean  | Source of the message.                                                                                                            |
+| isLiveMode  | boolean  | `true` if user got the message from a operator.                                                                                   |
+| elementType | string   | Type of element inside the message. Possible values `feedback`, `text`, `button`, `carousel`, `list`,`book`, `dateRange`,`image`. |
+
+MessageModel contains different fields correspond to elementType type.
+
+Event `command.receive` example.
+
+```javascript
+const client = Dialogshift.instance()
+
+client.on('command.receive', event => {
+  const commandModel = event.data
+
+  if (commandModel.commandType === 'setLanguage') {
+    console.log(
+      'The visitor got command to change locale to ' + commandModel.lg
+    )
+  }
+})
+```
+
+`CommandModel`
+
+| Name        | Type   | Description                                                                                                                       |
+| ----------- | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| commandType | string | Type of command. Possible values `url`, `setLanguage`, `typingIndicatorOn`,`typingIndicatorOff`, `livechat`,`log`, `actionBroker` |
+
+CommandModel contains different fields correspond to commandType type.
 
 ## Getting help <a name = "getting-help"></a>
 
