@@ -58,6 +58,7 @@ const appOptionsDefault = {
 export enum ActionEventType {
   action = 'action',
   message = 'message',
+  command = 'command',
 }
 
 export enum ActionEventName {
@@ -145,7 +146,10 @@ export class App {
         const message = event.data as ActionEvent
 
         if (message.type === ActionEventType.message) {
-          console.log(message)
+          this.broadcast.fire(message.name, message.payload)
+        }
+
+        if (message.type === ActionEventType.command) {
           this.broadcast.fire(message.name, message.payload)
         }
 
@@ -155,7 +159,7 @@ export class App {
       }
     })
 
-    this.broadcast.on('message.received', (event: Event) => {
+    this.broadcast.on('message.receive', (event: Event) => {
       if (!this.chatboxWidget.isVisible() && !event.data.fromHistory) {
         this.unreadWidget.increase(1)
       }
