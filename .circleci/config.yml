@@ -6,7 +6,7 @@ jobs:
     working_directory: /home/ubuntu/ds-sdk
     steps:
       - checkout
-      - run: cp src/scripts/config/env.dev.js src/scripts/config/env.js
+      - run: cp src/scripts/config/env.dev.ts src/scripts/config/env.ts
       - run: npm install
       - run: npm run build
       - run: apt-get update
@@ -25,7 +25,7 @@ jobs:
     working_directory: /home/ubuntu/ds-sdk
     steps:
       - checkout
-      - run: cp src/scripts/config/env.stage.js src/scripts/config/env.js
+      - run: cp src/scripts/config/env.stage.ts src/scripts/config/env.ts
       - run: npm install
       - run: npm run build
       - run: apt-get update
@@ -44,7 +44,7 @@ jobs:
     working_directory: /home/ubuntu/ds-sdk
     steps:
       - checkout
-      - run: cp src/scripts/config/env.prod.js src/scripts/config/env.js
+      - run: cp src/scripts/config/env.prod.ts src/scripts/config/env.ts
       - run: npm install
       - run: npm run build
       - run: apt-get update
