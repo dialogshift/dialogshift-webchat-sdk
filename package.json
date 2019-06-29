@@ -22,12 +22,12 @@
   "scripts": {
     "build:umd": "rm -rf ./bundles && webpack --config webpack.config.js --progress --colors",
     "build:es6": "rm -rf ./dist && tsc --outDir ./dist",
-    "build:all": "npm run build:umd && npm run build:es6 && npm run build:styles",
-    "build": "npm run lint && npm run test && npm run build:all",
+    "build": "npm run build:umd && npm run build:es6 && npm run build:styles",
     "build:styles": "node-sass src/styles/main.scss bundles/dialogshift-webchat-sdk.min.css --output-style compressed --source-map true",
     "bundle-stats": "npm run build:umd && webpack-bundle-analyzer bundles/stats.json",
-    "prepublish": "npm run lint && npm run test && npm run build:all",
+    "prepublish": "npm run test && npm run build",
     "lint": "tslint --config tslint.json --project tsconfig.json",
+    "pretest": "npm run lint",
     "test": "mocha --opts tests/mocha.opts"
   },
   "dependencies": {},

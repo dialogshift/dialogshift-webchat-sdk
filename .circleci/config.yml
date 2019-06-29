@@ -8,6 +8,7 @@ jobs:
       - checkout
       - run: cp src/scripts/config/env.dev.ts src/scripts/config/env.ts
       - run: npm install
+      - run: npm run test
       - run: npm run build
       - run: apt-get update
       - run: apt-get -qq install python-pip python-dev jq yui-compressor
@@ -27,6 +28,7 @@ jobs:
       - checkout
       - run: cp src/scripts/config/env.stage.ts src/scripts/config/env.ts
       - run: npm install
+      - run: npm run test
       - run: npm run build
       - run: apt-get update
       - run: apt-get -qq install python-pip python-dev jq yui-compressor
@@ -46,6 +48,7 @@ jobs:
       - checkout
       - run: cp src/scripts/config/env.prod.ts src/scripts/config/env.ts
       - run: npm install
+      - run: npm run test
       - run: npm run build
       - run: apt-get update
       - run: apt-get -qq install python-pip python-dev jq yui-compressor
