@@ -1,6 +1,8 @@
 import { parseUrlParam } from '../../../src/scripts/core/utils'
 import { expect } from 'chai'
 
+// import * as jsdom from 'mocha-jsdom'
+// jsdom({ url: 'https://www.dialog.com/' })
 describe('Utils', () => {
   describe('parseUrlParam()', () => {
     it('should return default param when URL has no requested GET parameter', () => {
