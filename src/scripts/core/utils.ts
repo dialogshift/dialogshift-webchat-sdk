@@ -1,8 +1,9 @@
-export const getUrlParam = (
+export const parseUrlParam = (
+  source: string,
   name: string,
-  defaultReturn = null,
+  defaultReturn: string | null = null,
 ): string | null => {
-  const url = new URL(location.href)
+  const url = new URL(source)
   const param = url.searchParams.get(name)
 
   if (param && param.length >= 1) {
@@ -12,7 +13,7 @@ export const getUrlParam = (
   return defaultReturn
 }
 
-export const isExternalUrl = (url): boolean => {
+export const isExternalUrl = (url: string): boolean => {
   const match = url.match(
     /^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/,
   )
@@ -47,5 +48,9 @@ export const injectCss = (css: string) => {
   style.type = 'text/css'
   style.innerHTML = css
 
-  document.querySelector('head').appendChild(style)
+  const head = document.querySelector('head')
+
+  if (head !== null) {
+    head.appendChild(style)
+  }
 }
