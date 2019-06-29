@@ -39,7 +39,7 @@ export interface AppOptions {
   buttonText?: string
   teaserText?: string
   showFooter?: boolean
-  initialElement: string
+  initialElement?: string
   unreadCounter?: number
 }
 
