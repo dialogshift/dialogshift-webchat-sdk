@@ -13,7 +13,7 @@ import {
   WebchatService,
   WebchatServiceTriggerOptions,
 } from '../services'
-import { getUrlParam, isExternalUrl, injectCss } from './utils'
+import { parseUrlParam, isExternalUrl, injectCss } from './utils'
 
 export interface ChatConfig {
   [key: string]: any
@@ -39,7 +39,7 @@ export interface AppOptions {
   buttonText?: string
   teaserText?: string
   showFooter?: boolean
-  initialElement: string
+  initialElement?: string
   unreadCounter?: number
 }
 
@@ -105,7 +105,7 @@ export class App {
   }
 
   private init() {
-    const openUrlParam = getUrlParam('dschat')
+    const openUrlParam = parseUrlParam(window.location.href, 'dschat')
 
     if (openUrlParam === 'open') {
       this.options.isChatboxVisible = true
