@@ -15,7 +15,6 @@ module.exports = (env, argv) => ({
   output: {
     path: path.join(__dirname, 'bundles'),
     filename: 'dialogshift-webchat-sdk' + '.umd.js',
-    // (argv.mode === 'production' ? '.umd.min.js' : '.umd.js'),
     libraryTarget: 'umd',
     umdNamedDefine: true,
     library: 'Dialogshift',
@@ -37,7 +36,6 @@ module.exports = (env, argv) => ({
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        // APP_CONFIG: JSON.stringify(envConfig[process.env.NODE_ENV]),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),

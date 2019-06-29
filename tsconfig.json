@@ -12,6 +12,6 @@
     "strict": false
   },
   "files": ["src/scripts/index.ts"],
-  "include": ["src/scripts/**/*", "testы/**/*"],
+  "include": ["src/scripts/**/*"],
   "exclude": ["node_modules"]
 }
