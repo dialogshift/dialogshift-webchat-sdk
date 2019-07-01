@@ -112,7 +112,9 @@ export class App {
     }
 
     this.loadConfig().then(() => {
+      this.applyConfig()
       this.render()
+      this.afterRender()
       this.bindEvents()
 
       setTimeout(() => {
@@ -138,6 +140,24 @@ export class App {
     this.renderTeaserWidget()
     this.renderChatboxWidget()
     this.renderUnreadWidget()
+  }
+
+  private afterRender() {
+    const { showTeaserAfter, hideTeaserAfter } = this.chatConfig
+
+    if (showTeaserAfter) {
+      setTimeout(() => {
+        if (!this.teaserWidget.isVisible() && !this.chatboxWidget.isVisible()) {
+          this.teaserWidget.show()
+        }
+      },         showTeaserAfter * 1000)
+    }
+
+    if (hideTeaserAfter) {
+      setTimeout(() => {
+        this.teaserWidget.hide()
+      },         hideTeaserAfter * 1000)
+    }
   }
 
   private bindEvents() {
@@ -354,16 +374,34 @@ export class App {
         injectCss(data.websiteElementCss)
       }
 
-      if (
-        !this.options.teaserText &&
-        data.teaserText &&
-        data.teaserText[this.options.locale]
-      ) {
-        this.options.teaserText = data.teaserText[this.options.locale]
-      }
-
       return this.chatConfig
     })
+  }
+
+  private applyConfig() {
+    const {
+      teaserText,
+      setUnreadCounter,
+      showTeaserAfter,
+      hideTeaserAfter,
+    } = this.chatConfig
+    const { locale } = this.options
+
+    if (teaserText && teaserText[locale]) {
+      this.options.teaserText = teaserText[locale]
+    }
+
+    if (setUnreadCounter) {
+      this.options.unreadCounter = setUnreadCounter
+    }
+
+    if (showTeaserAfter === 0) {
+      this.options.isTeaserVisible = true
+    }
+
+    if (hideTeaserAfter === 0) {
+      this.options.isTeaserVisible = false
+    }
   }
 
   getBroadcast(): EventEmitter {
