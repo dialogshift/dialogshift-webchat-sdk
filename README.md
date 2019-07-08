@@ -418,6 +418,30 @@ Dialogshift.instance().triggerElement({
 })
 ```
 
+#### setInitialElement(initialElement: string)
+
+Set a initial element.
+
+```javascript
+Dialogshift.instance().setInitialElement('welcome-1')
+```
+
+#### getInitialElement(): string
+
+Returns current initial element.
+
+```javascript
+Dialogshift.instance().getInitialElement()
+```
+
+#### removeInitialElement()
+
+Removes current initial element. That's mean initial element will not triggered.
+
+```javascript
+Dialogshift.instance().removeInitialElement()
+```
+
 #### isReady(): boolean
 
 Returns `true` if chat is fully loaded and ready to communicate.
