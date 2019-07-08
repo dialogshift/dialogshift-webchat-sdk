@@ -420,7 +420,7 @@ Dialogshift.instance().triggerElement({
 
 #### setInitialElement(initialElement: string)
 
-Set initial element.
+Set a initial element.
 
 ```javascript
 Dialogshift.instance().setInitialElement('welcome-1')
