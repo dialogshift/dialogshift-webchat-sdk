@@ -39,7 +39,7 @@ export interface AppOptions {
   buttonText?: string
   teaserText?: string
   showFooter?: boolean
-  initialElement?: string
+  initialElement?: string | null
   unreadCounter?: number
 }
 
@@ -51,7 +51,7 @@ const appOptionsDefault = {
   isTeaserVisible: false,
   renderButton: true,
   showFooter: true,
-  initialElement: '',
+  initialElement: null,
   unreadCounter: 0,
 }
 
@@ -444,9 +444,32 @@ export class App {
     return this.chatConfig
   }
 
+  setInitialElement(element: string) {
+    if (typeof element !== 'string') {
+      throw new Error('Initial element should be a string')
+    }
+
+    this.options.initialElement = element
+
+    if (this.iframeWidget) {
+      this.iframeWidget.setInitialElement(element)
+    }
+  }
+
+  getInitialElement(): string | null {
+    if (this.iframeWidget) {
+      return this.iframeWidget.getInitialElement()
+    }
+
+    return this.options.initialElement
+  }
+
   removeInitialElement() {
-    this.options.initialElement = ''
-    this.iframeWidget.removeInitialElement()
+    this.options.initialElement = null
+
+    if (this.iframeWidget) {
+      this.iframeWidget.removeInitialElement()
+    }
   }
 
   triggerElement(options: WebchatServiceTriggerOptions) {
