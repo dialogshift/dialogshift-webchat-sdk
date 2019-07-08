@@ -14,7 +14,7 @@ export class IframeWidget extends BaseWidget {
   private id: string
   private customerId: string
   private loaded = false
-  private initialElement: string
+  private initialElement: string | null = null
   private locale: string
 
   constructor(options: IframeWidgetOptions) {
@@ -44,7 +44,7 @@ export class IframeWidget extends BaseWidget {
       iframeUrl += `&cid=${this.customerId}`
     }
 
-    if (this.initialElement) {
+    if (this.initialElement !== null) {
       iframeUrl += `&init=${this.initialElement}`
     }
 
@@ -74,15 +74,23 @@ export class IframeWidget extends BaseWidget {
     }
   }
 
-  removeInitialElement() {
-    this.initialElement = ''
-  }
-
   setContent() {
     throw new Error('Method is not allowed for an iframe')
   }
 
   getContentElem(): null {
     return null
+  }
+
+  getInitialElement(): string | null {
+    return this.initialElement
+  }
+
+  setInitialElement(initialElement: string) {
+    this.initialElement = initialElement
+  }
+
+  removeInitialElement() {
+    this.initialElement = null
   }
 }
