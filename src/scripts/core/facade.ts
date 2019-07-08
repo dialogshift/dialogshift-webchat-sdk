@@ -115,9 +115,5 @@ export const createFacade = (instance: App) => {
     isReady() {
       return instance.isReady()
     },
-
-    removeInitialElement() {
-      return instance.removeInitialElement()
-    },
   }
 }
