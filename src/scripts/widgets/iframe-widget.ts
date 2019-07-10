@@ -1,3 +1,4 @@
+import { InitialElement } from '../core/app'
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
 
@@ -5,7 +6,7 @@ interface IframeWidgetOptions extends BaseWidgetOptions {
   host: string
   id: string
   customerId?: string
-  initialElement?: string
+  initialElement?: InitialElement
   locale?: string
 }
 
@@ -14,11 +15,16 @@ export class IframeWidget extends BaseWidget {
   private id: string
   private customerId: string
   private loaded = false
-  private initialElement: string | null = null
+  private initialElement: InitialElement = {
+    successor: null,
+    suppress: false,
+  }
   private locale: string
 
   constructor(options: IframeWidgetOptions) {
     super(options)
+
+    this.initialElement = options.initialElement
   }
 
   getBaseCls(): string {
@@ -44,8 +50,10 @@ export class IframeWidget extends BaseWidget {
       iframeUrl += `&cid=${this.customerId}`
     }
 
-    if (this.initialElement !== null) {
-      iframeUrl += `&init=${this.initialElement}`
+    if (this.initialElement.suppress) {
+      iframeUrl += '&init=suppress'
+    } else if (this.initialElement.successor) {
+      iframeUrl += `&init=${this.initialElement.successor}`
     }
 
     if (this.locale) {
@@ -82,15 +90,11 @@ export class IframeWidget extends BaseWidget {
     return null
   }
 
-  getInitialElement(): string | null {
+  getInitialElement(): InitialElement {
     return this.initialElement
   }
 
-  setInitialElement(initialElement: string) {
+  setInitialElement(initialElement: InitialElement) {
     this.initialElement = initialElement
-  }
-
-  removeInitialElement() {
-    this.initialElement = null
   }
 }
