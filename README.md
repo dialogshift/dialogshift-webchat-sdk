@@ -418,28 +418,30 @@ Dialogshift.instance().triggerElement({
 })
 ```
 
-#### setInitialElement(initialElement: string)
+#### setInitialElement(element: InitialElement)
 
 Set a initial element.
 
 ```javascript
-Dialogshift.instance().setInitialElement('welcome-1')
+Dialogshift.instance().setInitialElement({
+  successor: 'welcome-1',
+  suppress: false,
+})
 ```
 
-#### getInitialElement(): string
+`InitialElement`
+
+| Name      | Type    | Description                                                    |
+| --------- | ------- | -------------------------------------------------------------- |
+| successor | string  | Initial message to trigger                                     |
+| suppress  | boolean | If true initial element will be suppressed. Default to `false` |
+
+#### getInitialElement(): InitialElement
 
 Returns current initial element.
 
 ```javascript
 Dialogshift.instance().getInitialElement()
-```
-
-#### removeInitialElement()
-
-Removes current initial element. That's mean initial element will not triggered.
-
-```javascript
-Dialogshift.instance().removeInitialElement()
 ```
 
 #### isReady(): boolean
