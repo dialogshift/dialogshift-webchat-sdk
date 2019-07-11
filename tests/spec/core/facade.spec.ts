@@ -18,70 +18,94 @@ describe('Facade', () => {
   describe('getInitialElement()', () => {
     it('should return default initialElement when initialElement is not setted', () => {
       const facade = createFacade(new App({ id: '3E8' }))
+      const defaultInitialElement = {
+        successor: null,
+        suppress: false,
+      }
 
-      chai.expect(facade.getInitialElement()).equal(null)
+      chai
+        .expect(facade.getInitialElement())
+        .to.deep.equal(defaultInitialElement)
     })
 
-    it('should return initialElement from config', () => {
-      const initialElement1 = 'welcome-1'
+    it('should return redeclared initial successor', () => {
+      const initialElementSuccessor = 'welcome-1'
       const facade = createFacade(
-        new App({ id: '3E8', initialElement: initialElement1 }),
+        new App({
+          id: '3E8',
+          initialElement: {
+            successor: initialElementSuccessor,
+          },
+        }),
       )
 
-      chai.expect(facade.getInitialElement()).equal(initialElement1)
+      const expectedInitialElement = {
+        successor: initialElementSuccessor,
+        suppress: false,
+      }
+
+      chai
+        .expect(facade.getInitialElement())
+        .to.deep.equal(expectedInitialElement)
+    })
+
+    it('should return redeclared initial element', () => {
+      const initialElementSuccessor = 'welcome-1'
+      const facade = createFacade(
+        new App({
+          id: '3E8',
+          initialElement: {
+            successor: initialElementSuccessor,
+            suppress: true,
+          },
+        }),
+      )
+
+      const expectedInitialElement = {
+        successor: initialElementSuccessor,
+        suppress: true,
+      }
+
+      chai
+        .expect(facade.getInitialElement())
+        .to.deep.equal(expectedInitialElement)
     })
   })
 
   describe('setInitialElement()', () => {
-    it('should return throw exception if initialElement is not a string', () => {
+    it('should return redeclared initial successor', () => {
+      const initialElementSuccessor = 'welcome-1'
+      const initialElement = {
+        successor: initialElementSuccessor,
+      }
+      const expectedInitialElement = {
+        successor: initialElementSuccessor,
+        suppress: false,
+      }
       const facade = createFacade(new App({ id: '3E8' }))
 
+      facade.setInitialElement(initialElement)
       chai
-        .expect(() => {
-          facade.setInitialElement(null)
-        })
-        .to.throw()
+        .expect(facade.getInitialElement())
+        .to.deep.equal(expectedInitialElement)
     })
 
-    it('should return the last setted initialElement', () => {
-      const initialElement1 = 'welcome-1'
-      const initialElement2 = 'welcome-2'
-      const initialElement3 = 'welcome-3'
-      const facade = createFacade(
-        new App({ id: '3E8', initialElement: initialElement1 }),
-      )
+    it('should return redeclared initial element', () => {
+      const initialElement = {
+        successor: 'welcome-1',
+        suppress: true,
+      }
+      const initialElement2 = {
+        successor: 'welcome-2',
+        suppress: false,
+      }
+      const facade = createFacade(new App({ id: '3E8' }))
+
+      facade.setInitialElement(initialElement)
+      chai.expect(facade.getInitialElement()).to.deep.equal(initialElement)
 
       facade.setInitialElement(initialElement2)
-
-      chai.expect(facade.getInitialElement()).equal(initialElement2)
-
-      facade.setInitialElement(initialElement3)
-
-      chai.expect(facade.getInitialElement()).equal(initialElement3)
-    })
-  })
-
-  describe('removeInitialElement()', () => {
-    it('should remove initialElement setted from config', () => {
-      const initialElement1 = 'welcome-1'
-      const facade = createFacade(
-        new App({ id: '3E8', initialElement: initialElement1 }),
-      )
-
-      facade.removeInitialElement()
-
-      chai.expect(facade.getInitialElement()).equal(null)
-    })
-
-    it('should remove initialElement setted by setInitialElement()', () => {
-      const initialElement1 = 'welcome-1'
-      const facade = createFacade(new App({ id: '3E8' }))
-
-      facade.setInitialElement(initialElement1)
-
-      facade.removeInitialElement()
-
-      chai.expect(facade.getInitialElement()).equal(null)
+      chai.expect(facade.getInitialElement()).to.deep.equal(initialElement2)
     })
   })
 })
