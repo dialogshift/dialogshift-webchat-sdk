@@ -1,5 +1,5 @@
 import { EventHandler } from './event-emitter'
-import { App, ChatPosition } from './app'
+import { App, ChatPosition, InitialElement } from './app'
 
 export const createFacade = (instance: App) => {
   return {
@@ -19,11 +19,7 @@ export const createFacade = (instance: App) => {
       instance.getBroadcast().offAll()
     },
 
-    showChatbox(options = { triggerInitialElement: true }) {
-      if (!options.triggerInitialElement) {
-        instance.removeInitialElement()
-      }
-
+    showChatbox() {
       instance.getChatboxWidget().show()
     },
 
@@ -87,16 +83,12 @@ export const createFacade = (instance: App) => {
       instance.triggerElement(options)
     },
 
-    setInitialElement(element: string) {
-      instance.setInitialElement(element)
+    setInitialElement(options: InitialElement) {
+      instance.setInitialElement(options)
     },
 
-    getInitialElement(): string | null {
+    getInitialElement(): InitialElement {
       return instance.getInitialElement()
-    },
-
-    removeInitialElement() {
-      instance.removeInitialElement()
     },
 
     isChatboxVisible(): boolean {

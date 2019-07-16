@@ -13,7 +13,7 @@ import {
   WebchatService,
   WebchatServiceTriggerOptions,
 } from '../services'
-import { parseUrlParam, isExternalUrl, injectCss } from './utils'
+import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
 
 export interface ChatConfig {
   [key: string]: any
@@ -28,6 +28,11 @@ export enum ChatPosition {
   right = 'right',
 }
 
+export interface InitialElement {
+  successor?: string | null
+  suppress?: boolean
+}
+
 export interface AppOptions {
   id: string
   locale?: string
@@ -39,7 +44,7 @@ export interface AppOptions {
   buttonText?: string
   teaserText?: string
   showFooter?: boolean
-  initialElement?: string | null
+  initialElement?: InitialElement
   unreadCounter?: number
 }
 
@@ -51,7 +56,10 @@ const appOptionsDefault = {
   isTeaserVisible: false,
   renderButton: true,
   showFooter: true,
-  initialElement: null,
+  initialElement: {
+    successor: null,
+    suppress: false,
+  },
   unreadCounter: 0,
 }
 
@@ -98,7 +106,7 @@ export class App {
     }
 
     this.apiService = new ApiService()
-    this.options = Object.assign(appOptionsDefault, options)
+    this.options = mergeDeep(appOptionsDefault, options) as AppOptions
     this.broadcast = new EventEmitter()
 
     this.init()
@@ -444,32 +452,21 @@ export class App {
     return this.chatConfig
   }
 
-  setInitialElement(element: string) {
-    if (typeof element !== 'string') {
-      throw new Error('Initial element should be a string')
-    }
+  setInitialElement(initialElement: InitialElement) {
+    const mergedInitialElement = mergeDeep(
+      this.options.initialElement,
+      initialElement,
+    )
 
-    this.options.initialElement = element
+    this.options.initialElement = mergedInitialElement
 
     if (this.iframeWidget) {
-      this.iframeWidget.setInitialElement(element)
+      this.iframeWidget.setInitialElement(mergedInitialElement)
     }
   }
 
-  getInitialElement(): string | null {
-    if (this.iframeWidget) {
-      return this.iframeWidget.getInitialElement()
-    }
-
+  getInitialElement(): InitialElement {
     return this.options.initialElement
-  }
-
-  removeInitialElement() {
-    this.options.initialElement = null
-
-    if (this.iframeWidget) {
-      this.iframeWidget.removeInitialElement()
-    }
   }
 
   triggerElement(options: WebchatServiceTriggerOptions) {
