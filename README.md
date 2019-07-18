@@ -396,7 +396,7 @@ const visitor = Dialogshift.instance().getVisitor()
 console.log(visitor.id) // 958fb68a593c4b5a98eca3af6178590a
 ```
 
-#### triggerElement(TriggerElementOptions)
+#### triggerElement(options: TriggerElementOptions)
 
 Triggers [conversational element](https://support.dialogshift.com/cms-introduction/) created in [Member Area](https://member.dialogshift.com/#/app/configuration).
 
