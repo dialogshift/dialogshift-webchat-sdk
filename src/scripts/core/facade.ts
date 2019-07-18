@@ -79,8 +79,48 @@ export const createFacade = (instance: App) => {
       instance.getUnreadWidget().increase(amount)
     },
 
-    triggerElement(options: any) {
-      instance.triggerElement(options)
+    triggerElement(options: {
+      successor: string
+      showChatbox?: boolean
+      suppressInitialElement?: boolean,
+    }) {
+      const config = {
+        showChatbox: true,
+        suppressInitialElement: true,
+        ...options,
+      }
+
+      if (!this.isReady()) {
+        this.once('ready', () => {
+          setTimeout(() => {
+            instance.triggerElement({
+              successor: options.successor,
+            })
+          },         250)
+        })
+
+        if (config.suppressInitialElement) {
+          this.setInitialElement({
+            suppress: true,
+          })
+        }
+
+        if (config.showChatbox) {
+          this.showChatbox()
+        } else {
+          instance.loadChat()
+        }
+      }
+
+      if (this.isReady()) {
+        if (!this.isChatboxVisible() && config.showChatbox) {
+          this.showChatbox()
+        }
+
+        instance.triggerElement({
+          successor: options.successor,
+        })
+      }
     },
 
     setInitialElement(options: InitialElement) {
