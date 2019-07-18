@@ -234,13 +234,7 @@ export class App {
               this.buttonWidget.setState('active')
             }
 
-            if (!this.iframeWidget.isRendered()) {
-              this.iframeWidget.render(this.chatboxWidget.getBoxElem())
-            }
-
-            if (!this.iframeWidget.isLoaded()) {
-              this.iframeWidget.load()
-            }
+            this.loadChat()
           },
         },
         {
@@ -500,5 +494,15 @@ export class App {
 
   isReady() {
     return !this.destroyed && this.ready
+  }
+
+  loadChat() {
+    if (!this.iframeWidget.isRendered()) {
+      this.iframeWidget.render(this.chatboxWidget.getBoxElem())
+    }
+
+    if (!this.iframeWidget.isLoaded()) {
+      this.iframeWidget.load()
+    }
   }
 }
