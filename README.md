@@ -209,24 +209,12 @@ Listen off all events.
 Dialogshift.instance().offAll()
 ```
 
-#### showChatbox(ShowChatboxOptions options?)
+#### showChatbox()
 
 Show chatbox.
 
-`ShowChatboxOptions`
-
-| Name                   | Type    | Description                                                     |
-| ---------------------- | ------- | --------------------------------------------------------------- |
-| triggerInitialElement? | boolean | Trigger initial message after the first open. Default to `true` |
-
 ```javascript
 Dialogshift.instance().showChatbox()
-
-// OR
-
-Dialogshift.instance().showChatbox({
-  triggerInitialElement: false,
-})
 ```
 
 #### hideChatbox()
@@ -408,13 +396,22 @@ const visitor = Dialogshift.instance().getVisitor()
 console.log(visitor.id) // 958fb68a593c4b5a98eca3af6178590a
 ```
 
-#### triggerElement()
+#### triggerElement(options: TriggerElementOptions)
 
 Triggers [conversational element](https://support.dialogshift.com/cms-introduction/) created in [Member Area](https://member.dialogshift.com/#/app/configuration).
+
+`TriggerElementOptions`
+
+| Name                    | Type    | Description                                                    |
+| ----------------------- | ------- | -------------------------------------------------------------- |
+| successor               | string  | Conversational element to trigger.                             |
+| showChatbox?            | boolean | If true chat window will be opened. Default to `true`          |
+| suppressInitialElement? | boolean | If true initial element will be suppressed. Default to `false` |
 
 ```javascript
 Dialogshift.instance().triggerElement({
   successor: 'welcome-message',
+  suppressInitialElement: true,
 })
 ```
 
@@ -599,6 +596,6 @@ Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift
 
 [Introduction to Dialogshift conversational framework](https://support.dialogshift.com)
 
-[Webchat config description](https://support.dialogshift.com)
+[Webchat config description](https://support.dialogshift.com/sdk-webchat-config/)
 
 [SDK NPM page](https://www.npmjs.com/package/dialogshift-webchat-sdk)
