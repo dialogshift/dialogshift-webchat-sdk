@@ -234,6 +234,10 @@ export class App {
               this.buttonWidget.setState('active')
             }
 
+            if (this.webchatService) {
+              this.webchatService.setMinimized(false)
+            }
+
             this.loadChat()
           },
         },
@@ -251,6 +255,10 @@ export class App {
             }
 
             this.buttonWidget.setState('default')
+
+            if (this.webchatService) {
+              this.webchatService.setMinimized(true)
+            }
           },
         },
         {
