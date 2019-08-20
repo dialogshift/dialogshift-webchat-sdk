@@ -60,6 +60,8 @@ export class IframeWidget extends BaseWidget {
       iframeUrl += `&lg=${this.locale}`
     }
 
+    iframeUrl += `&curl=${location.origin + location.pathname}`
+
     return iframeUrl
   }
 
