@@ -119,7 +119,11 @@ export class App {
       this.options.isChatboxVisible = true
     }
 
-    this.loadConfig().then(() => {
+    this.loadConfig().then((response: ChatConfig) => {
+      if (this.chatConfig.showWebsiteChat === false) {
+        return
+      }
+
       this.applyConfig()
       this.render()
       this.afterRender()
@@ -234,6 +238,10 @@ export class App {
               this.buttonWidget.setState('active')
             }
 
+            if (this.webchatService) {
+              this.webchatService.setMinimized(false)
+            }
+
             this.loadChat()
           },
         },
@@ -251,6 +259,10 @@ export class App {
             }
 
             this.buttonWidget.setState('default')
+
+            if (this.webchatService) {
+              this.webchatService.setMinimized(true)
+            }
           },
         },
         {

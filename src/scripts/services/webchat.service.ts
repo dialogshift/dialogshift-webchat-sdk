@@ -22,4 +22,13 @@ export class WebchatService {
 
     this.targetWindow.contentWindow.postMessage(message, '*')
   }
+
+  setMinimized(isMinimized: boolean) {
+    const message = {
+      isMinimized,
+      type: 'setMinimized',
+    }
+
+    this.targetWindow.contentWindow.postMessage(message, '*')
+  }
 }
