@@ -119,7 +119,11 @@ export class App {
       this.options.isChatboxVisible = true
     }
 
-    this.loadConfig().then(() => {
+    this.loadConfig().then((response: ChatConfig) => {
+      if (this.chatConfig.showWebsiteChat === false) {
+        return
+      }
+
       this.applyConfig()
       this.render()
       this.afterRender()
@@ -127,7 +131,7 @@ export class App {
 
       setTimeout(() => {
         this.broadcast.fire('init')
-      },         20)
+      }, 20)
     })
   }
 
@@ -158,13 +162,13 @@ export class App {
         if (!this.teaserWidget.isVisible() && !this.chatboxWidget.isVisible()) {
           this.teaserWidget.show()
         }
-      },         showTeaserAfter * 1000)
+      }, showTeaserAfter * 1000)
     }
 
     if (hideTeaserAfter) {
       setTimeout(() => {
         this.teaserWidget.hide()
-      },         hideTeaserAfter * 1000)
+      }, hideTeaserAfter * 1000)
     }
   }
 
