@@ -1,13 +1,25 @@
 .ds-wrapper {
   position: fixed;
-  bottom: 15px;
+  bottom: 20px;
   z-index: 100000;
 
   &--pl {
-    left: 25px;
+    left: 20px;
   }
 
   &--pr {
-    right: 25px;
+    right: 20px;
+  }
+
+  &:before {
+    display: block;
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    bottom: 0px;
+    right: 0px;
+    content: "";
+    pointer-events: none;
+    // background: radial-gradient(at right bottom, rgba(29, 39, 54, 0.16) 0%, rgba(29, 39, 54, 0) 72%);
   }
 }
