@@ -1,5 +1,5 @@
 import { EventHandler } from './event-emitter'
-import { App, ChatPosition, InitialElement } from './app'
+import { App, ChatPosition, InitialElement, AppTheme } from './app'
 
 export const createFacade = (instance: App) => {
   return {
@@ -53,6 +53,10 @@ export const createFacade = (instance: App) => {
 
     setPosition(position: ChatPosition) {
       instance.getWrapperWidget().setPosition(position)
+    },
+
+    setTheme(theme: AppTheme) {
+      instance.getWrapperWidget().setTheme(theme)
     },
 
     getContext(key: string): Promise<any> {

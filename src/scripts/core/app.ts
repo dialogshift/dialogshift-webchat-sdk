@@ -28,6 +28,11 @@ export enum ChatPosition {
   right = 'right',
 }
 
+export enum AppTheme {
+  round = 'round',
+  tile = 'tile',
+}
+
 export interface InitialElement {
   successor?: string | null
   suppress?: boolean
@@ -37,6 +42,7 @@ export interface AppOptions {
   id: string
   locale?: string
   position?: ChatPosition
+  theme?: AppTheme
   isChatboxVisible?: boolean
   isButtonVisible?: boolean
   isTeaserVisible?: boolean
@@ -50,6 +56,7 @@ export interface AppOptions {
 
 const appOptionsDefault = {
   locale: 'en',
+  theme: AppTheme.round,
   position: ChatPosition.right,
   isChatboxVisible: false,
   isButtonVisible: true,
@@ -320,6 +327,7 @@ export class App {
     this.wrapperWidget = new WrapperWidget({
       renderTo: document.body,
       position: this.options.position,
+      theme: this.options.theme,
     })
 
     if (!this.options.renderButton) {
