@@ -35,18 +35,18 @@ export class WrapperWidget extends BaseWidget {
   }
 
   setTheme(theme: AppTheme) {
+    if (!(theme in AppTheme)) {
+      return
+    }
+
     this.theme = theme
 
     const boxElem = this.getBoxElem()
+    const themeCls = config[`theme${theme.charAt(0).toUpperCase() + theme.slice(1)}`]
 
     boxElem.classList.remove(config.themeRound)
     boxElem.classList.remove(config.themeTile)
-
-    const themeCls = config[`theme${theme.charAt(0).toUpperCase() + theme.slice(1)}`]
-
-    if (themeCls) {
-      boxElem.classList.add(themeCls)
-    }
+    boxElem.classList.add(themeCls)
   }
 
   render() {
