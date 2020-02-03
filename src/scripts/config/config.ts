@@ -23,5 +23,8 @@ export const config = {
 
   unreadCls: 'ds-unread',
 
+  themeRound: 'ds-theme-round',
+  themeTile: 'ds-theme-tile',
+
   env: environment,
 }
