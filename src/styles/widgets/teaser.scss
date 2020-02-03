@@ -72,6 +72,14 @@
 
 @media (max-width: 576px) {
   .ds-wrapper {
+    .ds-teaser {
+      max-width: 200px;
+
+      &:before {
+        display: none;
+      }
+    }
+
     &--pl {
       .ds-teaser {
         left: 15px;
