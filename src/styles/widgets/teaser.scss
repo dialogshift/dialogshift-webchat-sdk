@@ -12,6 +12,16 @@
   border-radius: var(--teaser-border-radius);
   padding: var(--teaser-padding);
 
+  &:before {
+    display: block;
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    bottom: 0px;
+    content: "";
+    pointer-events: none;
+  }
+
   &__cross {
     position: absolute;
     right: -10px;
@@ -43,11 +53,21 @@
 .ds-wrapper--pr .ds-teaser {
   right: 20px;
   border-bottom-right-radius: 8px;
+
+  &:before {
+    right: 0px;
+    background: radial-gradient(at right bottom, rgba(29, 39, 54, 0.16) 0%, rgba(29, 39, 54, 0) 72%);
+  }
 }
 
 .ds-wrapper--pl .ds-teaser {
   left: 20px;
   border-bottom-left-radius: 8px;
+
+  &:before {
+    left: 0px;
+    background: radial-gradient(at left bottom, rgba(29, 39, 54, 0.16) 0%, rgba(29, 39, 54, 0) 72%);
+  }
 }
 
 @media (max-width: 576px) {
