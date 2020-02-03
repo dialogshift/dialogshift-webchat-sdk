@@ -406,6 +406,7 @@ export class App {
       setUnreadCounter,
       showTeaserAfter,
       hideTeaserAfter,
+      theme,
     } = this.chatConfig
     const { locale } = this.options
 
@@ -423,6 +424,10 @@ export class App {
 
     if (hideTeaserAfter === 0) {
       this.options.isTeaserVisible = false
+    }
+
+    if (theme && theme in AppTheme) {
+      this.options.theme = theme
     }
   }
 
