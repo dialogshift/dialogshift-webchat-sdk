@@ -3,12 +3,56 @@
   bottom: 20px;
   z-index: 100000;
 
+  &:after {
+    display: block;
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    bottom: 0px;
+    content: '';
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    z-index: 10;
+  }
+
+  &--teaser-opened {
+    &:after {
+      opacity: 1;
+    }
+  }
+
   &--pl {
     left: 20px;
+
+    &:after {
+      left: 0px;
+      background: radial-gradient(
+        at left bottom,
+        rgba(29, 39, 54, 0.16) 0%,
+        rgba(29, 39, 54, 0) 72%
+      );
+    }
   }
 
   &--pr {
     right: 20px;
+
+    &:after {
+      right: 0px;
+      background: radial-gradient(
+        at right bottom,
+        rgba(29, 39, 54, 0.16) 0%,
+        rgba(29, 39, 54, 0) 72%
+      );
+    }
   }
 }
 
+@media (max-width: 576px) {
+  .ds-wrapper {
+    &:after {
+      display: none;
+    }
+  }
+}

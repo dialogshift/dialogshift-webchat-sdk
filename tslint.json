@@ -6,6 +6,7 @@
     "indent": [true, "spaces"],
     "ter-arrow-parens": [true, "as-needed"],
     "jsdoc-format": true,
-    "no-increment-decrement": false
+    "no-increment-decrement": false,
+    "align": [false, "parameters"]
   }
 }
