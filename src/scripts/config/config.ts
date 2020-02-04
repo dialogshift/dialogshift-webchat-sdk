@@ -3,6 +3,7 @@ import { environment } from './env'
 export const config = {
   wrapperCls: 'ds-wrapper',
   wrapperNoButtonCls: 'ds-wrapper--no-button',
+  wrapperTeaserIsOpenCls: 'ds-wrapper--teaser-opened',
   wrapperPositionLeftCls: 'ds-wrapper--pl',
   wrapperPositionRightCls: 'ds-wrapper--pr',
 
