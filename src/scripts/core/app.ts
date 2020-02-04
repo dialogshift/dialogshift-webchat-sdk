@@ -138,7 +138,7 @@ export class App {
 
       setTimeout(() => {
         this.broadcast.fire('init')
-      },         20)
+      }, 20)
     })
   }
 
@@ -169,13 +169,13 @@ export class App {
         if (!this.teaserWidget.isVisible() && !this.chatboxWidget.isVisible()) {
           this.teaserWidget.show()
         }
-      },         showTeaserAfter * 1000)
+      }, showTeaserAfter * 1000)
     }
 
     if (hideTeaserAfter) {
       setTimeout(() => {
         this.teaserWidget.hide()
-      },         hideTeaserAfter * 1000)
+      }, hideTeaserAfter * 1000)
     }
   }
 
@@ -358,7 +358,11 @@ export class App {
       events: [
         {
           type: 'before:show',
-          callback: event => this.broadcast.fire('teaser.show.before'),
+          callback: event => {
+            this.broadcast.fire('teaser.show.before')
+
+            this.wrapperWidget.addCls(config.wrapperTeaserIsOpenCls)
+          },
         },
         {
           type: 'show',
@@ -366,7 +370,11 @@ export class App {
         },
         {
           type: 'before:hide',
-          callback: event => this.broadcast.fire('teaser.hide.before'),
+          callback: event => {
+            this.wrapperWidget.removeCls(config.wrapperTeaserIsOpenCls)
+
+            this.broadcast.fire('teaser.hide.before')
+          },
         },
         {
           type: 'hide',
