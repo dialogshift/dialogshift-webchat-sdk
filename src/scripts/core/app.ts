@@ -482,7 +482,7 @@ export class App {
   setInitialElement(initialElement: InitialElement) {
     const mergedInitialElement = mergeDeep(
       this.options.initialElement,
-      initialElement
+      initialElement,
     )
 
     this.options.initialElement = mergedInitialElement
