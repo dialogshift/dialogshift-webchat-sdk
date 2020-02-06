@@ -45,10 +45,44 @@ export const isExternalUrl = (url: string): boolean => {
 
 export const injectCss = (css: string) => {
   const style = document.createElement('style')
+  const head = document.querySelector('head')
+
   style.type = 'text/css'
   style.innerHTML = css
 
+  if (head !== null) {
+    head.appendChild(style)
+  }
+}
+
+export const isFontLoaded = (fontName: string): boolean => {
+  let canvas = document.createElement('canvas')
+  const context = canvas.getContext('2d')
+  const text = 'abcdefghijklmnopqrstuvwxyz0123456789'
+
+  context.font = '72px monospace'
+
+  const baselineSize = context.measureText(text).width
+
+  context.font = `72px ${fontName}, monospace`
+
+  const newSize = context.measureText(text).width
+
+  canvas = null
+
+  if (newSize === baselineSize) {
+    return false
+  }
+
+  return true
+}
+
+export const loadOpenSans = () => {
+  const style = document.createElement('link')
   const head = document.querySelector('head')
+
+  style.rel = 'stylesheet'
+  style.href = 'https://fonts.googleapis.com/css?family=Open+Sans:400'
 
   if (head !== null) {
     head.appendChild(style)
