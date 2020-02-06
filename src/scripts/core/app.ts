@@ -13,7 +13,7 @@ import {
   WebchatService,
   WebchatServiceTriggerOptions,
 } from '../services'
-import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
+import { parseUrlParam, isExternalUrl, injectCss, mergeDeep, isFontLoaded, loadOpenSans } from './utils'
 
 export interface ChatConfig {
   [key: string]: any
@@ -149,6 +149,10 @@ export class App {
   }
 
   private render() {
+    if (!isFontLoaded('Open Sans')) {
+      loadOpenSans()
+    }
+
     this.renderWrapperWidget()
 
     if (this.options.renderButton) {
