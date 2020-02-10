@@ -14,6 +14,8 @@ import {
   WebchatServiceTriggerOptions,
 } from '../services'
 import { parseUrlParam, isExternalUrl, injectCss, mergeDeep, isFontLoaded, loadOpenSans } from './utils'
+import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
+import { ActionButtonWidgetType } from '../widgets/action-button-widget'
 
 export interface ChatConfig {
   [key: string]: any
@@ -52,6 +54,10 @@ export interface AppOptions {
   showFooter?: boolean
   initialElement?: InitialElement
   unreadCounter?: number
+  actionButtons?: {
+    id: string,
+    content: string,
+  }[]
 }
 
 const appOptionsDefault = {
@@ -95,6 +101,7 @@ export class App {
   private iframeWidget: IframeWidget
   private teaserWidget: TeaserWidget
   private unreadWidget: UnreadWidget
+  private actionButtonGroupWidget: ActionButtonGroupWidget
   private broadcast: EventEmitter
   private visitor: Visitor
   private apiService: ApiService
@@ -126,7 +133,7 @@ export class App {
       this.options.isChatboxVisible = true
     }
 
-    this.loadConfig().then((response: ChatConfig) => {
+    this.loadConfig().then(() => {
       if (this.chatConfig.showWebsiteChat === false) {
         return
       }
@@ -148,19 +155,34 @@ export class App {
     })
   }
 
+  private renderContentWrapper(): HTMLElement {
+    const node = document.createElement('div')
+    node.classList.add('ds-content-wrapper')
+
+    this.wrapperWidget.getBoxElem().appendChild(node)
+
+    return node
+  }
+
   private render() {
     if (!isFontLoaded('Open Sans')) {
       loadOpenSans()
     }
 
     this.renderWrapperWidget()
+    const contentWrapperNode = this.renderContentWrapper()
 
     if (this.options.renderButton) {
       this.renderButtonWidget()
     }
 
     this.createIframeWidget()
-    this.renderTeaserWidget()
+    this.renderTeaserWidget(contentWrapperNode)
+
+    if (this.options.actionButtons.length) {
+      this.renderActionButtons(contentWrapperNode)
+    }
+
     this.renderChatboxWidget()
     this.renderUnreadWidget()
   }
@@ -241,6 +263,10 @@ export class App {
 
             this.teaserWidget.hide()
 
+            if (this.actionButtonGroupWidget) {
+              this.actionButtonGroupWidget.hide()
+            }
+
             if (this.unreadWidget) {
               this.unreadWidget.reset()
             }
@@ -267,6 +293,10 @@ export class App {
 
             if (this.options.isTeaserVisible) {
               this.teaserWidget.show()
+            }
+
+            if (this.actionButtonGroupWidget) {
+              this.actionButtonGroupWidget.show()
             }
 
             this.buttonWidget.setState('default')
@@ -309,19 +339,19 @@ export class App {
         },
         {
           type: 'before:show',
-          callback: event => this.broadcast.fire('button.show.before'),
+          callback: () => this.broadcast.fire('button.show.before'),
         },
         {
           type: 'show',
-          callback: event => this.broadcast.fire('button.show'),
+          callback: () => this.broadcast.fire('button.show'),
         },
         {
           type: 'before:hide',
-          callback: event => this.broadcast.fire('button.hide.before'),
+          callback: () => this.broadcast.fire('button.hide.before'),
         },
         {
           type: 'hide',
-          callback: event => this.broadcast.fire('button.hide'),
+          callback: () => this.broadcast.fire('button.hide'),
         },
       ],
     })
@@ -354,15 +384,15 @@ export class App {
     })
   }
 
-  private renderTeaserWidget() {
+  private renderTeaserWidget(parentNode: HTMLElement) {
     this.teaserWidget = new TeaserWidget({
-      renderTo: this.wrapperWidget.getBoxElem(),
+      renderTo: parentNode,
       content: this.options.teaserText,
       visible: this.options.isTeaserVisible,
       events: [
         {
           type: 'before:show',
-          callback: event => {
+          callback: () => {
             this.broadcast.fire('teaser.show.before')
 
             this.wrapperWidget.addCls(config.wrapperTeaserIsOpenCls)
@@ -370,11 +400,11 @@ export class App {
         },
         {
           type: 'show',
-          callback: event => this.broadcast.fire('teaser.show'),
+          callback: () => this.broadcast.fire('teaser.show'),
         },
         {
           type: 'before:hide',
-          callback: event => {
+          callback: () => {
             this.wrapperWidget.removeCls(config.wrapperTeaserIsOpenCls)
 
             this.broadcast.fire('teaser.hide.before')
@@ -382,11 +412,11 @@ export class App {
         },
         {
           type: 'hide',
-          callback: event => this.broadcast.fire('teaser.hide'),
+          callback: () => this.broadcast.fire('teaser.hide'),
         },
         {
           type: 'click',
-          callback: event => this.chatboxWidget.show(),
+          callback: () => this.chatboxWidget.show(),
         },
       ],
     })
@@ -398,6 +428,18 @@ export class App {
       renderTo: this.wrapperWidget.getBoxElem(),
       unreadCounter: this.options.unreadCounter,
     })
+  }
+
+  private renderActionButtons(parenttNode: HTMLElement) {
+    this.actionButtonGroupWidget = new ActionButtonGroupWidget({
+      renderTo: parenttNode,
+    })
+
+    if (this.options.actionButtons) {
+      this.options.actionButtons.forEach(item => {
+        this.actionButtonGroupWidget.addButton(item)
+      })
+    }
   }
 
   private loadConfig(): Promise<ChatConfig> {
@@ -465,6 +507,10 @@ export class App {
 
   getUnreadWidget(): UnreadWidget {
     return this.unreadWidget
+  }
+
+  getActionButtonGroupWidget(): ActionButtonGroupWidget {
+    return this.actionButtonGroupWidget
   }
 
   getContext(key: string): Promise<any> {

@@ -1,13 +1,13 @@
 .ds-wrapper {
   position: fixed;
   bottom: 20px;
-  z-index: 100000;
+  z-index: 2147483001;
 
   &:after {
     display: block;
     position: fixed;
-    width: 350px;
-    height: 350px;
+    width: 450px;
+    height: 450px;
     bottom: 0px;
     content: '';
     pointer-events: none;

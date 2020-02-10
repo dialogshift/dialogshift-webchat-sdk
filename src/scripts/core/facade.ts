@@ -59,6 +59,14 @@ export const createFacade = (instance: App) => {
       instance.getWrapperWidget().setTheme(theme)
     },
 
+    showActionButtons() {
+      instance.getActionButtonGroupWidget().show()
+    },
+
+    hideActionButtons() {
+      instance.getActionButtonGroupWidget().hide()
+    },
+
     getContext(key: string): Promise<any> {
       return instance.getContext(key)
     },

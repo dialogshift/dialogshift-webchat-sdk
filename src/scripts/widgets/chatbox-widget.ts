@@ -20,7 +20,7 @@ export class ChatboxWidget extends BaseWidget {
   protected showNode() {
     const boxElem = this.getBoxElem()
 
-    boxElem.style.zIndex = '1'
+    boxElem.style.zIndex = '30'
     boxElem.style.visibility = 'visible'
 
     setTimeout(() => {

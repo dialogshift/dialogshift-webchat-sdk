@@ -27,5 +27,9 @@ export const config = {
   themeRound: 'ds-theme-round',
   themeTile: 'ds-theme-tile',
 
+  actionButtonGroupCls: 'ds-action-button-group',
+
+  actionButtonCls: 'ds-action-button',
+
   env: environment,
 }
