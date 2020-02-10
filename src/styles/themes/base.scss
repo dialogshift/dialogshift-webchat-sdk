@@ -2,12 +2,21 @@
   --font-family: 'Open Sans', sans-serif;
 
   --teaser-box-shadow: rgba(35, 47, 53, 0.1) 0px 2px 8px 0px;
+  --teaser-color: var(--dark);
   --teaser-bg-color: #fff;
   --teaser-padding: 15px 20px;
   --teaser-close-bg-color: var(--grey);
   --teaser-close-bg-color-hover: var(--grey-medium);
   --teaser-font-size: 15px;
   --teaser-line-height: 1.8;
+
+  --action-button-color: var(--dark);
+  --action-button-bg-color: var(--grey-pale);
+  --action-button-padding: 6px 20px 7px 20px;
+  --action-button-font-size: 14px;
+  --action-button-line-height: 1.4;
+  --action-button-box-shadow: 0px 0px 1px var(--grey-light);
+  --action-button-border: 1px solid var(--grey-light);
 
   --button-bg-color: var(--blue);
 
