@@ -3,10 +3,17 @@
   box-sizing: border-box;
   padding: 15px 0 0;
   flex-wrap: wrap;
-  justify-content: flex-end;
   margin-bottom: -15px;
   overflow-y: hidden;
   transition: all .3s ease;
   // transition: all .5s cubic-bezier(0, 1, 0.5, 1);
   max-height: 100px;
+}
+
+.ds-wrapper--pr .ds-action-button-group {
+  justify-content: flex-end;
+}
+
+.ds-wrapper--pl .ds-action-button-group {
+  justify-content: flex-start;
 }

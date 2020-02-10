@@ -74,6 +74,7 @@ const appOptionsDefault = {
     suppress: false,
   },
   unreadCounter: 0,
+  actionButtons: [],
 }
 
 export enum ActionEventType {
@@ -178,11 +179,7 @@ export class App {
 
     this.createIframeWidget()
     this.renderTeaserWidget(contentWrapperNode)
-
-    if (this.options.actionButtons.length) {
-      this.renderActionButtons(contentWrapperNode)
-    }
-
+    this.renderActionButtons(contentWrapperNode)
     this.renderChatboxWidget()
     this.renderUnreadWidget()
   }
@@ -430,12 +427,13 @@ export class App {
     })
   }
 
-  private renderActionButtons(parenttNode: HTMLElement) {
+  private renderActionButtons(parentNode: HTMLElement) {
     this.actionButtonGroupWidget = new ActionButtonGroupWidget({
-      renderTo: parenttNode,
+      renderTo: parentNode,
+      visible: this.options.actionButtons.length > 0,
     })
 
-    if (this.options.actionButtons) {
+    if (this.options.actionButtons.length > 0) {
       this.options.actionButtons.forEach(item => {
         this.actionButtonGroupWidget.addButton(item)
       })
