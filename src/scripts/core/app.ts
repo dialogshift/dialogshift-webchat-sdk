@@ -467,7 +467,7 @@ export class App {
       showTeaserAfter,
       hideTeaserAfter,
       theme,
-      actionButtons
+      actionButtons,
     } = this.chatConfig
     const { locale } = this.options
 
