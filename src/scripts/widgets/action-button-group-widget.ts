@@ -1,6 +1,7 @@
 import { BaseWidgetOptions, BaseWidget, BaseWidgetDisplayMode } from '../core/base-widget'
 import { config } from '../config/config'
-import { ActionButtonWidget, ActionButtonWidgetType, ActionButtonWidgetOptions } from './action-button-widget'
+import { ActionButtonWidget } from './action-button-widget'
+import { ActionButton } from '../models'
 
 export class ActionButtonGroupWidget extends BaseWidget {
   private buttons: ActionButtonWidget[] = []
@@ -17,19 +18,15 @@ export class ActionButtonGroupWidget extends BaseWidget {
     return 'flex'
   }
 
-  addButton(buttonOptions: ActionButtonWidgetOptions) {
-    if (!this.getButton(buttonOptions.id)) {
-      const button = new ActionButtonWidget({
-        renderTo: this.getBoxElem(),
-        ...buttonOptions,
-      })
+  addButton(options: { [key: string]: any }) {
+    const button = new ActionButtonWidget({
+      locale: options.locale,
+      actionButton: ActionButton.fromJson(options),
+      renderTo: this.getBoxElem(),
+      app: options.app,
+    })
 
-      this.buttons.push(button)
-    }
-  }
-
-  getButton(id: string): boolean {
-    return this.buttons.find(item => item.getId() === id) !== undefined
+    this.buttons.push(button)
   }
 
   protected showNode() {

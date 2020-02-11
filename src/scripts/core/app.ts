@@ -15,7 +15,6 @@ import {
 } from '../services'
 import { parseUrlParam, isExternalUrl, injectCss, mergeDeep, isFontLoaded, loadOpenSans } from './utils'
 import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
-import { ActionButtonWidgetType } from '../widgets/action-button-widget'
 
 export interface ChatConfig {
   [key: string]: any
@@ -54,10 +53,7 @@ export interface AppOptions {
   showFooter?: boolean
   initialElement?: InitialElement
   unreadCounter?: number
-  actionButtons?: {
-    id: string,
-    content: string,
-  }[]
+  actionButtons?: any[]
 }
 
 const appOptionsDefault = {
@@ -392,6 +388,10 @@ export class App {
           callback: () => {
             this.broadcast.fire('teaser.show.before')
 
+            if (this.actionButtonGroupWidget) {
+              this.actionButtonGroupWidget.show()
+            }
+
             this.wrapperWidget.addCls(config.wrapperTeaserIsOpenCls)
           },
         },
@@ -403,6 +403,10 @@ export class App {
           type: 'before:hide',
           callback: () => {
             this.wrapperWidget.removeCls(config.wrapperTeaserIsOpenCls)
+
+            if (this.actionButtonGroupWidget) {
+              this.actionButtonGroupWidget.hide()
+            }
 
             this.broadcast.fire('teaser.hide.before')
           },
@@ -435,7 +439,11 @@ export class App {
 
     if (this.options.actionButtons.length > 0) {
       this.options.actionButtons.forEach(item => {
-        this.actionButtonGroupWidget.addButton(item)
+        this.actionButtonGroupWidget.addButton({
+          ...item,
+          locale: this.options.locale,
+          app: this,
+        })
       })
     }
   }
@@ -459,6 +467,7 @@ export class App {
       showTeaserAfter,
       hideTeaserAfter,
       theme,
+      actionButtons
     } = this.chatConfig
     const { locale } = this.options
 
@@ -480,6 +489,10 @@ export class App {
 
     if (theme && theme in AppTheme) {
       this.options.theme = theme
+    }
+
+    if (actionButtons) {
+      this.options.actionButtons = actionButtons
     }
   }
 
@@ -544,9 +557,47 @@ export class App {
     return this.options.initialElement
   }
 
-  triggerElement(options: WebchatServiceTriggerOptions) {
-    if (this.webchatService) {
-      this.webchatService.triggerElement(options)
+  triggerElement(options: {
+    successor: string,
+    showChatbox?: boolean,
+    suppressInitialElement?: boolean,
+  }) {
+    const config = {
+      showChatbox: true,
+      suppressInitialElement: true,
+      ...options,
+    }
+
+    if (!this.isReady()) {
+      this.getBroadcast().once('ready', () => {
+        setTimeout(() => {
+          this.webchatService.triggerElement({
+            successor: options.successor,
+          })
+        }, 250)
+      })
+
+      if (config.suppressInitialElement) {
+        this.setInitialElement({
+          suppress: true,
+        })
+      }
+
+      if (config.showChatbox) {
+        this.getChatboxWidget().show()
+      } else {
+        this.loadChat()
+      }
+    }
+
+    if (this.isReady()) {
+      if (!this.getChatboxWidget().isVisible() && config.showChatbox) {
+        this.getChatboxWidget().show()
+      }
+
+      this.webchatService.triggerElement({
+        successor: options.successor,
+      })
     }
   }
 
