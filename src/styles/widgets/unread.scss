@@ -1,6 +1,6 @@
 .ds-unread {
   position: fixed;
-  bottom: 60px;
+  bottom: 63px;
   border-radius: 50%;
   background-color: var(--unread-bg-color);
   color: #fff;
@@ -16,24 +16,24 @@
 }
 
 .ds-wrapper--pr .ds-unread {
-  right: 25px;
+  right: 20px;
 }
 
 .ds-wrapper--pl .ds-unread {
-  left: 25px;
+  left: 20px;
 }
 
 @media (max-width: 576px) {
   .ds-wrapper {
     &--pl {
       .ds-teaser {
-        left: 15px;
+        left: 10px;
       }
     }
 
     &--pr {
       .ds-teaser {
-        right: 15px;
+        right: 10px;
       }
     }
   }
