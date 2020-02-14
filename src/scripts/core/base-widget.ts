@@ -8,6 +8,8 @@ export interface BaseWidgetOptions extends ObservableOptions {
   content?: string | number
 }
 
+export type BaseWidgetDisplayMode = 'block' | 'flex'
+
 export class BaseWidget extends Observable {
   private visible = true
   private baseCls = ''
@@ -17,6 +19,7 @@ export class BaseWidget extends Observable {
   private contentElem: HTMLElement
   private content: string | number
   private destroyed = false
+  private displayMode: BaseWidgetDisplayMode = 'block'
 
   constructor(options: BaseWidgetOptions) {
     super({ events: options.events })
@@ -30,7 +33,7 @@ export class BaseWidget extends Observable {
 
   protected showNode() {
     const boxElem = this.getBoxElem()
-    boxElem.style.display = 'block'
+    boxElem.style.display = this.getDisplayMode()
 
     setTimeout(() => {
       boxElem.style.opacity = '1'
@@ -50,6 +53,10 @@ export class BaseWidget extends Observable {
 
   isVisible(): boolean {
     return this.visible
+  }
+
+  getDisplayMode(): BaseWidgetDisplayMode {
+    return this.displayMode
   }
 
   getBaseCls(): string {
