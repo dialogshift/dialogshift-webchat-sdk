@@ -10,7 +10,7 @@
   border-radius: var(--teaser-border-radius);
   padding: var(--teaser-padding);
   box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: auto;
 
   &__cross {
     position: absolute;
