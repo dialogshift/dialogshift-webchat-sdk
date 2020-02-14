@@ -14,7 +14,7 @@
   box-sizing: border-box;
   margin-bottom: 10px;
   transition: transform .15s ease;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: auto;
 
   &:hover {
     transform: scale(1.1);
