@@ -11,9 +11,8 @@ import {
 import {
   ApiService,
   WebchatService,
-  WebchatServiceTriggerOptions,
 } from '../services'
-import { parseUrlParam, isExternalUrl, injectCss, mergeDeep, isFontLoaded, loadOpenSans } from './utils'
+import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
 import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
 
 export interface ChatConfig {
@@ -162,10 +161,6 @@ export class App {
   }
 
   private render() {
-    if (!isFontLoaded('Open Sans')) {
-      loadOpenSans()
-    }
-
     this.renderWrapperWidget()
     const contentWrapperNode = this.renderContentWrapper()
 
