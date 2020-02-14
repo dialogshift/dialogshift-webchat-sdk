@@ -1,5 +1,5 @@
 import { EventHandler } from './event-emitter'
-import { App, ChatPosition, InitialElement, AppTheme } from './app'
+import { App, ChatPosition, InitialElement, AppTheme, Visitor, ChatConfig } from './app'
 
 export const createFacade = (instance: App) => {
   return {
@@ -59,6 +59,14 @@ export const createFacade = (instance: App) => {
       instance.getWrapperWidget().setTheme(theme)
     },
 
+    showActionButtons() {
+      instance.getActionButtonGroupWidget().show()
+    },
+
+    hideActionButtons() {
+      instance.getActionButtonGroupWidget().hide()
+    },
+
     getContext(key: string): Promise<any> {
       return instance.getContext(key)
     },
@@ -67,11 +75,11 @@ export const createFacade = (instance: App) => {
       return instance.setContext(key, value)
     },
 
-    getVisitor() {
+    getVisitor(): Visitor {
       return instance.getVisitor()
     },
 
-    getConfig() {
+    getConfig(): ChatConfig {
       return instance.getConfig()
     },
 
@@ -84,47 +92,11 @@ export const createFacade = (instance: App) => {
     },
 
     triggerElement(options: {
-      successor: string
-      showChatbox?: boolean
+      successor: string,
+      showChatbox?: boolean,
       suppressInitialElement?: boolean,
     }) {
-      const config = {
-        showChatbox: true,
-        suppressInitialElement: true,
-        ...options,
-      }
-
-      if (!this.isReady()) {
-        this.once('ready', () => {
-          setTimeout(() => {
-            instance.triggerElement({
-              successor: options.successor,
-            })
-          },         250)
-        })
-
-        if (config.suppressInitialElement) {
-          this.setInitialElement({
-            suppress: true,
-          })
-        }
-
-        if (config.showChatbox) {
-          this.showChatbox()
-        } else {
-          instance.loadChat()
-        }
-      }
-
-      if (this.isReady()) {
-        if (!this.isChatboxVisible() && config.showChatbox) {
-          this.showChatbox()
-        }
-
-        instance.triggerElement({
-          successor: options.successor,
-        })
-      }
+      instance.triggerElement(options)
     },
 
     setInitialElement(options: InitialElement) {
@@ -148,7 +120,7 @@ export const createFacade = (instance: App) => {
       return instance.isDestroyed()
     },
 
-    isReady() {
+    isReady(): boolean {
       return instance.isReady()
     },
   }

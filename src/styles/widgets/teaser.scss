@@ -1,8 +1,5 @@
 .ds-teaser {
-  bottom: calc(15px + 60px + 25px);
-  position: fixed;
-  max-width: 260px;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.3s ease;
   font-size: var(--teaser-font-size);
   line-height: var(--teaser-line-height);
   font-family: var(--font-family);
@@ -11,7 +8,7 @@
   background-color: var(--teaser-bg-color);
   border-radius: var(--teaser-border-radius);
   padding: var(--teaser-padding);
-  z-index: 20;
+  box-sizing: border-box;
 
   &__cross {
     position: absolute;
@@ -26,7 +23,7 @@
     background-repeat: no-repeat;
     background-position: center;
     opacity: 0;
-    transition: background-color 0.25s ease;
+    transition: background-color 0.25s ease, opacity 0.15s ease;
     cursor: pointer;
 
     &:hover {
@@ -37,36 +34,6 @@
   &:hover {
     .ds-teaser__cross {
       opacity: 1;
-    }
-  }
-}
-
-.ds-wrapper--pr .ds-teaser {
-  right: 20px;
-  border-bottom-right-radius: 8px;
-}
-
-.ds-wrapper--pl .ds-teaser {
-  left: 20px;
-  border-bottom-left-radius: 8px;
-}
-
-@media (max-width: 576px) {
-  .ds-wrapper {
-    .ds-teaser {
-      max-width: 200px;
-    }
-
-    &--pl {
-      .ds-teaser {
-        left: 15px;
-      }
-    }
-
-    &--pr {
-      .ds-teaser {
-        right: 15px;
-      }
     }
   }
 }

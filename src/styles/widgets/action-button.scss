@@ -1,0 +1,32 @@
+.ds-action-button {
+  font-size: var(--action-button-font-size);
+  line-height: var(--action-button-line-height);
+  font-family: var(--font-family);
+  background-color: var(--action-button-bg-color);
+  border-radius: var(--action-button-border-radius);
+  padding: var(--action-button-padding);
+  color: var(--action-button-color);
+  box-shadow: var(--action-button-box-shadow);
+  border: var(--action-button-border);
+  transition: opacity 0.25s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  transition: transform .15s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(1);
+  }
+}
+
+.ds-wrapper--pr .ds-action-button {
+  margin-left: 10px;
+}
+
+.ds-wrapper--pl .ds-action-button {
+  margin-right: 10px;
+}

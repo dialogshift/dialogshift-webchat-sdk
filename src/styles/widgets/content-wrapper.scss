@@ -1,0 +1,35 @@
+.ds-content-wrapper {
+  position: fixed;
+  max-width: 300px;
+  bottom: calc(15px + 60px + 25px);
+  z-index: 20;
+  right: 20px;
+}
+
+.ds-wrapper--pr .ds-content-wrapper {
+  right: 20px;
+}
+
+.ds-wrapper--pl .ds-content-wrapper {
+  left: 20px;
+}
+
+@media (max-width: 576px) {
+  .ds-wrapper {
+    .ds-content-wrapper {
+      max-width: 250px;
+    }
+
+    &--pl {
+      .ds-content-wrapper {
+        left: 15px;
+      }
+    }
+
+    &--pr {
+      .ds-content-wrapper {
+        right: 15px;
+      }
+    }
+  }
+}
