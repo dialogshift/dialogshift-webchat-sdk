@@ -2,6 +2,7 @@
   font-size: var(--action-button-font-size);
   line-height: var(--action-button-line-height);
   font-family: var(--font-family);
+  font-weight: 400;
   background-color: var(--action-button-bg-color);
   border-radius: var(--action-button-border-radius);
   padding: var(--action-button-padding);
@@ -13,6 +14,7 @@
   box-sizing: border-box;
   margin-bottom: 10px;
   transition: transform .15s ease;
+  -webkit-font-smoothing: auto;
 
   &:hover {
     transform: scale(1.1);
