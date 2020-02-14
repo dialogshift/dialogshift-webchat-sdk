@@ -3,12 +3,14 @@
   font-size: var(--teaser-font-size);
   line-height: var(--teaser-line-height);
   font-family: var(--font-family);
+  font-weight: 400;
   cursor: pointer;
   box-shadow: var(--teaser-box-shadow);
   background-color: var(--teaser-bg-color);
   border-radius: var(--teaser-border-radius);
   padding: var(--teaser-padding);
   box-sizing: border-box;
+  -webkit-font-smoothing: auto;
 
   &__cross {
     position: absolute;

@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'Open Sans';
+  src: local('Open Sans'),
+    local('OpenSans'),
+    url('https://assets.dialogshift.com/dialogshift-media/fonts/open-sans/opensans.woff2') format('woff2'),
+    url('https://assets.dialogshift.com/dialogshift-media/fonts/open-sans/opensans.woff') format('woff'),
+    url('https://assets.dialogshift.com/dialogshift-media/fonts/open-sans/opensans.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: local('Open Sans'),
+    local('OpenSans'),
+    url('https://assets.dialogshift.com/dialogshift-media/fonts/open-sans/opensanssemibold.woff2') format('woff2'),
+    url('https://assets.dialogshift.com/dialogshift-media/fonts/open-sans/opensanssemibold.woff') format('woff'),
+    url('https://assets.dialogshift.com/dialogshift-media/fonts/open-sans/opensanssemibold.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
