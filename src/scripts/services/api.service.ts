@@ -1,5 +1,6 @@
 import { HttpService } from './'
 import { config } from '../config/config'
+import { MixedObject } from '../types'
 
 export class ApiService {
   private getTransport() {
@@ -7,7 +8,7 @@ export class ApiService {
   }
 
   getEndpoint(): string {
-    return (config as any).env.apiEndpoint
+    return (config as MixedObject).env.apiEndpoint
   }
 
   setContext(visitorId: string, key: string, value: any): Promise<Response> {
