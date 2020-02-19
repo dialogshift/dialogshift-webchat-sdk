@@ -14,10 +14,7 @@ import {
 } from '../services'
 import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
 import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
-
-export interface ChatConfig {
-  [key: string]: any
-}
+import { MixedObject } from '../types'
 
 export interface Visitor {
   id: string
@@ -52,7 +49,7 @@ export interface AppOptions {
   showFooter?: boolean
   initialElement?: InitialElement
   unreadCounter?: number
-  actionButtons?: any[]
+  actionButtons?: MixedObject[]
 }
 
 const appOptionsDefault = {
@@ -86,7 +83,7 @@ export enum ActionEventName {
 export interface ActionEvent {
   type: ActionEventType
   name: string
-  payload: { [key: string]: any }
+  payload: MixedObject
 }
 
 export class App {
@@ -102,7 +99,7 @@ export class App {
   private visitor: Visitor
   private apiService: ApiService
   private webchatService: WebchatService
-  private chatConfig: ChatConfig
+  private chatConfig: MixedObject
   private destroyed = false
   private ready = false
 
@@ -176,7 +173,9 @@ export class App {
   }
 
   private afterRender() {
-    const { showTeaserAfter, hideTeaserAfter } = this.chatConfig
+    const {
+      showTeaserAfter, hideTeaserAfter,
+    } = this.chatConfig
 
     if (showTeaserAfter) {
       setTimeout(() => {
@@ -195,7 +194,7 @@ export class App {
 
   private bindEvents() {
     window.addEventListener('message', event => {
-      if (event.origin === (config as any).env.iframeHost) {
+      if (event.origin === (config as MixedObject).env.iframeHost) {
         const message = event.data as ActionEvent
 
         if (message.type === ActionEventType.message) {
@@ -219,7 +218,7 @@ export class App {
     })
   }
 
-  private proceedActionEvent(message: any) {
+  private proceedActionEvent(message: MixedObject) {
     if (message.name === ActionEventName.userReady) {
       this.visitor = { id: message.payload.id }
     }
@@ -251,10 +250,6 @@ export class App {
 
             this.teaserWidget.hide()
 
-            if (this.actionButtonGroupWidget) {
-              this.actionButtonGroupWidget.hide()
-            }
-
             if (this.unreadWidget) {
               this.unreadWidget.reset()
             }
@@ -281,10 +276,6 @@ export class App {
 
             if (this.options.isTeaserVisible) {
               this.teaserWidget.show()
-            }
-
-            if (this.actionButtonGroupWidget) {
-              this.actionButtonGroupWidget.show()
             }
 
             this.buttonWidget.setState('default')
@@ -359,7 +350,7 @@ export class App {
 
   private createIframeWidget() {
     this.iframeWidget = new IframeWidget({
-      host: (config as any).env.iframeHost,
+      host: (config as MixedObject).env.iframeHost,
       id: this.options.id,
       initialElement: this.options.initialElement,
       locale: this.options.locale,
@@ -429,7 +420,7 @@ export class App {
   private renderActionButtons(parentNode: HTMLElement) {
     this.actionButtonGroupWidget = new ActionButtonGroupWidget({
       renderTo: parentNode,
-      visible: this.options.actionButtons.length > 0,
+      visible: this.options.actionButtons.length > 0 && this.options.isTeaserVisible,
     })
 
     if (this.options.actionButtons.length > 0) {
@@ -443,8 +434,8 @@ export class App {
     }
   }
 
-  private loadConfig(): Promise<ChatConfig> {
-    return this.apiService.getConfig(this.options.id).then((data: any) => {
+  private loadConfig(): Promise<MixedObject> {
+    return this.apiService.getConfig(this.options.id).then((data: MixedObject) => {
       this.chatConfig = data
 
       if (data.websiteElementCss) {
@@ -531,7 +522,7 @@ export class App {
     return this.visitor
   }
 
-  getConfig(): ChatConfig {
+  getConfig(): MixedObject {
     return this.chatConfig
   }
 
