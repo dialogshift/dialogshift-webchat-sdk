@@ -2,6 +2,7 @@ import { BaseWidgetOptions, BaseWidget, BaseWidgetDisplayMode } from '../core/ba
 import { config } from '../config/config'
 import { ActionButtonWidget } from './action-button-widget'
 import { ActionButton } from '../models'
+import { MixedObject } from '../types'
 
 export class ActionButtonGroupWidget extends BaseWidget {
   private buttons: ActionButtonWidget[] = []
@@ -18,7 +19,7 @@ export class ActionButtonGroupWidget extends BaseWidget {
     return 'flex'
   }
 
-  addButton(options: { [key: string]: any }) {
+  addButton(options: MixedObject) {
     const button = new ActionButtonWidget({
       locale: options.locale,
       actionButton: ActionButton.fromJson(options),
