@@ -1,10 +1,12 @@
+import { MixedObject } from '../types'
+
 export interface WebchatServiceOptions {
   targetWindow: HTMLIFrameElement
 }
 
 export interface WebchatServiceTriggerOptions {
   successor?: string
-  payload?: { [key: string]: any }
+  payload?: MixedObject
 }
 
 export class WebchatService {

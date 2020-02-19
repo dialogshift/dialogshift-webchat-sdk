@@ -1,3 +1,5 @@
+import { MixedObject } from '../types'
+
 export class HttpService {
   private static processError(response): Promise<any> {
     if (response.status >= 200 && response.status < 300) {
@@ -17,7 +19,7 @@ export class HttpService {
       .then(this.processJson)
   }
 
-  static postRequest(url: string, data: any = {}): Promise<Response> {
+  static postRequest(url: string, data: MixedObject = {}): Promise<Response> {
     return fetch(url, {
       method: 'POST',
       headers: {
