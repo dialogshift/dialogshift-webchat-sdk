@@ -441,7 +441,7 @@ Returns current initial element.
 Dialogshift.instance().getInitialElement()
 ```
 
-#### setTheme(): InitialElement
+#### setTheme(theme: AppTheme): InitialElement
 
 Set an UI theme.
 
