@@ -133,6 +133,7 @@ Creates new one chat instance or returns previously created instance. Returns si
 | teaserText?       | string            | Text for attention grabber.                                                                                        |
 | initialElement?   | string            | Trigers initial message.                                                                                           |
 | unreadCounter?    | number            | Amount of unread messages.                                                                                         |
+| theme?    | 'round' \| 'tile'            | UI theme. Defaults to `round`.                                                                                        |
 
 First time initialization.
 
@@ -392,8 +393,7 @@ Dialogshift.instance().increaseUnreadCounter()
 Returns chat config created in [Member Area](https://member.dialogshift.com/#/app/configuration).
 
 ```javascript
-const visitor = Dialogshift.instance().getVisitor()
-console.log(visitor.id) // 958fb68a593c4b5a98eca3af6178590a
+const config = Dialogshift.instance().getConfig()
 ```
 
 #### triggerElement(options: TriggerElementOptions)
@@ -440,6 +440,21 @@ Returns current initial element.
 ```javascript
 Dialogshift.instance().getInitialElement()
 ```
+
+#### setTheme(): InitialElement
+
+Set an UI theme.
+
+```javascript
+Dialogshift.instance().setTheme('tile')
+```
+
+`AppTheme`
+
+| Name      | Type    | Description                                                    |
+| --------- | ------- | -------------------------------------------------------------- |
+| round | string  | UI theme                                     |
+| tile  | string | UI theme |
 
 #### isReady(): boolean
 
