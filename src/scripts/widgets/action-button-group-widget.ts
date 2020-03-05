@@ -30,6 +30,10 @@ export class ActionButtonGroupWidget extends BaseWidget {
     this.buttons.push(button)
   }
 
+  clearButtons() {
+    this.buttons.forEach((item: ActionButtonWidget) => item.destroy())
+  }
+
   protected showNode() {
     const boxElem = this.getBoxElem()
 
