@@ -68,6 +68,10 @@ export const createFacade = (instance: App) => {
       instance.getActionButtonGroupWidget().hide()
     },
 
+    setActionButtons(buttons: MixedObject[]) {
+      instance.setActionButtons(buttons)
+    },
+
     getContext(key: string): Promise<any> {
       return instance.getContext(key)
     },

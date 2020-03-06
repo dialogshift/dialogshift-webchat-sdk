@@ -623,4 +623,16 @@ export class App {
       this.iframeWidget.load()
     }
   }
+
+  setActionButtons(buttons: MixedObject) {
+    this.actionButtonGroupWidget.clearButtons()
+
+    buttons.forEach(item => {
+      this.actionButtonGroupWidget.addButton({
+        ...item,
+        locale: this.options.locale,
+        app: this,
+      })
+    })
+  }
 }
