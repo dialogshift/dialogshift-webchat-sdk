@@ -134,7 +134,7 @@ Creates new one chat instance or returns previously created instance. Returns si
 | initialElement?   | string            | Trigers initial message.                                                                                           |
 | unreadCounter?    | number            | Amount of unread messages.                                                                                         |
 | theme?            | 'round' \| 'tile' | UI theme. Defaults to `round`.                                                                                        |
-| actionButtons?    | []ActionButton      | Action button options                                                                                         |
+| actionButtons?    | ActionButton[]    | Action button options.                                                                                         |
 
 First time initialization.
 
@@ -482,6 +482,15 @@ Dialogshift.instance().setActionButtons([{
 }])
 ```
 
+`ActionButton`
+
+| Name      | Type    | Description                                                    |
+| --------- | ------- | -------------------------------------------------------------- |
+| type | string | Type of action. Possible values `quickreply`.                                      |
+| successor  | string | Message to trigger |
+| de  | object | Button title for DE locale |
+| en  | object | Button title for EN locale |
+
 #### showActionButtons()
 
 Show action buttons.
@@ -497,15 +506,6 @@ Hide action buttons.
 ```javascript
 Dialogshift.instance().hideActionButtons()
 ```
-
-`ActionButton`
-
-| Name      | Type    | Description                                                    |
-| --------- | ------- | -------------------------------------------------------------- |
-| type | string | Type of action. Possible values `quickreply`.                                      |
-| successor  | string | Message to trigger |
-| de  | object | Button title for DE locale |
-| en  | object | Button title for EN locale |
 
 ## Events <a name = "events"></a>
 
