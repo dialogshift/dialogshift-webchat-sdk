@@ -133,7 +133,8 @@ Creates new one chat instance or returns previously created instance. Returns si
 | teaserText?       | string            | Text for attention grabber.                                                                                        |
 | initialElement?   | string            | Trigers initial message.                                                                                           |
 | unreadCounter?    | number            | Amount of unread messages.                                                                                         |
-| theme?    | 'round' \| 'tile'            | UI theme. Defaults to `round`.                                                                                        |
+| theme?            | 'round' \| 'tile' | UI theme. Defaults to `round`.                                                                                        |
+| actionButtons?    | []ActionButton      | Action button options                                                                                         |
 
 First time initialization.
 
@@ -463,6 +464,48 @@ Returns `true` if chat is fully loaded and ready to communicate.
 ```javascript
 Dialogshift.instance().isReady()
 ```
+
+#### setActionButtons(buttons: ActionButton[])
+
+Remove current action buttons and render new.
+
+```javascript
+Dialogshift.instance().setActionButtons([{
+  type: 'quickreply',
+  successor: 'welcome-back',
+  de: {
+    title: 'Welcome back',
+  },
+  en: {
+    title: 'Welcome back',
+  },
+}])
+```
+
+#### showActionButtons()
+
+Show action buttons.
+
+```javascript
+Dialogshift.instance().showActionButtons()
+```
+
+#### hideActionButtons()
+
+Hide action buttons.
+
+```javascript
+Dialogshift.instance().hideActionButtons()
+```
+
+`ActionButton`
+
+| Name      | Type    | Description                                                    |
+| --------- | ------- | -------------------------------------------------------------- |
+| type | string | Type of action. Possible values `quickreply`.                                      |
+| successor  | string | Message to trigger |
+| de  | object | Button title for DE locale |
+| en  | object | Button title for EN locale |
 
 ## Events <a name = "events"></a>
 
