@@ -1,11 +1,7 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
-import { ActionButton } from '../models'
+import { ActionButton, ActionButtonType } from '../models'
 import { App } from '../core/app'
-
-export enum ActionButtonWidgetType {
-  quickreply = 'quickreply',
-}
 
 export interface ActionButtonWidgetOptions extends BaseWidgetOptions {
   actionButton: ActionButton
@@ -25,11 +21,20 @@ export class ActionButtonWidget extends BaseWidget {
   }
 
   private bindEvents() {
-    this.getBoxElem().addEventListener('click', () => {
-      this.app.triggerElement({
-        successor: this.actionButton.getSuccessor(),
+    if (this.actionButton.getType() === ActionButtonType.quickreply) {
+      this.getBoxElem().addEventListener('click', () => {
+        this.app.triggerElement({
+          successor: this.actionButton.getSuccessor(),
+        })
       })
-    })
+    }
+
+    if (this.actionButton.getType() === ActionButtonType.callback) {
+      this.getBoxElem().addEventListener('click', () => {
+        const callback = this.actionButton.getCallback()
+        callback()
+      })
+    }
   }
 
   render() {
