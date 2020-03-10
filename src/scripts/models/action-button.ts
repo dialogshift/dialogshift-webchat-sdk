@@ -2,6 +2,7 @@ import { MixedObject } from '../types'
 
 export enum ActionButtonType {
   quickreply = 'quickreply',
+  callback = 'callback',
 }
 
 export class ActionButton {
@@ -12,11 +13,16 @@ export class ActionButton {
       title: string,
     },
   }
+  private callback: Function
 
   constructor(options: MixedObject) {
     this.type = options.type
     this.successor = options.successor
     this.l10n = options.l10n
+
+    if (options.callback) {
+      this.callback = options.callback
+    }
   }
 
   static fromJson(json: MixedObject): ActionButton {
@@ -36,6 +42,14 @@ export class ActionButton {
   getSuccessor(): string {
     return this.successor
   }
+
+  getType(): ActionButtonType {
+    return this.type
+  }
+
+  getCallback(): Function {
+    return this.callback
+  }
 }
 
 export class ActionButtonNormalizer {
@@ -52,6 +66,10 @@ export class ActionButtonNormalizer {
 
     if (data.de) {
       result.l10n.de = data.de
+    }
+
+    if (data.callback) {
+      result.callback = data.callback
     }
 
     return result
