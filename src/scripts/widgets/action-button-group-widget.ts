@@ -40,7 +40,7 @@ export class ActionButtonGroupWidget extends BaseWidget {
     boxElem.style.display = this.getDisplayMode()
 
     setTimeout(() => {
-      boxElem.style.maxHeight = '100px'
+      boxElem.style.maxHeight = '147px'
     })
 
     setTimeout(() => {
