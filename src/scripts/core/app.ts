@@ -176,7 +176,7 @@ export class App {
 
   private afterRender() {
     const {
-      showTeaserAfter, hideTeaserAfter, showTeaserOnce
+      showTeaserAfter, hideTeaserAfter,
     } = this.chatConfig
 
     if (showTeaserAfter) {
