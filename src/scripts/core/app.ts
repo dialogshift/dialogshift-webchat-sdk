@@ -43,6 +43,7 @@ export interface AppOptions {
   isChatboxVisible?: boolean
   isButtonVisible?: boolean
   isTeaserVisible?: boolean
+  showTeaserOnce?: boolean
   renderButton?: boolean
   buttonText?: string
   teaserText?: string
@@ -59,6 +60,7 @@ const appOptionsDefault = {
   isChatboxVisible: false,
   isButtonVisible: true,
   isTeaserVisible: false,
+  showTeaserOnce: false,
   renderButton: true,
   showFooter: true,
   initialElement: {
@@ -365,6 +367,7 @@ export class App {
 
   private renderTeaserWidget(parentNode: HTMLElement) {
     this.teaserWidget = new TeaserWidget({
+      showTeaserOnce: this.chatConfig.showTeaserOnce,
       renderTo: parentNode,
       content: this.options.teaserText,
       visible: this.options.isTeaserVisible,
