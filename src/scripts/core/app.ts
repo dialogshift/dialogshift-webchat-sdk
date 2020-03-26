@@ -343,6 +343,7 @@ export class App {
       renderTo: document.body,
       position: this.options.position,
       theme: this.options.theme,
+      direction: this.options.locale === 'ar' ? 'rtl' : 'ltr',
     })
 
     if (!this.options.renderButton) {
