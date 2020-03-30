@@ -6,6 +6,7 @@ export const config = {
   wrapperTeaserIsOpenCls: 'ds-wrapper--teaser-opened',
   wrapperPositionLeftCls: 'ds-wrapper--pl',
   wrapperPositionRightCls: 'ds-wrapper--pr',
+  wrapperDirectionRtlCls: 'ds-wrapper--rtl',
 
   buttonCls: 'ds-button',
   buttonLogoCls: 'ds-button--logo',
