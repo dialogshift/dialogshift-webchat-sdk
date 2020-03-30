@@ -54,19 +54,18 @@ export class ActionButton {
 
 export class ActionButtonNormalizer {
   static normalize(data: MixedObject): MixedObject {
+    const locales = ['en', 'de', 'fr', 'it', 'ru', 'ar']
     const result: MixedObject = {
       type: data.type,
       successor: data.successor,
       l10n: {},
     }
 
-    if (data.en) {
-      result.l10n.en = data.en
-    }
-
-    if (data.de) {
-      result.l10n.de = data.de
-    }
+    locales.forEach((locale: string) => {
+      if (data.hasOwnProperty(locale)) {
+        result.l10n[locale] = data[locale]
+      }
+    })
 
     if (data.callback) {
       result.callback = data.callback
