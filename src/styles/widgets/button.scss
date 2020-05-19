@@ -6,7 +6,7 @@
   border-radius: 30px;
   cursor: pointer;
   transition: background-color 0.25s ease, opacity 0.25s;
-  box-shadow: rgba(0,0,0,0.2) 0px 1px 6px 1px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 6px 1px;
   position: fixed;
   bottom: 20px;
   z-index: 20;
@@ -114,8 +114,33 @@
     position: fixed;
     top: 0;
     right: 0;
-    background-color: transparent;
     box-shadow: none;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(85, 85, 85, 0.6) !important;
+    background-size: 18px;
+
+    &:before {
+      opacity: 0;
+      transform: rotate(30deg) scale(0);
+    }
+
+    &:after {
+      opacity: 1;
+      transform: rotate(0);
+      width: 36px;
+      height: 36px;
+    }
+
+    .ds-button__content {
+      display: none;
+    }
+
+    &.ds-button--with-text {
+      padding-left: 0;
+      padding-right: 0;
+      width: 36px;
+    }
   }
 
   .ds-button--active:before {
