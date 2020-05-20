@@ -49,6 +49,8 @@
     font-size: 18px;
     color: #fff;
     font-weight: 400;
+    font-family: var(--font-family);
+    -webkit-font-smoothing: auto;
   }
 
   &--active {
