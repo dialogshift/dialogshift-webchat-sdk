@@ -472,6 +472,11 @@ export class App {
         injectCss(data.websiteElementCss)
       }
 
+      if (this.chatConfig.defaultLg) {
+        this.chatConfig.defaultLocale = this.chatConfig.defaultLg
+        delete this.chatConfig.defaultLg
+      }
+
       return this.chatConfig
     })
   }
