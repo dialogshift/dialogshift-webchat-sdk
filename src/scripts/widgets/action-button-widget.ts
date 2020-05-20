@@ -17,7 +17,13 @@ export class ActionButtonWidget extends BaseWidget {
   constructor(options: ActionButtonWidgetOptions) {
     super(options)
 
-    this.setContent(this.actionButton.getTitle(this.locale))
+    let title = this.actionButton.getTitle(this.locale)
+
+    if (!title) {
+      title = 'Button'
+    }
+
+    this.setContent(title)
   }
 
   private bindEvents() {
