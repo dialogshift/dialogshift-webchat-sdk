@@ -37,6 +37,7 @@ export interface InitialElement {
 
 export interface AppOptions {
   id: string
+
   locale?: string
   position?: ChatPosition
   theme?: AppTheme
@@ -45,12 +46,9 @@ export interface AppOptions {
   isTeaserVisible?: boolean
   showTeaserOnce?: boolean
   renderButton?: boolean
-  buttonText?: string
-  teaserText?: string
   showFooter?: boolean
   initialElement?: InitialElement
   unreadCounter?: number
-  actionButtons?: MixedObject[]
 }
 
 const appOptionsDefault = {
@@ -68,7 +66,6 @@ const appOptionsDefault = {
     suppress: false,
   },
   unreadCounter: 0,
-  actionButtons: [],
 }
 
 export enum ActionEventType {
@@ -305,8 +302,21 @@ export class App {
   }
 
   private renderButtonWidget() {
+    const { locale } = this.options
+    const { buttonText, defaultLocale } = this.chatConfig
+
+    let content = ''
+
+    if (buttonText) {
+      if (buttonText[locale]) {
+        content = buttonText[locale]
+      } else if (defaultLocale && buttonText[defaultLocale]) {
+        content = buttonText[defaultLocale]
+      }
+    }
+
     this.buttonWidget = new ButtonWidget({
-      content: this.options.buttonText,
+      content,
       renderTo: this.wrapperWidget.getBoxElem(),
       visible: this.options.isButtonVisible,
       events: [
@@ -367,10 +377,23 @@ export class App {
   }
 
   private renderTeaserWidget(parentNode: HTMLElement) {
+    const { locale } = this.options
+    const { teaserText, defaultLocale } = this.chatConfig
+
+    let content = 'Do you need a help?'
+
+    if (teaserText) {
+      if (teaserText[locale]) {
+        content = teaserText[locale]
+      } else if (defaultLocale && teaserText[defaultLocale]) {
+        content = teaserText[defaultLocale]
+      }
+    }
+
     this.teaserWidget = new TeaserWidget({
+      content,
       showTeaserOnce: this.chatConfig.showTeaserOnce,
       renderTo: parentNode,
-      content: this.options.teaserText,
       visible: this.options.isTeaserVisible,
       events: [
         {
@@ -422,16 +445,19 @@ export class App {
   }
 
   private renderActionButtons(parentNode: HTMLElement) {
+    const { actionButtons } = this.chatConfig
+
     this.actionButtonGroupWidget = new ActionButtonGroupWidget({
       renderTo: parentNode,
-      visible: this.options.actionButtons.length > 0 && this.options.isTeaserVisible,
+      visible: (actionButtons && actionButtons.length > 0) && this.options.isTeaserVisible,
     })
 
-    if (this.options.actionButtons.length > 0) {
-      this.options.actionButtons.forEach(item => {
+    if (actionButtons && actionButtons.length > 0) {
+      actionButtons.forEach((item: MixedObject) => {
         this.actionButtonGroupWidget.addButton({
           ...item,
           locale: this.options.locale,
+          defaultLocale: this.chatConfig.defaultLocale,
           app: this,
         })
       })
@@ -446,24 +472,22 @@ export class App {
         injectCss(data.websiteElementCss)
       }
 
+      if (this.chatConfig.defaultLg) {
+        this.chatConfig.defaultLocale = this.chatConfig.defaultLg
+        delete this.chatConfig.defaultLg
+      }
+
       return this.chatConfig
     })
   }
 
   private applyConfig() {
     const {
-      teaserText,
       setUnreadCounter,
       showTeaserAfter,
       hideTeaserAfter,
       theme,
-      actionButtons,
     } = this.chatConfig
-    const { locale } = this.options
-
-    if (teaserText && teaserText[locale]) {
-      this.options.teaserText = teaserText[locale]
-    }
 
     if (setUnreadCounter) {
       this.options.unreadCounter = setUnreadCounter
@@ -479,10 +503,6 @@ export class App {
 
     if (theme && theme in AppTheme) {
       this.options.theme = theme
-    }
-
-    if (actionButtons) {
-      this.options.actionButtons = actionButtons
     }
   }
 
@@ -604,6 +624,7 @@ export class App {
     this.iframeWidget.destroy()
     this.chatboxWidget.destroy()
     this.wrapperWidget.destroy()
+    this.actionButtonGroupWidget.destroy()
 
     this.broadcast.fire('destroy')
 
