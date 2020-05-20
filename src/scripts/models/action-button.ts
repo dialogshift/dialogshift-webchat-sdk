@@ -14,6 +14,7 @@ export class ActionButton {
     },
   }
   private callback: Function
+  private defaultLocale?: string
 
   constructor(options: MixedObject) {
     this.type = options.type
@@ -23,6 +24,10 @@ export class ActionButton {
     if (options.callback) {
       this.callback = options.callback
     }
+
+    if (options.defaultLocale) {
+      this.defaultLocale = options.defaultLocale
+    }
   }
 
   static fromJson(json: MixedObject): ActionButton {
@@ -31,12 +36,16 @@ export class ActionButton {
     return new ActionButton(normalizedData)
   }
 
-  getTitle(locale: string): string {
+  getTitle(locale: string): string | null {
     if (this.l10n[locale]) {
       return this.l10n[locale].title
     }
 
-    return ''
+    if (this.l10n[this.defaultLocale]) {
+      return this.l10n[this.defaultLocale].title
+    }
+
+    return null
   }
 
   getSuccessor(): string {
@@ -69,6 +78,10 @@ export class ActionButtonNormalizer {
 
     if (data.callback) {
       result.callback = data.callback
+    }
+
+    if (data.defaultLocale) {
+      result.defaultLocale = data.defaultLocale
     }
 
     return result
