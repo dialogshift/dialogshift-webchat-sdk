@@ -129,12 +129,9 @@ Creates new one chat instance or returns previously created instance. Returns si
 | isButtonVisible?  | boolean           | Show toggle button if `true`. Defaults to `true`.                                                                  |
 | renderButton?     | boolean           | Render toggle button if `true`. If button is not rendered show or hide it later is impossible. Defaults to `true`. |
 | isTeaserVisible?  | boolean           | Show attention grabber button if `true`. Defaults to `false`.                                                      |
-| buttonText?       | string            | Text for toggle button. If text is setted icon and text render at same time. Defaults to no text.                  |
-| teaserText?       | string            | Text for attention grabber.                                                                                        |
 | initialElement?   | string            | Trigers initial message.                                                                                           |
 | unreadCounter?    | number            | Amount of unread messages.                                                                                         |
 | theme?            | 'round' \| 'tile' | UI theme. Defaults to `round`.                                                                                        |
-| actionButtons?    | ActionButton[]    | Action button options.                                                                                         |
 
 First time initialization.
 
@@ -144,8 +141,6 @@ const client = Dialogshift.instance({
   locale: 'de',
   position: 'left',
   isTeaserVisible: true,
-  buttonText: 'Help',
-  teaserText: '👋🏻 Hi, can I help you?',
   initialElement: 'welcome-message'
   unreadCounter: 2,
 })
