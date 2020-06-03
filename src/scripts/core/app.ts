@@ -569,7 +569,7 @@ export class App {
   setInitialElement(initialElement: InitialElement) {
     const mergedInitialElement = mergeDeep(
       this.options.initialElement,
-      initialElement
+      initialElement,
     )
 
     this.options.initialElement = mergedInitialElement
@@ -586,7 +586,7 @@ export class App {
   triggerElement(options: {
     successor: string
     showChatbox?: boolean
-    suppressInitialElement?: boolean
+    suppressInitialElement?: boolean,
   }) {
     const config = {
       showChatbox: true,
