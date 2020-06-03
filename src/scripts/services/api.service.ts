@@ -31,7 +31,7 @@ export class ApiService {
       .getRequest(
         `${this.getEndpoint()}/config/context/${visitorId}/${variable}`,
       )
-      .then(response => {
+      .then((response: any) => {
         return response[variable] ? response[variable] : null
       })
   }
