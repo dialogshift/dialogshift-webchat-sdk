@@ -396,6 +396,7 @@ export class App {
     this.teaserWidget = new TeaserWidget({
       content,
       showTeaserOnce: this.chatConfig.showTeaserOnce,
+      hideTeaserAfterTimes: this.chatConfig.hideTeaserAfterTimes,
       renderTo: parentNode,
       visible: this.options.isTeaserVisible,
       events: [
@@ -568,7 +569,7 @@ export class App {
   setInitialElement(initialElement: InitialElement) {
     const mergedInitialElement = mergeDeep(
       this.options.initialElement,
-      initialElement,
+      initialElement
     )
 
     this.options.initialElement = mergedInitialElement
@@ -583,9 +584,9 @@ export class App {
   }
 
   triggerElement(options: {
-    successor: string,
-    showChatbox?: boolean,
-    suppressInitialElement?: boolean,
+    successor: string
+    showChatbox?: boolean
+    suppressInitialElement?: boolean
   }) {
     const config = {
       showChatbox: true,
