@@ -472,7 +472,7 @@ export class App {
 
   private loadConfig(): Promise<MixedObject> {
     const visitor = JSON.parse(CookieService.get('visitor'))
-    let visitorId = null
+    let visitorId: string
 
     if (visitor && visitor.id) {
       visitorId = visitor.id
