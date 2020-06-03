@@ -8,10 +8,7 @@ import {
   TeaserWidget,
   UnreadWidget,
 } from '../widgets/index'
-import {
-  ApiService,
-  WebchatService,
-} from '../services'
+import { ApiService, WebchatService, CookieService } from '../services'
 import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
 import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
 import { MixedObject } from '../types'
@@ -173,9 +170,7 @@ export class App {
   }
 
   private afterRender() {
-    const {
-      showTeaserAfter, hideTeaserAfter,
-    } = this.chatConfig
+    const { showTeaserAfter, hideTeaserAfter } = this.chatConfig
 
     if (showTeaserAfter) {
       setTimeout(() => {
@@ -193,7 +188,7 @@ export class App {
   }
 
   private bindEvents() {
-    window.addEventListener('message', event => {
+    window.addEventListener('message', (event) => {
       if (event.origin === (config as MixedObject).env.iframeHost) {
         const message = event.data as ActionEvent
 
@@ -221,6 +216,8 @@ export class App {
   private proceedActionEvent(message: MixedObject) {
     if (message.name === ActionEventName.userReady) {
       this.visitor = { id: message.payload.id }
+
+      CookieService.set('visitor', JSON.stringify(this.visitor))
     }
 
     if (message.name === ActionEventName.tabOpen) {
@@ -328,7 +325,7 @@ export class App {
       events: [
         {
           type: 'toggle',
-          callback: event => {
+          callback: (event) => {
             event.data.isPressed
               ? this.chatboxWidget.show()
               : this.chatboxWidget.hide()
@@ -455,7 +452,10 @@ export class App {
 
     this.actionButtonGroupWidget = new ActionButtonGroupWidget({
       renderTo: parentNode,
-      visible: (actionButtons && actionButtons.length > 0) && this.options.isTeaserVisible,
+      visible:
+        actionButtons &&
+        actionButtons.length > 0 &&
+        this.options.isTeaserVisible,
     })
 
     if (actionButtons && actionButtons.length > 0) {
@@ -471,20 +471,29 @@ export class App {
   }
 
   private loadConfig(): Promise<MixedObject> {
-    return this.apiService.getConfig(this.options.id).then((data: MixedObject) => {
-      this.chatConfig = data
+    const visitor = JSON.parse(CookieService.get('visitor'))
+    let visitorId = null
 
-      if (data.websiteElementCss) {
-        injectCss(data.websiteElementCss)
-      }
+    if (visitor && visitor.id) {
+      visitorId = visitor.id
+    }
 
-      if (this.chatConfig.defaultLg) {
-        this.chatConfig.defaultLocale = this.chatConfig.defaultLg
-        delete this.chatConfig.defaultLg
-      }
+    return this.apiService
+      .getConfig(this.options.id, visitorId)
+      .then((data: MixedObject) => {
+        this.chatConfig = data
 
-      return this.chatConfig
-    })
+        if (data.websiteElementCss) {
+          injectCss(data.websiteElementCss)
+        }
+
+        if (this.chatConfig.defaultLg) {
+          this.chatConfig.defaultLocale = this.chatConfig.defaultLg
+          delete this.chatConfig.defaultLg
+        }
+
+        return this.chatConfig
+      })
   }
 
   private applyConfig() {
@@ -559,7 +568,7 @@ export class App {
   setInitialElement(initialElement: InitialElement) {
     const mergedInitialElement = mergeDeep(
       this.options.initialElement,
-      initialElement,
+      initialElement
     )
 
     this.options.initialElement = mergedInitialElement
@@ -574,9 +583,9 @@ export class App {
   }
 
   triggerElement(options: {
-    successor: string,
-    showChatbox?: boolean,
-    suppressInitialElement?: boolean,
+    successor: string
+    showChatbox?: boolean
+    suppressInitialElement?: boolean
   }) {
     const config = {
       showChatbox: true,
@@ -658,7 +667,7 @@ export class App {
   setActionButtons(buttons: MixedObject) {
     this.actionButtonGroupWidget.clearButtons()
 
-    buttons.forEach(item => {
+    buttons.forEach((item) => {
       this.actionButtonGroupWidget.addButton({
         ...item,
         locale: this.options.locale,
