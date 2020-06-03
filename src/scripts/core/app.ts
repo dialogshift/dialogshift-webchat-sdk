@@ -188,7 +188,7 @@ export class App {
   }
 
   private bindEvents() {
-    window.addEventListener('message', (event) => {
+    window.addEventListener('message', (event: MixedObject) => {
       if (event.origin === (config as MixedObject).env.iframeHost) {
         const message = event.data as ActionEvent
 
@@ -325,7 +325,7 @@ export class App {
       events: [
         {
           type: 'toggle',
-          callback: (event) => {
+          callback: (event: MixedObject) => {
             event.data.isPressed
               ? this.chatboxWidget.show()
               : this.chatboxWidget.hide()
@@ -568,7 +568,7 @@ export class App {
   setInitialElement(initialElement: InitialElement) {
     const mergedInitialElement = mergeDeep(
       this.options.initialElement,
-      initialElement
+      initialElement,
     )
 
     this.options.initialElement = mergedInitialElement
@@ -583,9 +583,9 @@ export class App {
   }
 
   triggerElement(options: {
-    successor: string
-    showChatbox?: boolean
-    suppressInitialElement?: boolean
+    successor: string,
+    showChatbox?: boolean,
+    suppressInitialElement?: boolean,
   }) {
     const config = {
       showChatbox: true,
@@ -667,7 +667,7 @@ export class App {
   setActionButtons(buttons: MixedObject) {
     this.actionButtonGroupWidget.clearButtons()
 
-    buttons.forEach((item) => {
+    buttons.forEach((item: MixedObject) => {
       this.actionButtonGroupWidget.addButton({
         ...item,
         locale: this.options.locale,
