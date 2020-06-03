@@ -36,7 +36,7 @@ export class ApiService {
       })
   }
 
-  getConfig(clientId: string, customerId: 'null'): Promise<Response> {
+  getConfig(clientId: string, customerId: 'none'): Promise<Response> {
     return this.getTransport().getRequest(
       `${this.getEndpoint()}/config/webapp/${clientId}/${customerId}`,
     )
