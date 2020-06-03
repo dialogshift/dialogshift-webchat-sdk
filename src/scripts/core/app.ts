@@ -77,6 +77,7 @@ export enum ActionEventType {
 export enum ActionEventName {
   userReady = 'user.ready',
   tabOpen = 'tab.open',
+  setTeaserText = 'set.teaser.text',
 }
 
 export interface ActionEvent {
@@ -235,6 +236,11 @@ export class App {
       if (message.payload.urlType === 'openNewTab') {
         window.open(url, '_blank')
       }
+    }
+
+    if (message.name === ActionEventName.setTeaserText) {
+      this.getTeaserWidget().setContent(message.payload.text)
+      // this.getTeaserWidget().show()
     }
   }
 
