@@ -187,6 +187,9 @@ export class App {
     }
 
     if (CookieService.get('keep-chat-open') !== null) {
+      this.setInitialElement({
+        suppress: true,
+      })
       this.loadChat()
     }
   }
