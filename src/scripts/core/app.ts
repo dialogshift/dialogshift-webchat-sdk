@@ -383,7 +383,7 @@ export class App {
     const { locale } = this.options
     const { teaserText, defaultLocale } = this.chatConfig
 
-    let content = 'Do you need a help?'
+    let content = 'Can I help you?'
 
     if (teaserText) {
       if (teaserText[locale]) {
