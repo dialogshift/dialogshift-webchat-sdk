@@ -185,6 +185,10 @@ export class App {
         this.teaserWidget.hide()
       }, hideTeaserAfter * 1000)
     }
+
+    if (CookieService.get('keep-chat-open') !== null) {
+      this.loadChat()
+    }
   }
 
   private bindEvents() {
@@ -209,6 +213,16 @@ export class App {
     this.broadcast.on('message.receive', (event: Event) => {
       if (!this.chatboxWidget.isVisible() && !event.data.fromHistory) {
         this.unreadWidget.increase(1)
+      }
+    })
+
+    this.broadcast.on('command.receive', event => {
+      const commandModel = event.data
+
+      if (this.chatConfig.keepChatOpenDuringLivechat) {
+        if (commandModel.commandType === 'livechat' && commandModel.action === 'start') {
+          CookieService.set('keep-chat-open', 'true')
+        }
       }
     })
   }
