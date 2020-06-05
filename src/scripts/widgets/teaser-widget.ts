@@ -53,7 +53,12 @@ export class TeaserWidget extends BaseWidget {
     return true
   }
 
-  show(): void {
+  show(options= { force: false }): void {
+    if (options.force) {
+      super.show()
+      return
+    }
+
     if (!this.checkTimes()) {
       return
     }
