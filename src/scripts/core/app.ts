@@ -186,7 +186,7 @@ export class App {
       }, hideTeaserAfter * 1000)
     }
 
-    if (CookieService.get('keep-chat-open') !== null) {
+    if (CookieService.get('keep-chat-open') === 'true') {
       this.setInitialElement({
         suppress: true,
       })
@@ -222,9 +222,14 @@ export class App {
     this.broadcast.on('command.receive', event => {
       const commandModel = event.data
 
-      if (this.chatConfig.keepChatOpenDuringLivechat) {
-        if (commandModel.commandType === 'livechat' && commandModel.action === 'start') {
+      if (commandModel.commandType === 'livechat') {
+        if (commandModel.action === 'start' && this.chatConfig.keepChatOpenDuringLivechat) {
           CookieService.set('keep-chat-open', 'true')
+        }
+
+        if (commandModel.action === 'end') {
+          console.log('remove')
+          CookieService.set('keep-chat-open', 'false')
         }
       }
     })
