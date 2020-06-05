@@ -259,7 +259,9 @@ export class App {
 
     if (message.name === ActionEventName.setTeaserText) {
       this.getTeaserWidget().setContent(message.payload.text)
-      // this.getTeaserWidget().show()
+      this.getTeaserWidget().show({
+        force: true,
+      })
     }
   }
 
