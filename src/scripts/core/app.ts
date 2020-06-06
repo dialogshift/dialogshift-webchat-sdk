@@ -8,10 +8,7 @@ import {
   TeaserWidget,
   UnreadWidget,
 } from '../widgets/index'
-import {
-  ApiService,
-  WebchatService,
-} from '../services'
+import { ApiService, WebchatService, CookieService } from '../services'
 import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
 import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
 import { MixedObject } from '../types'
@@ -77,6 +74,7 @@ export enum ActionEventType {
 export enum ActionEventName {
   userReady = 'user.ready',
   tabOpen = 'tab.open',
+  setTeaserText = 'set.teaser.text',
 }
 
 export interface ActionEvent {
@@ -172,9 +170,7 @@ export class App {
   }
 
   private afterRender() {
-    const {
-      showTeaserAfter, hideTeaserAfter,
-    } = this.chatConfig
+    const { showTeaserAfter, hideTeaserAfter } = this.chatConfig
 
     if (showTeaserAfter) {
       setTimeout(() => {
@@ -189,10 +185,17 @@ export class App {
         this.teaserWidget.hide()
       }, hideTeaserAfter * 1000)
     }
+
+    if (CookieService.get('keep-chat-open') === 'true') {
+      this.setInitialElement({
+        suppress: true,
+      })
+      this.loadChat()
+    }
   }
 
   private bindEvents() {
-    window.addEventListener('message', event => {
+    window.addEventListener('message', (event: MixedObject) => {
       if (event.origin === (config as MixedObject).env.iframeHost) {
         const message = event.data as ActionEvent
 
@@ -215,11 +218,27 @@ export class App {
         this.unreadWidget.increase(1)
       }
     })
+
+    this.broadcast.on('command.receive', event => {
+      const commandModel = event.data
+
+      if (commandModel.commandType === 'livechat') {
+        if (commandModel.action === 'start' && this.chatConfig.keepChatOpenDuringLivechat) {
+          CookieService.set('keep-chat-open', 'true')
+        }
+
+        if (commandModel.action === 'end') {
+          CookieService.set('keep-chat-open', 'false')
+        }
+      }
+    })
   }
 
   private proceedActionEvent(message: MixedObject) {
     if (message.name === ActionEventName.userReady) {
       this.visitor = { id: message.payload.id }
+
+      CookieService.set('visitor', JSON.stringify(this.visitor))
     }
 
     if (message.name === ActionEventName.tabOpen) {
@@ -235,6 +254,13 @@ export class App {
       if (message.payload.urlType === 'openNewTab') {
         window.open(url, '_blank')
       }
+    }
+
+    if (message.name === ActionEventName.setTeaserText) {
+      this.getTeaserWidget().setContent(message.payload.text)
+      this.getTeaserWidget().show({
+        force: true,
+      })
     }
   }
 
@@ -322,7 +348,7 @@ export class App {
       events: [
         {
           type: 'toggle',
-          callback: event => {
+          callback: (event: MixedObject) => {
             event.data.isPressed
               ? this.chatboxWidget.show()
               : this.chatboxWidget.hide()
@@ -380,7 +406,7 @@ export class App {
     const { locale } = this.options
     const { teaserText, defaultLocale } = this.chatConfig
 
-    let content = 'Do you need a help?'
+    let content = 'Can I help you?'
 
     if (teaserText) {
       if (teaserText[locale]) {
@@ -393,6 +419,7 @@ export class App {
     this.teaserWidget = new TeaserWidget({
       content,
       showTeaserOnce: this.chatConfig.showTeaserOnce,
+      hideTeaserAfterTimes: this.chatConfig.hideTeaserAfterTimes,
       renderTo: parentNode,
       visible: this.options.isTeaserVisible,
       events: [
@@ -449,7 +476,10 @@ export class App {
 
     this.actionButtonGroupWidget = new ActionButtonGroupWidget({
       renderTo: parentNode,
-      visible: (actionButtons && actionButtons.length > 0) && this.options.isTeaserVisible,
+      visible:
+        actionButtons &&
+        actionButtons.length > 0 &&
+        this.options.isTeaserVisible,
     })
 
     if (actionButtons && actionButtons.length > 0) {
@@ -465,20 +495,29 @@ export class App {
   }
 
   private loadConfig(): Promise<MixedObject> {
-    return this.apiService.getConfig(this.options.id).then((data: MixedObject) => {
-      this.chatConfig = data
+    const visitor = JSON.parse(CookieService.get('visitor'))
+    let visitorId: string
 
-      if (data.websiteElementCss) {
-        injectCss(data.websiteElementCss)
-      }
+    if (visitor && visitor.id) {
+      visitorId = visitor.id
+    }
 
-      if (this.chatConfig.defaultLg) {
-        this.chatConfig.defaultLocale = this.chatConfig.defaultLg
-        delete this.chatConfig.defaultLg
-      }
+    return this.apiService
+      .getConfig(this.options.id, visitorId)
+      .then((data: MixedObject) => {
+        this.chatConfig = data
 
-      return this.chatConfig
-    })
+        if (data.websiteElementCss) {
+          injectCss(data.websiteElementCss)
+        }
+
+        if (this.chatConfig.defaultLg) {
+          this.chatConfig.defaultLocale = this.chatConfig.defaultLg
+          delete this.chatConfig.defaultLg
+        }
+
+        return this.chatConfig
+      })
   }
 
   private applyConfig() {
@@ -568,8 +607,8 @@ export class App {
   }
 
   triggerElement(options: {
-    successor: string,
-    showChatbox?: boolean,
+    successor: string
+    showChatbox?: boolean
     suppressInitialElement?: boolean,
   }) {
     const config = {
@@ -652,7 +691,7 @@ export class App {
   setActionButtons(buttons: MixedObject) {
     this.actionButtonGroupWidget.clearButtons()
 
-    buttons.forEach(item => {
+    buttons.forEach((item: MixedObject) => {
       this.actionButtonGroupWidget.addButton({
         ...item,
         locale: this.options.locale,
