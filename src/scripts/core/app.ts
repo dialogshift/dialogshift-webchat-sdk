@@ -228,7 +228,6 @@ export class App {
         }
 
         if (commandModel.action === 'end') {
-          console.log('remove')
           CookieService.set('keep-chat-open', 'false')
         }
       }
@@ -527,6 +526,7 @@ export class App {
       showTeaserAfter,
       hideTeaserAfter,
       theme,
+      noCookieModeSdk,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -543,6 +543,10 @@ export class App {
 
     if (theme && theme in AppTheme) {
       this.options.theme = theme
+    }
+
+    if (noCookieModeSdk === true) {
+      CookieService.noCookieMode = true
     }
   }
 
