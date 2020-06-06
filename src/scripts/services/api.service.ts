@@ -31,14 +31,14 @@ export class ApiService {
       .getRequest(
         `${this.getEndpoint()}/config/context/${visitorId}/${variable}`,
       )
-      .then(response => {
+      .then((response: any) => {
         return response[variable] ? response[variable] : null
       })
   }
 
-  getConfig(clientId: string): Promise<Response> {
+  getConfig(clientId: string, customerId = 'none'): Promise<Response> {
     return this.getTransport().getRequest(
-      `${this.getEndpoint()}/config/webapp/${clientId}`,
+      `${this.getEndpoint()}/config/webapp/${clientId}/${customerId}`,
     )
   }
 }
