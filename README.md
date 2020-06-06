@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://www.dialogshift.com/static/redesign/img/vector/increase.svg" alt="Dialogshift Webchat SDK">
+ <img src="https://www.dialogshift.com/static/redesign/img/vector/increase.svg" alt="Dialogshift Webchat SDK" width="400">
 </p>
 
 # Dialogshift Webchat SDK
