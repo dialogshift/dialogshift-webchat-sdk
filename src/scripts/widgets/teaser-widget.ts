@@ -4,11 +4,13 @@ import { CookieService } from '../services/cookie.service'
 
 interface TeaserWidgetOptions extends BaseWidgetOptions {
   showTeaserOnce: boolean
+  hideTeaserAfterTimes: number
 }
 
 export class TeaserWidget extends BaseWidget {
   private crossElem: HTMLElement
   private showTeaserOnce: boolean
+  private hideTeaserAfterTimes: number
 
   constructor(options: TeaserWidgetOptions) {
     super(options)
@@ -29,7 +31,38 @@ export class TeaserWidget extends BaseWidget {
     super.render()
   }
 
-  show() {
+  checkTimes(): boolean {
+    if (this.hideTeaserAfterTimes === undefined) {
+      return true
+    }
+
+    let timesCounter = 0
+
+    if (CookieService.get('times-counter') !== null) {
+      timesCounter = parseInt(CookieService.get('times-counter'), 10)
+    }
+
+    timesCounter += 1
+
+    if (timesCounter > this.hideTeaserAfterTimes) {
+      return false
+    }
+
+    CookieService.set('times-counter', timesCounter)
+
+    return true
+  }
+
+  show(options= { force: false }): void {
+    if (options.force) {
+      super.show()
+      return
+    }
+
+    if (!this.checkTimes()) {
+      return
+    }
+
     if (this.showTeaserOnce && CookieService.get('teaser-display') !== null) {
       return
     }
@@ -40,7 +73,7 @@ export class TeaserWidget extends BaseWidget {
   }
 
   bindEvents() {
-    this.crossElem.addEventListener('click', event => {
+    this.crossElem.addEventListener('click', (event: MouseEvent) => {
       event.stopPropagation()
       this.hide()
     })
