@@ -191,6 +191,12 @@ export class App {
         suppress: true,
       })
       this.loadChat()
+
+      this.getBroadcast().once('ready', () => {
+        setTimeout(() => {
+          this.webchatService.setMinimized(true)
+        }, 250)
+      })
     }
   }
 
