@@ -1,6 +1,5 @@
 <p align="center">
-  <a href="" rel="noopener">
- <img src="https://www.dialogshift.com/static/v3/figma/Macbook-Mockup.png" alt="Dialogshift Webchat SDK"></a>
+ <img src="https://www.dialogshift.com/static/redesign/img/vector/increase.svg" alt="Dialogshift Webchat SDK">
 </p>
 
 # Dialogshift Webchat SDK
@@ -23,7 +22,7 @@ A client library for embed [Dialogshift](https://www.dialogshift.com/) webchat t
 
 ## About <a name = "about"></a>
 
-Dialogshift is a Conversational AI platform that helps businesses to improve the communication with their customers, enhance the customer experience and ultimately grow revenue through customer retention and automation.
+Dialogshift is a Conversational AI platform that helps businesses to improve communication with their customers, enhance the customer experience and ultimately grow revenue through customer retention and automation.
 
 Messaging is an intuitive communication tool and has the ability to bring brands much closer to their customers, increasing the engagement through more frequent 1:1 touchpoints.
 
@@ -35,7 +34,7 @@ SDK and chat workflow phases.
 
 #### Loading scripts
 
-Starts when js and css scripts are injected to a webpage.
+Starts when js and css scripts are injected into a webpage.
 After scripts are loaded SDK is waiting for initialization.
 
 #### SDK initialization
@@ -51,7 +50,7 @@ Starts when user calls `Dialogshift.instance(...options)` for the first time.
 Starts when chat window is manually or programmatically opened for the first time.
 
 1. SDK loads chat app inside iframe.
-2. Chat establishes connection with a message layer.
+2. Chat establishes a connection with a message layer.
 3. Chat loads message history and trigger an initial message if needs.
 4. Fires event `ready`.
 
@@ -116,7 +115,7 @@ Add the following code towards the end of `<body>` section of your page.
 
 #### instance(chatConfig config): ChatInstance
 
-Creates new one chat instance or returns previously created instance. Returns singleton instance.
+Creates a new one chat instance or returns previously created instance. Returns singleton instance.
 
 ##### `chatConfig`
 
@@ -629,7 +628,7 @@ client.on('command.receive', event => {
 
 | Name        | Type   | Description                                                                                                                       |
 | ----------- | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| commandType | string | Type of command. Possible values `url`, `setLanguage`, `typingIndicatorOn`,`typingIndicatorOff`, `livechat`,`log`, `actionBroker` |
+| commandType | string | Type of command. Possible values `url`, `setLanguage`, `typingIndicatorOn`,`typingIndicatorOff`, `livechat`,`log`, `actionBroker`, `setTeaserText` |
 
 CommandModel contains different fields correspond to commandType type.
 
