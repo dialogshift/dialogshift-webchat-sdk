@@ -628,7 +628,7 @@ client.on('command.receive', event => {
 
 | Name        | Type   | Description                                                                                                                       |
 | ----------- | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| commandType | string | Type of command. Possible values `url`, `setLanguage`, `typingIndicatorOn`,`typingIndicatorOff`, `livechat`,`log`, `actionBroker`, `setTeaserText` |
+| commandType | string | Type of command. Possible values `url`, `setLanguage`, `typingIndicatorOn`,`typingIndicatorOff`, `livechat`,`log`, `actionBroker`, `setTeaserText`. |
 
 CommandModel contains different fields correspond to commandType type.
 
