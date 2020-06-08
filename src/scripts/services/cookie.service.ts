@@ -1,4 +1,6 @@
 export class CookieService {
+  static noCookieMode = false
+
   static get(name: string): string | null {
     const arrcookies = document.cookie.split(';')
 
@@ -15,7 +17,11 @@ export class CookieService {
     return null
   }
 
-  static set(name: string, value: any, options: any = {}) {
+  static set(name: string, value: any, options: any = {}): void {
+    if (CookieService.noCookieMode) {
+      return
+    }
+
     let expires = options.expires
 
     if (typeof expires === 'number' && expires) {
