@@ -191,6 +191,12 @@ export class App {
         suppress: true,
       })
       this.loadChat()
+
+      this.getBroadcast().once('ready', () => {
+        setTimeout(() => {
+          this.webchatService.setMinimized(true)
+        }, 250)
+      })
     }
   }
 
@@ -526,6 +532,7 @@ export class App {
       showTeaserAfter,
       hideTeaserAfter,
       theme,
+      noCookieModeSdk,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -542,6 +549,10 @@ export class App {
 
     if (theme && theme in AppTheme) {
       this.options.theme = theme
+    }
+
+    if (noCookieModeSdk === true) {
+      CookieService.noCookieMode = true
     }
   }
 
