@@ -75,6 +75,8 @@ export enum ActionEventName {
   userReady = 'user.ready',
   tabOpen = 'tab.open',
   setTeaserText = 'set.teaser.text',
+  showChatbox = 'show.chatbox',
+  hideChatbox = 'hide.chatbox',
 }
 
 export interface ActionEvent {
@@ -267,6 +269,14 @@ export class App {
       this.getTeaserWidget().show({
         force: true,
       })
+    }
+
+    if (message.name === ActionEventName.showChatbox) {
+      this.getChatboxWidget().show()
+    }
+
+    if (message.name === ActionEventName.hideChatbox) {
+      this.getChatboxWidget().hide()
     }
   }
 
