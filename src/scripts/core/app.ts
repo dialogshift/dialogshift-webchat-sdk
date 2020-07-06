@@ -555,6 +555,7 @@ export class App {
       hideTeaserAfter,
       theme,
       noCookieModeSdk,
+      forgetCustomerAfterHours,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -575,6 +576,10 @@ export class App {
 
     if (noCookieModeSdk === true) {
       CookieService.noCookieMode = true
+    }
+
+    if (forgetCustomerAfterHours) {
+      UserService.updateCookieLifetime(forgetCustomerAfterHours)
     }
   }
 

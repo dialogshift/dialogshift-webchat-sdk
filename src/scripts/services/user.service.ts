@@ -1,8 +1,15 @@
-import { MixedObject } from '../types'
 import { ApiService, CookieService } from './'
 import { parseUrlParam } from '../core/utils'
 
 export class UserService {
+  static updateCookieLifetime(forgetCustomerAfterHours: number) {
+    const cookieUserId = CookieService.get('ds-custid')
+
+    CookieService.set('ds-custid', cookieUserId, {
+      expires: 3600 * forgetCustomerAfterHours,
+    })
+  }
+
   static touchUser(clientId: string, locale: string): Promise<string> {
     return new Promise((resolve: any) => {
       let source = 'pwa-embed'
