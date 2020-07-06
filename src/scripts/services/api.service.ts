@@ -3,15 +3,19 @@ import { config } from '../config/config'
 import { MixedObject } from '../types'
 
 export class ApiService {
-  private getTransport() {
+  static getTransport() {
     return HttpService
   }
 
-  getEndpoint(): string {
+  static getEndpoint(): string {
     return (config as MixedObject).env.apiEndpoint
   }
 
-  setContext(visitorId: string, key: string, value: any): Promise<Response> {
+  static setContext(
+    visitorId: string,
+    key: string,
+    value: any
+  ): Promise<Response> {
     const context = {}
     context[key] = value
 
@@ -20,25 +24,52 @@ export class ApiService {
       context: JSON.stringify(context),
     }
 
-    return this.getTransport().postRequest(
-      `${this.getEndpoint()}/config/context`,
-      data,
+    return ApiService.getTransport().postRequest(
+      `${ApiService.getEndpoint()}/config/context`,
+      data
     )
   }
 
-  getContext(visitorId: string, variable: string): Promise<Response> {
-    return this.getTransport()
+  static getContext(visitorId: string, variable: string): Promise<Response> {
+    return ApiService.getTransport()
       .getRequest(
-        `${this.getEndpoint()}/config/context/${visitorId}/${variable}`,
+        `${ApiService.getEndpoint()}/config/context/${visitorId}/${variable}`
       )
       .then((response: any) => {
         return response[variable] ? response[variable] : null
       })
   }
 
-  getConfig(clientId: string, customerId = 'none'): Promise<Response> {
-    return this.getTransport().getRequest(
-      `${this.getEndpoint()}/config/webapp/${clientId}/${customerId}`,
+  static getConfig(clientId: string, customerId = 'none'): Promise<Response> {
+    return ApiService.getTransport().getRequest(
+      `${ApiService.getEndpoint()}/config/webapp/${clientId}/${customerId}`
+    )
+  }
+
+  static createUser(options: {
+    clientId: string
+    source: string
+    locale: string
+  }): Promise<Response> {
+    return ApiService.getTransport().getRequest(
+      `${ApiService.getEndpoint()}/customer/v2/createnew/${options.source}/${
+        options.clientId
+      }/${options.locale}`
+    )
+  }
+
+  static validateUser(options: {
+    clientId: string
+    currentUserId: string
+    currentURL: string
+  }) {
+    return ApiService.getTransport().postRequest(
+      `${ApiService.getEndpoint()}/customer/validate`,
+      {
+        currentURL: options.currentURL,
+        clientid: options.clientId,
+        custid: options.currentUserId,
+      }
     )
   }
 }
