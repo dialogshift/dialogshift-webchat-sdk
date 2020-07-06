@@ -1,7 +1,7 @@
 export const parseUrlParam = (
   source: string,
   name: string,
-  defaultReturn: string | null = null
+  defaultReturn: string | null = null,
 ): string | null => {
   const url = new URL(source)
   const param = url.searchParams.get(name)
@@ -15,7 +15,7 @@ export const parseUrlParam = (
 
 export const isExternalUrl = (url: string): boolean => {
   const match = url.match(
-    /^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/
+    /^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/,
   )
   if (
     match != null &&
@@ -32,9 +32,9 @@ export const isExternalUrl = (url: string): boolean => {
     match[2].length > 0 &&
     match[2].replace(
       new RegExp(
-        `:( + { 'http:': 80, 'https:': 443 }[${location.protocol}] + )?$`
+        `:( + { 'http:': 80, 'https:': 443 }[${location.protocol}] + )?$`,
       ),
-      ''
+      '',
     ) !== location.host
   ) {
     return true
@@ -97,7 +97,7 @@ export const mergeDeep = <T, U>(target: T, source: U): (T & U) | ({} & T) => {
   const output = Object.assign({}, target)
 
   if (isObject(target) && isObject(source)) {
-    Object.keys(source).forEach((key) => {
+    Object.keys(source).forEach((key: any) => {
       if (isObject(source[key])) {
         if (!(key in target)) Object.assign(output, { [key]: source[key] })
         else output[key] = mergeDeep(target[key], source[key])
