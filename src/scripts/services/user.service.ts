@@ -7,7 +7,7 @@ export class UserService {
     return new Promise((resolve, reject) => {
       let source = 'pwa-embed'
       const currentUserId = CookieService.get('ds-custid')
-
+      console.log('touchUser', currentUserId)
       if (!clientId) {
         throw new Error('Client ID is undefined')
       }
