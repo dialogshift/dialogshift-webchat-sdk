@@ -4,7 +4,7 @@ import { parseUrlParam } from '../core/utils'
 
 export class UserService {
   static touchUser(clientId: string, locale: string): Promise<MixedObject> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: any) => {
       let source = 'pwa-embed'
       const currentUserId = CookieService.get('ds-custid')
       console.log('touchUser', currentUserId)
