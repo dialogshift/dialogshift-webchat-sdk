@@ -131,9 +131,8 @@ export class App {
     }
 
     UserService.touchUser(this.options.id, this.options.locale).then(
-      (user: MixedObject) => {
-        console.log('init', user)
-        this.currentUserId = user.custid
+      (currentUserId: string) => {
+        this.currentUserId = currentUserId
         this.loadConfig().then(() => {
           if (this.chatConfig.showWebsiteChat === false) {
             return
