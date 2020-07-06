@@ -145,7 +145,7 @@ export class App {
             this.broadcast.fire('init')
           }, 20)
         })
-      }
+      },
     )
   }
 
@@ -235,7 +235,7 @@ export class App {
       }
     })
 
-    this.broadcast.on('command.receive', (event) => {
+    this.broadcast.on('command.receive', (event: any) => {
       const commandModel = event.data
 
       if (commandModel.commandType === 'livechat') {
@@ -544,7 +544,7 @@ export class App {
         }
 
         return this.chatConfig
-      }
+      },
     )
   }
 
@@ -625,7 +625,7 @@ export class App {
   setInitialElement(initialElement: InitialElement) {
     const mergedInitialElement = mergeDeep(
       this.options.initialElement,
-      initialElement
+      initialElement,
     )
 
     this.options.initialElement = mergedInitialElement
@@ -642,7 +642,7 @@ export class App {
   triggerElement(options: {
     successor: string
     showChatbox?: boolean
-    suppressInitialElement?: boolean
+    suppressInitialElement?: boolean,
   }) {
     const config = {
       showChatbox: true,
