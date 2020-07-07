@@ -5,6 +5,7 @@ import { config } from '../config/config'
 interface IframeWidgetOptions extends BaseWidgetOptions {
   host: string
   id: string
+  currentUserId: string
   customerId?: string
   initialElement?: InitialElement
   locale?: string
@@ -13,6 +14,7 @@ interface IframeWidgetOptions extends BaseWidgetOptions {
 export class IframeWidget extends BaseWidget {
   private host: string
   private id: string
+  private currentUserId: string
   private customerId: string
   private loaded = false
   private initialElement: InitialElement = {
@@ -44,7 +46,7 @@ export class IframeWidget extends BaseWidget {
   }
 
   buildUrl(): string {
-    let iframeUrl = `${this.host}?clid=${this.id}`
+    let iframeUrl = `${this.host}?clid=${this.id}&custid=${this.currentUserId}`
 
     if (this.customerId) {
       iframeUrl += `&cid=${this.customerId}`

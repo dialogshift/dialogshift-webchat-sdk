@@ -22,27 +22,32 @@ export class CookieService {
       return
     }
 
-    let expires = options.expires
+    const params = {
+      samesite: 'lax',
+      ...options,
+    }
+
+    let expires = params.expires
 
     if (typeof expires === 'number' && expires) {
       const d = new Date()
 
       d.setTime(d.getTime() + expires * 1000)
-      expires = options.expires = d
+      expires = params.expires = d
     }
 
     if (expires && expires.toUTCString) {
-      options.expires = expires.toUTCString()
+      params.expires = expires.toUTCString()
     }
 
     const encodedValue = encodeURIComponent(value)
 
     let updatedCookie = `${name}=${encodedValue}`
 
-    for (const propName in options) {
+    for (const propName in params) {
       updatedCookie = `${updatedCookie}; ${propName}`
 
-      const propValue = options[propName]
+      const propValue = params[propName]
 
       if (propValue !== true) {
         updatedCookie = `${updatedCookie}=${propValue}`
