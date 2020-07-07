@@ -8,7 +8,12 @@ import {
   TeaserWidget,
   UnreadWidget,
 } from '../widgets/index'
-import { ApiService, WebchatService, CookieService } from '../services'
+import {
+  ApiService,
+  WebchatService,
+  CookieService,
+  UserService,
+} from '../services'
 import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
 import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
 import { MixedObject } from '../types'
@@ -101,6 +106,7 @@ export class App {
   private chatConfig: MixedObject
   private destroyed = false
   private ready = false
+  private currentUserId: string
 
   constructor(options: AppOptions) {
     if (!options) {
@@ -111,7 +117,6 @@ export class App {
       throw Error('Dialogshift app id is undefined.')
     }
 
-    this.apiService = new ApiService()
     this.options = mergeDeep(appOptionsDefault, options) as AppOptions
     this.broadcast = new EventEmitter()
 
@@ -125,20 +130,23 @@ export class App {
       this.options.isChatboxVisible = true
     }
 
-    this.loadConfig().then(() => {
-      if (this.chatConfig.showWebsiteChat === false) {
-        return
-      }
-
-      this.applyConfig()
-      this.render()
-      this.afterRender()
-      this.bindEvents()
-
-      setTimeout(() => {
-        this.broadcast.fire('init')
-      }, 20)
-    })
+    UserService.touchUser(this.options.id, this.options.locale).then(
+      (currentUserId: string) => {
+        this.currentUserId = currentUserId
+        this.loadConfig().then(() => {
+          if (this.chatConfig.showWebsiteChat === false) {
+            return
+          }
+          this.applyConfig()
+          this.render()
+          this.afterRender()
+          this.bindEvents()
+          setTimeout(() => {
+            this.broadcast.fire('init')
+          }, 20)
+        })
+      },
+    )
   }
 
   private initWebchatService() {
@@ -227,11 +235,14 @@ export class App {
       }
     })
 
-    this.broadcast.on('command.receive', event => {
+    this.broadcast.on('command.receive', (event: any) => {
       const commandModel = event.data
 
       if (commandModel.commandType === 'livechat') {
-        if (commandModel.action === 'start' && this.chatConfig.keepChatOpenDuringLivechat) {
+        if (
+          commandModel.action === 'start' &&
+          this.chatConfig.keepChatOpenDuringLivechat
+        ) {
           CookieService.set('keep-chat-open', 'true')
         }
 
@@ -407,6 +418,7 @@ export class App {
     this.iframeWidget = new IframeWidget({
       host: (config as MixedObject).env.iframeHost,
       id: this.options.id,
+      currentUserId: this.currentUserId,
       initialElement: this.options.initialElement,
       locale: this.options.locale,
       events: [
@@ -518,9 +530,8 @@ export class App {
       visitorId = visitor.id
     }
 
-    return this.apiService
-      .getConfig(this.options.id, visitorId)
-      .then((data: MixedObject) => {
+    return ApiService.getConfig(this.options.id, visitorId).then(
+      (data: MixedObject) => {
         this.chatConfig = data
 
         if (data.websiteElementCss) {
@@ -533,7 +544,8 @@ export class App {
         }
 
         return this.chatConfig
-      })
+      },
+    )
   }
 
   private applyConfig() {
@@ -543,6 +555,7 @@ export class App {
       hideTeaserAfter,
       theme,
       noCookieModeSdk,
+      forgetCustomerAfterHours,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -563,6 +576,10 @@ export class App {
 
     if (noCookieModeSdk === true) {
       CookieService.noCookieMode = true
+    }
+
+    if (forgetCustomerAfterHours) {
+      UserService.updateCookieLifetime(forgetCustomerAfterHours)
     }
   }
 
@@ -595,11 +612,11 @@ export class App {
   }
 
   getContext(key: string): Promise<any> {
-    return this.apiService.getContext(this.getVisitor().id, key)
+    return ApiService.getContext(this.getVisitor().id, key)
   }
 
   setContext(key: string, value: any): Promise<any> {
-    return this.apiService.setContext(this.getVisitor().id, key, value)
+    return ApiService.setContext(this.getVisitor().id, key, value)
   }
 
   getVisitor(): Visitor {
