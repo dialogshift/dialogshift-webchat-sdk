@@ -101,12 +101,10 @@ export class App {
   private actionButtonGroupWidget: ActionButtonGroupWidget
   private broadcast: EventEmitter
   private visitor: Visitor
-  private apiService: ApiService
   private webchatService: WebchatService
   private chatConfig: MixedObject
   private destroyed = false
   private ready = false
-  private currentUserId: string
 
   constructor(options: AppOptions) {
     if (!options) {
@@ -130,23 +128,18 @@ export class App {
       this.options.isChatboxVisible = true
     }
 
-    UserService.touchUser(this.options.id, this.options.locale).then(
-      (currentUserId: string) => {
-        this.currentUserId = currentUserId
-        this.loadConfig().then(() => {
-          if (this.chatConfig.showWebsiteChat === false) {
-            return
-          }
-          this.applyConfig()
-          this.render()
-          this.afterRender()
-          this.bindEvents()
-          setTimeout(() => {
-            this.broadcast.fire('init')
-          }, 20)
-        })
-      },
-    )
+    this.loadConfig().then(() => {
+      if (this.chatConfig.showWebsiteChat === false) {
+        return
+      }
+      this.applyConfig()
+      this.render()
+      this.afterRender()
+      this.bindEvents()
+      setTimeout(() => {
+        this.broadcast.fire('init')
+      }, 20)
+    })
   }
 
   private initWebchatService() {
@@ -418,7 +411,6 @@ export class App {
     this.iframeWidget = new IframeWidget({
       host: (config as MixedObject).env.iframeHost,
       id: this.options.id,
-      currentUserId: this.currentUserId,
       initialElement: this.options.initialElement,
       locale: this.options.locale,
       events: [
@@ -722,7 +714,10 @@ export class App {
     }
 
     if (!this.iframeWidget.isLoaded()) {
-      this.iframeWidget.load()
+      UserService.touchUser(
+        this.options.id,
+        this.options.locale,
+      ).then((currentUserId: string) => this.iframeWidget.load(currentUserId))
     }
   }
 
