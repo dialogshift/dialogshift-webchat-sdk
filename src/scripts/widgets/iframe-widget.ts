@@ -5,7 +5,6 @@ import { config } from '../config/config'
 interface IframeWidgetOptions extends BaseWidgetOptions {
   host: string
   id: string
-  currentUserId: string
   customerId?: string
   initialElement?: InitialElement
   locale?: string
@@ -67,7 +66,9 @@ export class IframeWidget extends BaseWidget {
     return iframeUrl
   }
 
-  load() {
+  load(currentUserId: string) {
+    this.currentUserId = currentUserId
+
     if (this.isRendered() && !this.loaded) {
       this.loaded = true
       this.getBoxElem().src = this.buildUrl()
