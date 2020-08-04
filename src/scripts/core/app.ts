@@ -13,6 +13,7 @@ import {
   WebchatService,
   CookieService,
   UserService,
+  AnalyticsService,
 } from '../services'
 import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
 import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
@@ -105,6 +106,7 @@ export class App {
   private chatConfig: MixedObject
   private destroyed = false
   private ready = false
+  private csrfToken: string
 
   constructor(options: AppOptions) {
     if (!options) {
@@ -173,7 +175,11 @@ export class App {
   }
 
   private afterRender() {
-    const { showTeaserAfter, hideTeaserAfter } = this.chatConfig
+    const {
+      showTeaserAfter,
+      hideTeaserAfter,
+      enableCSRFProtection,
+    } = this.chatConfig
 
     if (showTeaserAfter) {
       setTimeout(() => {
@@ -187,6 +193,12 @@ export class App {
       setTimeout(() => {
         this.teaserWidget.hide()
       }, hideTeaserAfter * 1000)
+    }
+
+    if (enableCSRFProtection) {
+      AnalyticsService.touchToken(this.options.id).then((token: string) => {
+        this.csrfToken = token
+      })
     }
 
     if (CookieService.get('keep-chat-open') === 'true') {
@@ -639,7 +651,7 @@ export class App {
   triggerElement(options: {
     successor: string
     showChatbox?: boolean
-    suppressInitialElement?: boolean,
+    suppressInitialElement?: boolean
   }) {
     const config = {
       showChatbox: true,
@@ -704,7 +716,7 @@ export class App {
     return this.destroyed
   }
 
-  isReady() {
+  isReady(): boolean {
     return !this.destroyed && this.ready
   }
 
@@ -717,6 +729,7 @@ export class App {
       UserService.touchUser(
         this.options.id,
         this.options.locale,
+        this.csrfToken,
       ).then((currentUserId: string) => this.iframeWidget.load(currentUserId))
     }
   }

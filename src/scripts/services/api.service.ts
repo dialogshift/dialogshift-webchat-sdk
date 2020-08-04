@@ -15,7 +15,7 @@ export class ApiService {
     visitorId: string,
     key: string,
     value: any,
-  ): Promise<Response> {
+  ): Promise<MixedObject | Error> {
     const context = {}
     context[key] = value
 
@@ -30,7 +30,7 @@ export class ApiService {
     )
   }
 
-  static getContext(visitorId: string, variable: string): Promise<Response> {
+  static getContext(visitorId: string, variable: string): Promise<MixedObject> {
     return ApiService.getTransport()
       .getRequest(
         `${ApiService.getEndpoint()}/config/context/${visitorId}/${variable}`,
@@ -40,7 +40,10 @@ export class ApiService {
       })
   }
 
-  static getConfig(clientId: string, customerId = 'none'): Promise<Response> {
+  static getConfig(
+    clientId: string,
+    customerId = 'none',
+  ): Promise<MixedObject> {
     return ApiService.getTransport().getRequest(
       `${ApiService.getEndpoint()}/config/webapp/${clientId}/${customerId}`,
     )
@@ -49,20 +52,25 @@ export class ApiService {
   static createUser(options: {
     clientId: string
     source: string
-    locale: string,
-  }): Promise<Response> {
-    return ApiService.getTransport().getRequest(
-      `${ApiService.getEndpoint()}/customer/v2/createnew/${options.source}/${
-        options.clientId
-      }/${options.locale}`,
-    )
+    locale: string
+    csrfToken?: string
+  }): Promise<MixedObject | Error> {
+    let url = `${ApiService.getEndpoint()}/customer/v2/createnew/${
+      options.source
+    }/${options.clientId}/${options.locale}`
+
+    if (options.csrfToken) {
+      url += `?csrftoken=${options.csrfToken}`
+    }
+
+    return ApiService.getTransport().getRequest(url)
   }
 
   static validateUser(options: {
     clientId: string
     currentUserId: string
-    currentURL: string,
-  }) {
+    currentURL: string
+  }): Promise<MixedObject> {
     return ApiService.getTransport().postRequest(
       `${ApiService.getEndpoint()}/customer/validate`,
       {
@@ -70,6 +78,24 @@ export class ApiService {
         clientid: options.clientId,
         custid: options.currentUserId,
       },
+    )
+  }
+
+  static createToken(options: {
+    clientId: string
+    csrftoken?: string
+  }): Promise<MixedObject> {
+    const data: MixedObject = {
+      clid: options.clientId,
+    }
+
+    if (options.csrftoken) {
+      data.csrftoken = options.csrftoken
+    }
+
+    return ApiService.getTransport().getRequest(
+      `${ApiService.getEndpoint()}/customer/csrf`,
+      data,
     )
   }
 }
