@@ -84,18 +84,15 @@ export class ApiService {
   static createToken(options: {
     clientId: string
     csrftoken?: string
-    is1280?: boolean
+    sec?: string
   }): Promise<MixedObject> {
     const data: MixedObject = {
       clid: options.clientId,
+      sec: options.sec,
     }
 
     if (options.csrftoken) {
       data.csrftoken = options.csrftoken
-    }
-
-    if (options.is1280) {
-      data.sec = 'MTI4MA'
     }
 
     return ApiService.getTransport().getRequest(
