@@ -134,14 +134,25 @@ export class App {
       if (this.chatConfig.showWebsiteChat === false) {
         return
       }
-      this.applyConfig()
-      this.render()
-      this.afterRender()
-      this.bindEvents()
-      setTimeout(() => {
-        this.broadcast.fire('init')
-      }, 20)
+
+      if (this.chatConfig.enableCSRFProtection) {
+        AnalyticsService.touchToken(this.options.id).then((token: string) => {
+          this.csrfToken = token
+          this.afterInit()
+        })
+      } else {
+        this.afterInit()
+      }
     })
+  }
+
+  private afterInit() {
+    this.render()
+    this.afterRender()
+    this.bindEvents()
+    setTimeout(() => {
+      this.broadcast.fire('init')
+    }, 20)
   }
 
   private initWebchatService() {
@@ -193,12 +204,6 @@ export class App {
       setTimeout(() => {
         this.teaserWidget.hide()
       }, hideTeaserAfter * 1000)
-    }
-
-    if (enableCSRFProtection) {
-      AnalyticsService.touchToken(this.options.id).then((token: string) => {
-        this.csrfToken = token
-      })
     }
 
     if (CookieService.get('keep-chat-open') === 'true') {
@@ -546,6 +551,8 @@ export class App {
           this.chatConfig.defaultLocale = this.chatConfig.defaultLg
           delete this.chatConfig.defaultLg
         }
+
+        this.applyConfig()
 
         return this.chatConfig
       },
