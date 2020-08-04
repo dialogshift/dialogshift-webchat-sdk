@@ -7,7 +7,7 @@ export class AnalyticsService {
   static touchToken(clientId: string): Promise<string> {
     return new Promise((resolve: any) => {
       const csrftoken = CookieService.get(csrfCookieName)
-      const is1280 = window.screen.width === 1280 ? true : false
+      const sec = btoa(window.screen.width.toString())
 
       if (csrftoken) {
         resolve(csrftoken)
@@ -16,7 +16,7 @@ export class AnalyticsService {
       ApiService.createToken({
         clientId,
         csrftoken,
-        is1280,
+        sec,
       }).then((response: MixedObject) => {
         if (!csrftoken) {
           CookieService.set(csrfCookieName, response.csrftoken, {
