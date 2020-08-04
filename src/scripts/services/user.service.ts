@@ -10,7 +10,11 @@ export class UserService {
     })
   }
 
-  static touchUser(clientId: string, locale: string): Promise<string> {
+  static touchUser(
+    clientId: string,
+    locale: string,
+    csrfToken?: string,
+  ): Promise<string> {
     return new Promise((resolve: any) => {
       let source = 'pwa-embed'
       const currentUserId = CookieService.get('ds-custid')
@@ -31,6 +35,7 @@ export class UserService {
           clientId,
           source,
           locale,
+          csrfToken,
         }).then((data: any) => {
           CookieService.set('ds-custid', data.custid, {
             expires: 86400 * 90, // 90 days
@@ -45,22 +50,24 @@ export class UserService {
           clientId,
           currentUserId,
           currentURL,
-        }).then(() => {
-          resolve(currentUserId)
         })
-        .catch(() => {
-          ApiService.createUser({
-            clientId,
-            source,
-            locale,
-          }).then((data: any) => {
-            CookieService.set('ds-custid', data.custid, {
-              expires: 86400 * 90, // 90 days
-            })
-
-            resolve(data.custid)
+          .then(() => {
+            resolve(currentUserId)
           })
-        })
+          .catch(() => {
+            ApiService.createUser({
+              clientId,
+              source,
+              locale,
+              csrfToken,
+            }).then((data: any) => {
+              CookieService.set('ds-custid', data.custid, {
+                expires: 86400 * 90, // 90 days
+              })
+
+              resolve(data.custid)
+            })
+          })
       }
     })
   }
