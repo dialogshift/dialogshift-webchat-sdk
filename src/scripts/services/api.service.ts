@@ -12,7 +12,7 @@ export class ApiService {
   }
 
   static setContext(
-    visitorId: string,
+    customerId: string,
     key: string,
     value: any,
   ): Promise<MixedObject | Error> {
@@ -20,7 +20,7 @@ export class ApiService {
     context[key] = value
 
     const data = {
-      custid: visitorId,
+      custid: customerId,
       context: JSON.stringify(context),
     }
 
@@ -30,10 +30,13 @@ export class ApiService {
     )
   }
 
-  static getContext(visitorId: string, variable: string): Promise<MixedObject> {
+  static getContext(
+    customerId: string,
+    variable: string,
+  ): Promise<MixedObject> {
     return ApiService.getTransport()
       .getRequest(
-        `${ApiService.getEndpoint()}/config/context/${visitorId}/${variable}`,
+        `${ApiService.getEndpoint()}/config/context/${customerId}/${variable}`,
       )
       .then((response: any) => {
         return response[variable] ? response[variable] : null

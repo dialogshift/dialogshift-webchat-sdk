@@ -1,13 +1,24 @@
 import { ApiService, CookieService } from './'
 import { parseUrlParam } from '../core/utils'
 
-export class UserService {
-  static updateCookieLifetime(forgetCustomerAfterHours: number) {
-    const cookieUserId = CookieService.get('ds-custid')
+const customerIdCookieName = 'ds-custid'
 
-    CookieService.set('ds-custid', cookieUserId, {
-      expires: 3600 * forgetCustomerAfterHours,
+export class UserService {
+  static getCustomerId(): string | null {
+    return CookieService.get(customerIdCookieName)
+  }
+
+  static setCustomerId(id: string, expires?: number) {
+    CookieService.set(customerIdCookieName, id, {
+      expires: expires ? expires : 86400 * 90, // 90 days
     })
+  }
+
+  static updateCookieLifetime(forgetCustomerAfterHours: number) {
+    UserService.setCustomerId(
+      UserService.getCustomerId(),
+      3600 * forgetCustomerAfterHours,
+    )
   }
 
   static touchUser(
@@ -17,7 +28,7 @@ export class UserService {
   ): Promise<string> {
     return new Promise((resolve: any) => {
       let source = 'pwa-embed'
-      const currentUserId = CookieService.get('ds-custid')
+      const currentUserId = CookieService.get(customerIdCookieName)
 
       if (!clientId) {
         throw new Error('Client ID is undefined')
@@ -37,9 +48,7 @@ export class UserService {
           locale,
           csrfToken,
         }).then((data: any) => {
-          CookieService.set('ds-custid', data.custid, {
-            expires: 86400 * 90, // 90 days
-          })
+          UserService.setCustomerId(data.custid)
 
           resolve(data.custid)
         })
@@ -61,9 +70,7 @@ export class UserService {
               locale,
               csrfToken,
             }).then((data: any) => {
-              CookieService.set('ds-custid', data.custid, {
-                expires: 86400 * 90, // 90 days
-              })
+              UserService.setCustomerId(data.custid)
 
               resolve(data.custid)
             })
