@@ -19,10 +19,6 @@ import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
 import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
 import { MixedObject } from '../types'
 
-export interface Visitor {
-  id: string
-}
-
 export enum ChatPosition {
   left = 'left',
   right = 'right',
@@ -101,7 +97,6 @@ export class App {
   private unreadWidget: UnreadWidget
   private actionButtonGroupWidget: ActionButtonGroupWidget
   private broadcast: EventEmitter
-  private visitor: Visitor
   private webchatService: WebchatService
   private chatConfig: MixedObject
   private destroyed = false
@@ -264,12 +259,6 @@ export class App {
   }
 
   private proceedActionEvent(message: MixedObject) {
-    if (message.name === ActionEventName.userReady) {
-      this.visitor = { id: message.payload.id }
-
-      CookieService.set('visitor', JSON.stringify(this.visitor))
-    }
-
     if (message.name === ActionEventName.tabOpen) {
       let url = message.payload.targetUrl
 
@@ -532,31 +521,25 @@ export class App {
   }
 
   private loadConfig(): Promise<MixedObject> {
-    const visitor = JSON.parse(CookieService.get('visitor'))
-    let visitorId: string
+    return ApiService.getConfig(
+      this.options.id,
+      UserService.getCustomerId(),
+    ).then((data: MixedObject) => {
+      this.chatConfig = data
 
-    if (visitor && visitor.id) {
-      visitorId = visitor.id
-    }
+      if (data.websiteElementCss) {
+        injectCss(data.websiteElementCss)
+      }
 
-    return ApiService.getConfig(this.options.id, visitorId).then(
-      (data: MixedObject) => {
-        this.chatConfig = data
+      if (this.chatConfig.defaultLg) {
+        this.chatConfig.defaultLocale = this.chatConfig.defaultLg
+        delete this.chatConfig.defaultLg
+      }
 
-        if (data.websiteElementCss) {
-          injectCss(data.websiteElementCss)
-        }
+      this.applyConfig()
 
-        if (this.chatConfig.defaultLg) {
-          this.chatConfig.defaultLocale = this.chatConfig.defaultLg
-          delete this.chatConfig.defaultLg
-        }
-
-        this.applyConfig()
-
-        return this.chatConfig
-      },
-    )
+      return this.chatConfig
+    })
   }
 
   private applyConfig() {
@@ -623,15 +606,11 @@ export class App {
   }
 
   getContext(key: string): Promise<any> {
-    return ApiService.getContext(this.getVisitor().id, key)
+    return ApiService.getContext(UserService.getCustomerId(), key)
   }
 
   setContext(key: string, value: any): Promise<any> {
-    return ApiService.setContext(this.getVisitor().id, key, value)
-  }
-
-  getVisitor(): Visitor {
-    return this.visitor
+    return ApiService.setContext(UserService.getCustomerId(), key, value)
   }
 
   getConfig(): MixedObject {
