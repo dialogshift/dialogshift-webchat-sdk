@@ -1,3 +1,5 @@
+import { MixedObject } from '../types'
+
 export class CookieService {
   static noCookieMode = false
 
@@ -17,12 +19,16 @@ export class CookieService {
     return null
   }
 
-  static set(name: string, value: any, options: any = {}): void {
+  static set(
+    name: string,
+    value: string | number | boolean,
+    options: MixedObject = {},
+  ): void {
     if (CookieService.noCookieMode) {
       return
     }
 
-    const params = {
+    const params: MixedObject = {
       samesite: 'lax',
       ...options,
     }

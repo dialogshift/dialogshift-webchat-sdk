@@ -9,17 +9,25 @@ export class HttpService {
     return Promise.reject(new Error(response.statusText))
   }
 
-  private static processJson(response) {
+  private static processJson(response): MixedObject {
     return response.json()
   }
 
-  static getRequest(url: string): Promise<Response> {
-    return fetch(url)
-      .then(this.processError)
-      .then(this.processJson)
+  static getRequest(
+    url: string,
+    options?: MixedObject,
+  ): Promise<MixedObject | Error> {
+    const queryString = options
+      ? `${url}?${new URLSearchParams(options).toString()}`
+      : url
+
+    return fetch(queryString).then(this.processError).then(this.processJson)
   }
 
-  static postRequest(url: string, data: MixedObject = {}): Promise<Response> {
+  static postRequest(
+    url: string,
+    data: MixedObject = {},
+  ): Promise<MixedObject | Error> {
     return fetch(url, {
       method: 'POST',
       headers: {
