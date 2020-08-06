@@ -13,14 +13,11 @@ import {
   WebchatService,
   CookieService,
   UserService,
+  AnalyticsService,
 } from '../services'
 import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
 import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
 import { MixedObject } from '../types'
-
-export interface Visitor {
-  id: string
-}
 
 export enum ChatPosition {
   left = 'left',
@@ -100,11 +97,11 @@ export class App {
   private unreadWidget: UnreadWidget
   private actionButtonGroupWidget: ActionButtonGroupWidget
   private broadcast: EventEmitter
-  private visitor: Visitor
   private webchatService: WebchatService
   private chatConfig: MixedObject
   private destroyed = false
   private ready = false
+  private csrfToken: string
 
   constructor(options: AppOptions) {
     if (!options) {
@@ -132,14 +129,25 @@ export class App {
       if (this.chatConfig.showWebsiteChat === false) {
         return
       }
-      this.applyConfig()
-      this.render()
-      this.afterRender()
-      this.bindEvents()
-      setTimeout(() => {
-        this.broadcast.fire('init')
-      }, 20)
+
+      if (this.chatConfig.enableCSRFProtection) {
+        AnalyticsService.touchToken(this.options.id).then((token: string) => {
+          this.csrfToken = token
+          this.afterInit()
+        })
+      } else {
+        this.afterInit()
+      }
     })
+  }
+
+  private afterInit() {
+    this.render()
+    this.afterRender()
+    this.bindEvents()
+    setTimeout(() => {
+      this.broadcast.fire('init')
+    }, 20)
   }
 
   private initWebchatService() {
@@ -173,7 +181,11 @@ export class App {
   }
 
   private afterRender() {
-    const { showTeaserAfter, hideTeaserAfter } = this.chatConfig
+    const {
+      showTeaserAfter,
+      hideTeaserAfter,
+      enableCSRFProtection,
+    } = this.chatConfig
 
     if (showTeaserAfter) {
       setTimeout(() => {
@@ -247,12 +259,6 @@ export class App {
   }
 
   private proceedActionEvent(message: MixedObject) {
-    if (message.name === ActionEventName.userReady) {
-      this.visitor = { id: message.payload.id }
-
-      CookieService.set('visitor', JSON.stringify(this.visitor))
-    }
-
     if (message.name === ActionEventName.tabOpen) {
       let url = message.payload.targetUrl
 
@@ -515,29 +521,25 @@ export class App {
   }
 
   private loadConfig(): Promise<MixedObject> {
-    const visitor = JSON.parse(CookieService.get('visitor'))
-    let visitorId: string
+    return ApiService.getConfig(
+      this.options.id,
+      UserService.getCustomerId(),
+    ).then((data: MixedObject) => {
+      this.chatConfig = data
 
-    if (visitor && visitor.id) {
-      visitorId = visitor.id
-    }
+      if (data.websiteElementCss) {
+        injectCss(data.websiteElementCss)
+      }
 
-    return ApiService.getConfig(this.options.id, visitorId).then(
-      (data: MixedObject) => {
-        this.chatConfig = data
+      if (this.chatConfig.defaultLg) {
+        this.chatConfig.defaultLocale = this.chatConfig.defaultLg
+        delete this.chatConfig.defaultLg
+      }
 
-        if (data.websiteElementCss) {
-          injectCss(data.websiteElementCss)
-        }
+      this.applyConfig()
 
-        if (this.chatConfig.defaultLg) {
-          this.chatConfig.defaultLocale = this.chatConfig.defaultLg
-          delete this.chatConfig.defaultLg
-        }
-
-        return this.chatConfig
-      },
-    )
+      return this.chatConfig
+    })
   }
 
   private applyConfig() {
@@ -604,15 +606,11 @@ export class App {
   }
 
   getContext(key: string): Promise<any> {
-    return ApiService.getContext(this.getVisitor().id, key)
+    return ApiService.getContext(UserService.getCustomerId(), key)
   }
 
   setContext(key: string, value: any): Promise<any> {
-    return ApiService.setContext(this.getVisitor().id, key, value)
-  }
-
-  getVisitor(): Visitor {
-    return this.visitor
+    return ApiService.setContext(UserService.getCustomerId(), key, value)
   }
 
   getConfig(): MixedObject {
@@ -639,7 +637,7 @@ export class App {
   triggerElement(options: {
     successor: string
     showChatbox?: boolean
-    suppressInitialElement?: boolean,
+    suppressInitialElement?: boolean
   }) {
     const config = {
       showChatbox: true,
@@ -704,7 +702,7 @@ export class App {
     return this.destroyed
   }
 
-  isReady() {
+  isReady(): boolean {
     return !this.destroyed && this.ready
   }
 
@@ -717,6 +715,7 @@ export class App {
       UserService.touchUser(
         this.options.id,
         this.options.locale,
+        this.csrfToken,
       ).then((currentUserId: string) => this.iframeWidget.load(currentUserId))
     }
   }
