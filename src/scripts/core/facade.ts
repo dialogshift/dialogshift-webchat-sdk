@@ -1,5 +1,5 @@
 import { EventHandler } from './event-emitter'
-import { App, ChatPosition, InitialElement, AppTheme, Visitor } from './app'
+import { App, ChatPosition, InitialElement, AppTheme } from './app'
 import { MixedObject } from '../types'
 
 export const createFacade = (instance: App) => {
@@ -80,10 +80,6 @@ export const createFacade = (instance: App) => {
       return instance.setContext(key, value)
     },
 
-    getVisitor(): Visitor {
-      return instance.getVisitor()
-    },
-
     getConfig(): MixedObject {
       return instance.getConfig()
     },
@@ -97,9 +93,9 @@ export const createFacade = (instance: App) => {
     },
 
     triggerElement(options: {
-      successor: string,
-      showChatbox?: boolean,
-      suppressInitialElement?: boolean,
+      successor: string
+      showChatbox?: boolean
+      suppressInitialElement?: boolean
     }) {
       instance.triggerElement(options)
     },
