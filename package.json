@@ -1,6 +1,6 @@
 {
   "name": "dialogshift-webchat-sdk",
-  "version": "1.9.1-develop.0",
+  "version": "1.9.1-develop.1",
     "repository": {
     "type": "git",
     "url": "https://github.com/dialogshift/dialogshift-webchat-sdk"
@@ -30,8 +30,8 @@
     "pretest": "npm run lint",
     "test": "mocha --opts tests/mocha.opts",
     "clear-env": "rm -f src/scripts/config/env.ts",
-    "publish-dev": "npm run clear-env && cp src/scripts/config/env.dev.ts src/scripts/config/env.ts && npm run publish",
-    "publish-stage": "npm run clear-env && cp src/scripts/config/env.stage.ts src/scripts/config/env.ts && npm run publish",
+    "publish-dev": "npm run clear-env && cp src/scripts/config/env.dev.ts src/scripts/config/env.ts && npm publish --tag develop",
+    "publish-stage": "npm run clear-env && cp src/scripts/config/env.stage.ts src/scripts/config/env.ts && npm publish --tag stage",
     "publish-prod": "npm run clear-env && cp src/scripts/config/env.prod.ts src/scripts/config/env.ts && npm run publish"
   },
   "dependencies": {},
