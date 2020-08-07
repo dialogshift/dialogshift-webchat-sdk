@@ -28,7 +28,11 @@
     "prepublish": "npm run test && npm run build",
     "lint": "tslint --config tslint.json --project tsconfig.json",
     "pretest": "npm run lint",
-    "test": "mocha --opts tests/mocha.opts"
+    "test": "mocha --opts tests/mocha.opts",
+    "clear-env": "rm -f src/scripts/config/env.ts",
+    "publish-dev": "npm run clear-env && cp src/scripts/config/env.dev.ts src/scripts/config/env.ts && npm run publish",
+    "publish-stage": "npm run clear-env && cp src/scripts/config/env.stage.ts src/scripts/config/env.ts && npm run publish",
+    "publish-prod": "npm run clear-env && cp src/scripts/config/env.prod.ts src/scripts/config/env.ts && npm run publish"
   },
   "dependencies": {},
   "devDependencies": {
