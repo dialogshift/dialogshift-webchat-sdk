@@ -78,5 +78,6 @@ export class UserService {
 
   static deleteUser() {
     CookieService.delete(customerIdCookieName)
+    CookieService.delete('times-counter')
   }
 }
