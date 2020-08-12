@@ -119,6 +119,11 @@ export class App {
   }
 
   private init() {
+    if (parseUrlParam(window.location.href, 'ctrl') === 'forcenew') {
+      UserService.deleteUser()
+      AnalyticsService.deleteToken()
+    }
+
     const openUrlParam = parseUrlParam(window.location.href, 'dschat')
 
     if (openUrlParam === 'open') {
