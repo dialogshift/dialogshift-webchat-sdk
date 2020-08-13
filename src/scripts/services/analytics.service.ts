@@ -28,4 +28,8 @@ export class AnalyticsService {
       })
     })
   }
+
+  static deleteToken() {
+    CookieService.delete(csrfCookieName)
+  }
 }

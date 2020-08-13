@@ -38,10 +38,7 @@ export class UserService {
         source = 'pwa-c2o'
       }
 
-      if (
-        parseUrlParam(window.location.href, 'ctrl') === 'forcenew' ||
-        !currentUserId
-      ) {
+      if (!currentUserId) {
         ApiService.createUser({
           clientId,
           source,
@@ -52,7 +49,7 @@ export class UserService {
 
           resolve(data.custid)
         })
-      } else if (currentUserId) {
+      } else {
         const currentURL = parseUrlParam(window.location.href, 'curl')
 
         ApiService.validateUser({
@@ -77,5 +74,10 @@ export class UserService {
           })
       }
     })
+  }
+
+  static deleteUser() {
+    CookieService.delete(customerIdCookieName)
+    CookieService.delete('times-counter')
   }
 }
