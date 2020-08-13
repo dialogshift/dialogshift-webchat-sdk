@@ -111,20 +111,19 @@ export const mergeDeep = <T, U>(target: T, source: U): (T & U) | ({} & T) => {
 }
 
 export const removeURLParameters = (removeParams: string[]) => {
-  const deleteRegex = new RegExp(removeParams.join('=|') + '=')
+  const deleteRegex = new RegExp(`${removeParams.join('=|')}=`)
 
   const params = location.search.slice(1).split('&')
-  let search = []
+  const search = []
 
   for (let i = 0; i < params.length; i++) {
-    if (deleteRegex.test(params[i]) === false) search.push(params[i])
+    if (!deleteRegex.test(params[i])) {
+      search.push(params[i])
+    }
   }
 
-  window.history.replaceState(
-    {},
-    document.title,
-    location.pathname +
-      (search.length ? '?' + search.join('&') : '') +
-      location.hash,
-  )
+  const searchString = search.length ? `?${search.join('&')}` : ''
+  const redirectUrl = `${location.pathname}${searchString}${location.hash}`
+
+  window.history.replaceState({}, document.title, redirectUrl)
 }
