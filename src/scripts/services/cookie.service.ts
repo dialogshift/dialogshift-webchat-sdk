@@ -30,6 +30,7 @@ export class CookieService {
 
     const params: MixedObject = {
       samesite: 'lax',
+      path: '/',
       ...options,
     }
 
