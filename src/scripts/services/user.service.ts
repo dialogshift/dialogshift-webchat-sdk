@@ -1,4 +1,4 @@
-import { ApiService, CookieService } from './'
+import { ApiService, CookieService, AnalyticsService } from './'
 import { parseUrlParam } from '../core/utils'
 
 const customerIdCookieName = 'ds-custid'
@@ -12,6 +12,8 @@ export class UserService {
     CookieService.set(customerIdCookieName, id, {
       expires: expires ? expires : 86400 * 90, // 90 days
     })
+
+    AnalyticsService.deleteToken()
   }
 
   static updateCookieLifetime(forgetCustomerAfterHours: number) {
