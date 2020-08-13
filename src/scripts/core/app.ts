@@ -15,7 +15,13 @@ import {
   UserService,
   AnalyticsService,
 } from '../services'
-import { parseUrlParam, isExternalUrl, injectCss, mergeDeep } from './utils'
+import {
+  parseUrlParam,
+  isExternalUrl,
+  injectCss,
+  mergeDeep,
+  removeURLParameters,
+} from './utils'
 import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
 import { MixedObject } from '../types'
 
@@ -122,6 +128,7 @@ export class App {
     if (parseUrlParam(window.location.href, 'ctrl') === 'forcenew') {
       UserService.deleteUser()
       AnalyticsService.deleteToken()
+      removeURLParameters(['ctrl'])
     }
 
     const openUrlParam = parseUrlParam(window.location.href, 'dschat')
