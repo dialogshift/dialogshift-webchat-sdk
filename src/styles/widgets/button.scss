@@ -93,17 +93,18 @@
         left: 15px;
 
         &--active {
-          right: 0;
+          top: 10px;
+          right: 10px;
         }
       }
     }
 
     &--pr {
       .ds-button {
-        right: 15px;
+        right: 10px;
 
         &--active {
-          right: 0;
+          top: 10px;
         }
       }
     }
