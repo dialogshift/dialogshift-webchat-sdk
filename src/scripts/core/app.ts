@@ -193,11 +193,7 @@ export class App {
   }
 
   private afterRender() {
-    const {
-      showTeaserAfter,
-      hideTeaserAfter,
-      enableCSRFProtection,
-    } = this.chatConfig
+    const { showTeaserAfter, hideTeaserAfter } = this.chatConfig
 
     if (showTeaserAfter) {
       setTimeout(() => {
