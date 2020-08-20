@@ -7,10 +7,13 @@ const customerIdCookieName = 'ds-custid'
 export class AnalyticsService {
   static touchToken(clientId: string): Promise<string> {
     return new Promise((resolve: any) => {
-      const csrftoken = CookieService.get(customerIdCookieName)
+      const customerId = CookieService.get(customerIdCookieName)
+      const csrftoken = CookieService.get(csrfCookieName)
       const sec = btoa(window.screen.width.toString())
 
-      if (csrftoken) {
+      if (customerId) {
+        resolve(customerId)
+      } else if (csrftoken) {
         resolve(csrftoken)
       } else {
         ApiService.createToken({
