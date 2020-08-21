@@ -15,7 +15,7 @@ module.exports = (env, argv) => ({
   output: {
     path: path.join(__dirname, 'bundles'),
     filename: 'dialogshift-webchat-sdk' + '.umd.js',
-    libraryTarget: 'umd',
+    libraryTarget: 'window',
     umdNamedDefine: true,
     library: 'Dialogshift',
   },
