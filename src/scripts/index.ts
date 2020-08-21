@@ -3,7 +3,10 @@ import { App, AppOptions } from './core/app'
 
 let facade = null
 const instance = (options?: AppOptions) => {
-  console.log(window)
+  try {
+    console.log(window)
+  } catch (e) {}
+
   if (facade && !facade.isDestroyed()) {
     return facade
   }
