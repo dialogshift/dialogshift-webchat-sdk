@@ -640,6 +640,7 @@ export class App {
 
   triggerElement(options: {
     successor: string
+    teaserButton?: boolean
     showChatbox?: boolean
     suppressInitialElement?: boolean
   }) {
@@ -653,6 +654,7 @@ export class App {
       this.getBroadcast().once('ready', () => {
         setTimeout(() => {
           this.webchatService.triggerElement({
+            teaserButton: options.teaserButton,
             successor: options.successor,
           })
         }, 250)
@@ -677,6 +679,7 @@ export class App {
       }
 
       this.webchatService.triggerElement({
+        teaserButton: options.teaserButton,
         successor: options.successor,
       })
     }
