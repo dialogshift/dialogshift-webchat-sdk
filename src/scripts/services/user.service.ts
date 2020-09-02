@@ -36,7 +36,7 @@ export class UserService {
         throw new Error('Client ID is undefined')
       }
 
-      if (document.referrer.indexOf('/g/') !== -1) {
+      if (location.pathname.indexOf('/g/') !== -1) {
         source = 'pwa-c2o'
       }
 
