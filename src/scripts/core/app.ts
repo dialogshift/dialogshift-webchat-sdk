@@ -52,6 +52,7 @@ export interface AppOptions {
   showFooter?: boolean
   initialElement?: InitialElement
   unreadCounter?: number
+  context?: MixedObject
 }
 
 const appOptionsDefault = {
@@ -723,6 +724,7 @@ export class App {
         this.options.id,
         this.options.locale,
         this.csrfToken,
+        this.options.context,
       ).then((currentUserId: string) => this.iframeWidget.load(currentUserId))
     }
   }

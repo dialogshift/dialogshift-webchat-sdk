@@ -1,5 +1,6 @@
 import { ApiService, CookieService, AnalyticsService } from './'
 import { parseUrlParam } from '../core/utils'
+import { MixedObject } from '../types'
 
 const customerIdCookieName = 'ds-custid'
 
@@ -27,6 +28,7 @@ export class UserService {
     clientId: string,
     locale: string,
     csrfToken?: string,
+    context?: MixedObject,
   ): Promise<string> {
     return new Promise((resolve: any) => {
       let source = 'pwa-embed'
@@ -46,6 +48,7 @@ export class UserService {
           source,
           locale,
           csrfToken,
+          context,
         }).then((data: any) => {
           UserService.setCustomerId(data.custid)
 
