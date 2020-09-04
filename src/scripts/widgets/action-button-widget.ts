@@ -31,6 +31,7 @@ export class ActionButtonWidget extends BaseWidget {
       this.getBoxElem().addEventListener('click', () => {
         this.app.triggerElement({
           successor: this.actionButton.getSuccessor(),
+          teaserButton: true,
         })
       })
     }

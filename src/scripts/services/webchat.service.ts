@@ -6,7 +6,7 @@ export interface WebchatServiceOptions {
 
 export interface WebchatServiceTriggerOptions {
   successor?: string
-  payload?: MixedObject
+  teaserButton?: boolean
 }
 
 export class WebchatService {
@@ -17,9 +17,13 @@ export class WebchatService {
   }
 
   triggerElement(options: WebchatServiceTriggerOptions) {
-    const message = {
-      ...options,
+    const message: any = {
+      successor: options.successor,
       type: 'trigger',
+    }
+
+    if (options.teaserButton) {
+      message.teaserButton = options.teaserButton
     }
 
     this.targetWindow.contentWindow.postMessage(message, '*')

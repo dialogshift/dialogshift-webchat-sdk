@@ -57,6 +57,7 @@ export class ApiService {
     source: string
     locale: string
     csrfToken?: string
+    context?: MixedObject
   }): Promise<MixedObject | Error> {
     let url = `${ApiService.getEndpoint()}/customer/v2/createnew/${
       options.source
@@ -64,6 +65,11 @@ export class ApiService {
 
     if (options.csrfToken) {
       url += `?csrftoken=${options.csrfToken}`
+    }
+
+    if (options.context) {
+      options.csrfToken ? (url += '&') : (url += '?')
+      url += `context=${encodeURIComponent(JSON.stringify(options.context))}`
     }
 
     return ApiService.getTransport().getRequest(url)

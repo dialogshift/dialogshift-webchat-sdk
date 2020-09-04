@@ -42,18 +42,17 @@ export interface InitialElement {
 
 export interface AppOptions {
   id: string
-
   locale?: string
   position?: ChatPosition
   theme?: AppTheme
   isChatboxVisible?: boolean
   isButtonVisible?: boolean
-  isTeaserVisible?: boolean
   showTeaserOnce?: boolean
   renderButton?: boolean
   showFooter?: boolean
   initialElement?: InitialElement
   unreadCounter?: number
+  context?: MixedObject
 }
 
 const appOptionsDefault = {
@@ -62,7 +61,6 @@ const appOptionsDefault = {
   position: ChatPosition.right,
   isChatboxVisible: false,
   isButtonVisible: true,
-  isTeaserVisible: false,
   showTeaserOnce: false,
   renderButton: true,
   showFooter: true,
@@ -108,6 +106,7 @@ export class App {
   private destroyed = false
   private ready = false
   private csrfToken: string
+  private isTeaserVisible = false
 
   constructor(options: AppOptions) {
     if (!options) {
@@ -333,7 +332,7 @@ export class App {
           callback: () => {
             this.broadcast.fire('chatbox.hide.before')
 
-            if (this.options.isTeaserVisible) {
+            if (this.isTeaserVisible) {
               this.teaserWidget.show()
             }
 
@@ -455,7 +454,7 @@ export class App {
       showTeaserOnce: this.chatConfig.showTeaserOnce,
       hideTeaserAfterTimes: this.chatConfig.hideTeaserAfterTimes,
       renderTo: parentNode,
-      visible: this.options.isTeaserVisible,
+      visible: this.isTeaserVisible,
       events: [
         {
           type: 'before:show',
@@ -511,9 +510,7 @@ export class App {
     this.actionButtonGroupWidget = new ActionButtonGroupWidget({
       renderTo: parentNode,
       visible:
-        actionButtons &&
-        actionButtons.length > 0 &&
-        this.options.isTeaserVisible,
+        actionButtons && actionButtons.length > 0 && this.isTeaserVisible,
     })
 
     if (actionButtons && actionButtons.length > 0) {
@@ -565,11 +562,11 @@ export class App {
     }
 
     if (showTeaserAfter === 0) {
-      this.options.isTeaserVisible = true
+      this.isTeaserVisible = true
     }
 
     if (hideTeaserAfter === 0) {
-      this.options.isTeaserVisible = false
+      this.isTeaserVisible = false
     }
 
     if (theme && theme in AppTheme) {
@@ -644,6 +641,7 @@ export class App {
 
   triggerElement(options: {
     successor: string
+    teaserButton?: boolean
     showChatbox?: boolean
     suppressInitialElement?: boolean
   }) {
@@ -657,6 +655,7 @@ export class App {
       this.getBroadcast().once('ready', () => {
         setTimeout(() => {
           this.webchatService.triggerElement({
+            teaserButton: options.teaserButton,
             successor: options.successor,
           })
         }, 250)
@@ -681,6 +680,7 @@ export class App {
       }
 
       this.webchatService.triggerElement({
+        teaserButton: options.teaserButton,
         successor: options.successor,
       })
     }
@@ -724,6 +724,7 @@ export class App {
         this.options.id,
         this.options.locale,
         this.csrfToken,
+        this.options.context,
       ).then((currentUserId: string) => this.iframeWidget.load(currentUserId))
     }
   }
