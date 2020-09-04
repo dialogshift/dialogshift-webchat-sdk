@@ -92,12 +92,14 @@ export class ApiService {
 
   static createToken(options: {
     clientId: string
+    realUserScore: number
     csrftoken?: string
     sec?: string
   }): Promise<MixedObject> {
     const data: MixedObject = {
       clid: options.clientId,
       sec: options.sec,
+      realUserScore: options.realUserScore,
     }
 
     if (options.csrftoken) {
