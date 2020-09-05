@@ -69,6 +69,7 @@ const appOptionsDefault = {
     suppress: false,
   },
   unreadCounter: 0,
+  context: {},
 }
 
 export enum ActionEventType {
@@ -615,7 +616,17 @@ export class App {
   }
 
   setContext(key: string, value: any): Promise<any> {
-    return ApiService.setContext(UserService.getCustomerId(), key, value)
+    return new Promise((resolve, reject) => {
+      if (this.csrfToken) {
+        ApiService.setContext(UserService.getCustomerId(), key, value).then(
+          () => {
+            resolve()
+          },
+        )
+      } else {
+        this.options.context[key] = value
+      }
+    })
   }
 
   getConfig(): MixedObject {
