@@ -1,5 +1,6 @@
 import { MixedObject } from '../types'
 import { ApiService, CookieService } from './'
+import { isCrawler } from '../core/utils'
 
 const csrfCookieName = 'ds-csrf'
 const customerIdCookieName = 'ds-custid'
@@ -10,6 +11,7 @@ export class AnalyticsService {
       const customerId = CookieService.get(customerIdCookieName)
       const csrftoken = CookieService.get(csrfCookieName)
       const sec = btoa(window.screen.width.toString())
+      const realUserScore = isCrawler() ? 0 : 100
 
       if (customerId) {
         resolve(customerId)
@@ -20,6 +22,7 @@ export class AnalyticsService {
           clientId,
           csrftoken,
           sec,
+          realUserScore,
         }).then((response: MixedObject) => {
           if (!csrftoken) {
             CookieService.set(csrfCookieName, response.csrftoken, {

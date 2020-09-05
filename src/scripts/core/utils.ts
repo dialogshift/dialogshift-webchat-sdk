@@ -127,3 +127,9 @@ export const removeURLParameters = (removeParams: string[]) => {
 
   window.history.replaceState({}, document.title, redirectUrl)
 }
+
+export const isCrawler = (): boolean => {
+  return /bot|google|baidu|bing|msn|teoma|slurp|yandex/i.test(
+    navigator.userAgent,
+  )
+}
