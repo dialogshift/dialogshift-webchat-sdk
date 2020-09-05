@@ -14,7 +14,7 @@ export class ApiService {
   static setContext(
     customerId: string,
     key: string,
-    value: any,
+    value: string | number,
   ): Promise<MixedObject | Error> {
     const context = {}
     context[key] = value
@@ -38,7 +38,7 @@ export class ApiService {
       .getRequest(
         `${ApiService.getEndpoint()}/config/context/${customerId}/${variable}`,
       )
-      .then((response: any) => {
+      .then((response: MixedObject) => {
         return response[variable] ? response[variable] : null
       })
   }
@@ -57,6 +57,7 @@ export class ApiService {
     source: string
     locale: string
     csrfToken?: string
+    context?: MixedObject
   }): Promise<MixedObject | Error> {
     let url = `${ApiService.getEndpoint()}/customer/v2/createnew/${
       options.source
@@ -64,6 +65,11 @@ export class ApiService {
 
     if (options.csrfToken) {
       url += `?csrftoken=${options.csrfToken}`
+    }
+
+    if (options.context) {
+      options.csrfToken ? (url += '&') : (url += '?')
+      url += `context=${encodeURIComponent(JSON.stringify(options.context))}`
     }
 
     return ApiService.getTransport().getRequest(url)
@@ -86,12 +92,14 @@ export class ApiService {
 
   static createToken(options: {
     clientId: string
+    realUserScore: number
     csrftoken?: string
     sec?: string
   }): Promise<MixedObject> {
     const data: MixedObject = {
       clid: options.clientId,
       sec: options.sec,
+      realUserScore: options.realUserScore,
     }
 
     if (options.csrftoken) {

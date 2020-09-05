@@ -126,11 +126,11 @@ Creates a new one chat instance or returns previously created instance. Returns 
 | position?         | 'left' \| 'right' | Chat position on webpage. Defaults to `right`.                                                                     |
 | isChatboxVisible? | boolean           | Show chat window expanded if `true`. Defaults to `false`.                                                          |
 | isButtonVisible?  | boolean           | Show toggle button if `true`. Defaults to `true`.                                                                  |
-| renderButton?     | boolean           | Render toggle button if `true`. If button is not rendered show or hide it later is impossible. Defaults to `true`. |
-| isTeaserVisible?  | boolean           | Show attention grabber button if `true`. Defaults to `false`.                                                      |
+| renderButton?     | boolean           | Render toggle button if `true`. If button is not rendered show or hide it later is impossible. Defaults to `true`. |                      |
 | initialElement?   | string            | Trigers initial message.                                                                                           |
 | unreadCounter?    | number            | Amount of unread messages.                                                                                         |
 | theme?            | 'round' \| 'tile' | UI theme. Defaults to `round`.                                                                                        |
+| context?          | object            | Context variables for visitor. |
 
 First time initialization.
 
@@ -139,9 +139,12 @@ const client = Dialogshift.instance({
   id: '%id%',
   locale: 'de',
   position: 'left',
-  isTeaserVisible: true,
-  initialElement: 'welcome-message'
+  initialElement: 'welcome-message',
   unreadCounter: 2,
+  context: {
+    email: 'foo@bar.baz',
+    name: 'John Doe'
+  }
 })
 
 // Returns the same instance
