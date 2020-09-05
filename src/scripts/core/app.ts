@@ -619,7 +619,7 @@ export class App {
           reject,
         )
       } else {
-        reject('Prospect id is not created.')
+        reject('Can not load context. Prospect id is not created.')
       }
     })
   }
