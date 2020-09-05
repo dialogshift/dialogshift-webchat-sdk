@@ -612,16 +612,24 @@ export class App {
   }
 
   getContext(key: string): Promise<any> {
-    return ApiService.getContext(UserService.getCustomerId(), key)
+    return new Promise((resolve, reject) => {
+      if (UserService.getCustomerId()) {
+        ApiService.getContext(UserService.getCustomerId(), key).then(
+          resolve,
+          reject,
+        )
+      } else {
+        reject('Prospect id is not created.')
+      }
+    })
   }
 
   setContext(key: string, value: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (this.csrfToken) {
+      if (UserService.getCustomerId()) {
         ApiService.setContext(UserService.getCustomerId(), key, value).then(
-          () => {
-            resolve()
-          },
+          resolve,
+          reject,
         )
       } else {
         this.options.context[key] = value
