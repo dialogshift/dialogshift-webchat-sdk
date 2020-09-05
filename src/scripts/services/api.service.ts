@@ -14,7 +14,7 @@ export class ApiService {
   static setContext(
     customerId: string,
     key: string,
-    value: any,
+    value: string | number,
   ): Promise<MixedObject | Error> {
     const context = {}
     context[key] = value
@@ -38,7 +38,7 @@ export class ApiService {
       .getRequest(
         `${ApiService.getEndpoint()}/config/context/${customerId}/${variable}`,
       )
-      .then((response: any) => {
+      .then((response: MixedObject) => {
         return response[variable] ? response[variable] : null
       })
   }

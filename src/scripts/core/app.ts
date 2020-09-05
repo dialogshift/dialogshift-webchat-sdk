@@ -69,6 +69,7 @@ const appOptionsDefault = {
     suppress: false,
   },
   unreadCounter: 0,
+  context: {},
 }
 
 export enum ActionEventType {
@@ -611,11 +612,29 @@ export class App {
   }
 
   getContext(key: string): Promise<any> {
-    return ApiService.getContext(UserService.getCustomerId(), key)
+    return new Promise((resolve, reject) => {
+      if (UserService.getCustomerId()) {
+        ApiService.getContext(UserService.getCustomerId(), key).then(
+          resolve,
+          reject,
+        )
+      } else {
+        reject('Can not load context. Customer is not created.')
+      }
+    })
   }
 
   setContext(key: string, value: any): Promise<any> {
-    return ApiService.setContext(UserService.getCustomerId(), key, value)
+    return new Promise((resolve, reject) => {
+      if (UserService.getCustomerId()) {
+        ApiService.setContext(UserService.getCustomerId(), key, value).then(
+          resolve,
+          reject,
+        )
+      } else {
+        this.options.context[key] = value
+      }
+    })
   }
 
   getConfig(): MixedObject {

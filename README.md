@@ -130,6 +130,7 @@ Creates a new one chat instance or returns previously created instance. Returns 
 | initialElement?   | string            | Trigers initial message.                                                                                           |
 | unreadCounter?    | number            | Amount of unread messages.                                                                                         |
 | theme?            | 'round' \| 'tile' | UI theme. Defaults to `round`.                                                                                        |
+| context?          | object            | Context variables for visitor. |
 
 First time initialization.
 
@@ -138,8 +139,12 @@ const client = Dialogshift.instance({
   id: '%id%',
   locale: 'de',
   position: 'left',
-  initialElement: 'welcome-message'
+  initialElement: 'welcome-message',
   unreadCounter: 2,
+  context: {
+    email: 'foo@bar.baz',
+    name: 'John Doe'
+  }
 })
 
 // Returns the same instance
