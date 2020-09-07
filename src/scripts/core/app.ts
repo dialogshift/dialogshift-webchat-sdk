@@ -93,7 +93,7 @@ export interface ActionEvent {
 }
 
 export class App {
-  private options: AppOptions
+  public options: AppOptions
   private wrapperWidget: WrapperWidget
   private buttonWidget: ButtonWidget
   private chatboxWidget: ChatboxWidget
