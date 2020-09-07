@@ -2,10 +2,27 @@ import { EventHandler } from './event-emitter'
 import { App, ChatPosition, InitialElement, AppTheme } from './app'
 import { MixedObject } from '../types'
 
+const c2o = [
+  'pro110d',
+  'pro1130',
+  'pro112b',
+  'pro1120',
+  'pro1190',
+  'pro118b',
+  'pro1185',
+  'pro11a1',
+]
+
 export const createFacade = (instance: App) => {
   return {
     on(type: string, handler: EventHandler) {
-      instance.getBroadcast().on(type, handler)
+      let typeToHandle = type
+
+      if (c2o.indexOf(instance.options.id) !== -1 && type === 'ready') {
+        typeToHandle = 'init'
+      }
+
+      instance.getBroadcast().on(typeToHandle, handler)
     },
 
     once(type: string, handler: EventHandler) {
@@ -124,6 +141,5 @@ export const createFacade = (instance: App) => {
     isReady(): boolean {
       return instance.isReady()
     },
-
   }
 }
