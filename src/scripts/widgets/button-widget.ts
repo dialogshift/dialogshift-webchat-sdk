@@ -20,8 +20,29 @@ export class ButtonWidget extends BaseWidget {
     })
   }
 
-  getBaseCls() {
-    return config.buttonCls
+  protected showNode() {
+    const boxElem = this.getBoxElem()
+    boxElem.style.display = this.getDisplayMode()
+
+    setTimeout(() => {
+      // boxElem.style.opacity = '1'
+    })
+
+    // if (this.fx) {
+    setTimeout(() => {
+      boxElem.classList.add(config.buttonVisibleCls)
+    })
+    // }
+  }
+
+  getBaseCls(): string[] {
+    const classes = [config.buttonCls]
+
+    if (this.fx) {
+      classes.push(config.buttonFxCls)
+    }
+
+    return classes
   }
 
   render() {

@@ -12,6 +12,8 @@ export const config = {
   buttonLogoCls: 'ds-button--logo',
   buttonWithTextCls: 'ds-button--with-text',
   buttonActiveCls: 'ds-button--active',
+  buttonFxCls: 'ds-button--fx',
+  buttonVisibleCls: 'ds-button--visible',
 
   chatCls: 'ds-chat',
   chatLoadingCls: 'ds-chat--loading',

@@ -10,6 +10,7 @@
   position: fixed;
   bottom: 20px;
   z-index: 20;
+  opacity: 0;
 
   &:before {
     content: '';
@@ -69,6 +70,16 @@
 
   &--pulse {
     animation: pulse 1.5s infinite;
+  }
+
+  &--fx {
+    transition: transform .2s ease;
+    transform: scale(0.5);
+  }
+
+  &--visible {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
