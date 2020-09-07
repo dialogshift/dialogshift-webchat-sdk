@@ -6,6 +6,7 @@ export interface BaseWidgetOptions extends ObservableOptions {
   renderTo?: HTMLElement
   animationDelay?: number
   content?: string | number
+  fx?: boolean
 }
 
 export type BaseWidgetDisplayMode = 'block' | 'flex'
@@ -14,12 +15,13 @@ export class BaseWidget extends Observable {
   private visible = true
   private baseCls = ''
   private renderTo: HTMLElement
-  protected animationDelay = 250
   private boxElem: HTMLElement
   private contentElem: HTMLElement
   private content: string | number
   private destroyed = false
   private displayMode: BaseWidgetDisplayMode = 'block'
+  protected animationDelay = 250
+  protected fx = false
 
   constructor(options: BaseWidgetOptions) {
     super({ events: options.events })
@@ -59,7 +61,7 @@ export class BaseWidget extends Observable {
     return this.displayMode
   }
 
-  getBaseCls(): string {
+  getBaseCls(): string | string[] {
     return this.baseCls
   }
 
@@ -70,10 +72,19 @@ export class BaseWidget extends Observable {
   getBoxElem(): HTMLElement {
     if (!this.boxElem) {
       this.boxElem = this.createNode()
+      const baseCls = this.getBaseCls()
+      let classes = []
 
-      if (this.getBaseCls()) {
-        this.boxElem.classList.add(this.getBaseCls())
+      if (typeof baseCls === 'string') {
+        classes =
+          baseCls.indexOf(' ') < 0
+            ? [baseCls]
+            : baseCls.replace(/^\s+|\s+$/g, '').split(/\s+/)
+      } else {
+        classes = baseCls
       }
+
+      classes.forEach((item: string) => this.boxElem.classList.add(item))
     }
 
     return this.boxElem

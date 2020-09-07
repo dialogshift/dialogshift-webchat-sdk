@@ -379,6 +379,7 @@ export class App {
       content,
       renderTo: this.wrapperWidget.getBoxElem(),
       visible: this.options.isButtonVisible,
+      fx: true,
       events: [
         {
           type: 'toggle',
