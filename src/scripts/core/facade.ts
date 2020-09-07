@@ -11,7 +11,6 @@ const c2o = [
   'pro118b',
   'pro1185',
   'pro11a1',
-  '3E9',
 ]
 
 export const createFacade = (instance: App) => {
