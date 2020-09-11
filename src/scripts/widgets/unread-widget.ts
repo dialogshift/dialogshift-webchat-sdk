@@ -16,7 +16,7 @@ export class UnreadWidget extends BaseWidget {
     }
   }
 
-  getBaseCls() {
+  getBaseCls(): string {
     return config.unreadCls
   }
 
