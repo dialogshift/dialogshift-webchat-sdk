@@ -1,4 +1,8 @@
-import { BaseWidgetOptions, BaseWidget, BaseWidgetDisplayMode } from '../core/base-widget'
+import {
+  BaseWidgetOptions,
+  BaseWidget,
+  BaseWidgetDisplayMode,
+} from '../core/base-widget'
 import { config } from '../config/config'
 import { ActionButtonWidget } from './action-button-widget'
 import { ActionButton } from '../models'
@@ -39,13 +43,13 @@ export class ActionButtonGroupWidget extends BaseWidget {
 
     boxElem.style.display = this.getDisplayMode()
 
-    setTimeout(() => {
-      boxElem.style.maxHeight = '147px'
-    })
+    // setTimeout(() => {
+    boxElem.style.maxHeight = '147px'
+    // })
 
-    setTimeout(() => {
-      boxElem.style.opacity = '1'
-    }, 250)
+    // setTimeout(() => {
+    boxElem.style.opacity = '1'
+    // }, 250)
 
     setTimeout(() => {
       boxElem.style.overflowY = 'visible'

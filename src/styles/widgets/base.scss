@@ -1,0 +1,9 @@
+.ds-widget {
+  opacity: 0;
+
+  // &--fx {}
+
+  &--visible {
+    opacity: 1;
+  }
+}
