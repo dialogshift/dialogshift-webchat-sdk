@@ -95,7 +95,6 @@ export interface ActionEvent {
 }
 
 export class App {
-  private options: AppOptions
   private broadcast: EventEmitter
   private webchatService: WebchatService
   private chatConfig: MixedObject
@@ -104,6 +103,7 @@ export class App {
   private csrfToken: string
   private isTeaserVisible = false
   private widgetManager: WidgetManager
+  public options: AppOptions
 
   constructor(options: AppOptions) {
     if (!options) {
