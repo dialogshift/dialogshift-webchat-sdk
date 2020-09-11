@@ -8,10 +8,8 @@
   box-shadow: 2px 8px 16px rgba(0, 0, 0, 0.3);
   border-radius: 12px;
   overflow: hidden !important;
-  opacity: 0;
   z-index: -1;
   background-color: #fff;
-  transition: opacity 0.25s ease;
 
   &:before {
     content: "";

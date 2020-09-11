@@ -1,9 +1,9 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
 
-type ButtonWidgetState = 'default' | 'active'
+type ChatButtonWidgetState = 'default' | 'active'
 
-export class ButtonWidget extends BaseWidget {
+export class ChatButtonWidget extends BaseWidget {
   private pressed = false
 
   constructor(options: BaseWidgetOptions) {
@@ -20,29 +20,8 @@ export class ButtonWidget extends BaseWidget {
     })
   }
 
-  protected showNode() {
-    const boxElem = this.getBoxElem()
-    boxElem.style.display = this.getDisplayMode()
-
-    setTimeout(() => {
-      // boxElem.style.opacity = '1'
-    })
-
-    // if (this.fx) {
-    setTimeout(() => {
-      boxElem.classList.add(config.buttonVisibleCls)
-    })
-    // }
-  }
-
-  getBaseCls(): string[] {
-    const classes = [config.buttonCls]
-
-    if (this.fx) {
-      classes.push(config.buttonFxCls)
-    }
-
-    return classes
+  getBaseCls(): string {
+    return config.buttonCls
   }
 
   render() {
@@ -54,7 +33,7 @@ export class ButtonWidget extends BaseWidget {
     super.render()
   }
 
-  setState(state: ButtonWidgetState) {
+  setState(state: ChatButtonWidgetState) {
     if (state === 'active') {
       this.pressed = true
       this.getBoxElem().classList.add(config.buttonActiveCls)

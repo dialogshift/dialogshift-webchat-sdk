@@ -1,6 +1,10 @@
 import { environment } from './env'
 
 export const config = {
+  widgetBase: 'ds-widget',
+  widgetBaseFx: 'ds-widget--fx',
+  widgetBaseVisible: 'ds-widget--visible',
+
   wrapperCls: 'ds-wrapper',
   wrapperNoButtonCls: 'ds-wrapper--no-button',
   wrapperTeaserIsOpenCls: 'ds-wrapper--teaser-opened',
@@ -8,12 +12,12 @@ export const config = {
   wrapperPositionRightCls: 'ds-wrapper--pr',
   wrapperDirectionRtlCls: 'ds-wrapper--rtl',
 
+  contentWrapperCls: 'ds-content-wrapper',
+
   buttonCls: 'ds-button',
   buttonLogoCls: 'ds-button--logo',
   buttonWithTextCls: 'ds-button--with-text',
   buttonActiveCls: 'ds-button--active',
-  buttonFxCls: 'ds-button--fx',
-  buttonVisibleCls: 'ds-button--visible',
 
   chatCls: 'ds-chat',
   chatLoadingCls: 'ds-chat--loading',

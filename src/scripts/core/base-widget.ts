@@ -1,18 +1,23 @@
 import { Observable, ObservableOptions } from './observable'
 
+export const config = {
+  rootCls: 'ds-widget',
+  fxCls: 'ds-widget--fx',
+  visibleCls: 'ds-widget--visible',
+}
+
 export interface BaseWidgetOptions extends ObservableOptions {
   visible?: boolean
   baseCls?: string
   renderTo?: HTMLElement
   animationDelay?: number
   content?: string | number
-  fx?: boolean
+  isAnimated?: boolean
 }
 
 export type BaseWidgetDisplayMode = 'block' | 'flex'
 
 export class BaseWidget extends Observable {
-  private visible = true
   private baseCls = ''
   private renderTo: HTMLElement
   private boxElem: HTMLElement
@@ -20,8 +25,9 @@ export class BaseWidget extends Observable {
   private content: string | number
   private destroyed = false
   private displayMode: BaseWidgetDisplayMode = 'block'
+  protected visible = true
   protected animationDelay = 250
-  protected fx = false
+  protected isAnimated = false
 
   constructor(options: BaseWidgetOptions) {
     super({ events: options.events })
@@ -38,15 +44,17 @@ export class BaseWidget extends Observable {
     boxElem.style.display = this.getDisplayMode()
 
     setTimeout(() => {
-      boxElem.style.opacity = '1'
-    })
+      boxElem.classList.add(config.visibleCls)
+    }, 10)
   }
 
   protected hideNode() {
     const boxElem = this.getBoxElem()
-    boxElem.style.opacity = '0'
+    boxElem.classList.remove(config.visibleCls)
 
-    setTimeout(() => (boxElem.style.display = 'none'))
+    setTimeout(() => {
+      boxElem.style.display = 'none'
+    }, this.animationDelay)
   }
 
   isDestroyed(): boolean {
@@ -73,15 +81,21 @@ export class BaseWidget extends Observable {
     if (!this.boxElem) {
       this.boxElem = this.createNode()
       const baseCls = this.getBaseCls()
-      let classes = []
+      let classes = [config.rootCls]
 
       if (typeof baseCls === 'string') {
-        classes =
-          baseCls.indexOf(' ') < 0
+        classes = [
+          ...classes,
+          ...(baseCls.indexOf(' ') < 0
             ? [baseCls]
-            : baseCls.replace(/^\s+|\s+$/g, '').split(/\s+/)
+            : baseCls.replace(/^\s+|\s+$/g, '').split(/\s+/)),
+        ]
       } else {
-        classes = baseCls
+        classes = [...classes, ...baseCls]
+      }
+
+      if (this.isAnimated) {
+        classes.push(config.fxCls)
       }
 
       classes.forEach((item: string) => this.boxElem.classList.add(item))

@@ -5,12 +5,11 @@
   background-color: var(--button-bg-color);
   border-radius: 30px;
   cursor: pointer;
-  transition: background-color 0.25s ease, opacity 0.25s;
+  transition: background-color 0.25s ease;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 6px 1px;
   position: fixed;
   bottom: 20px;
   z-index: 20;
-  opacity: 0;
 
   &:before {
     content: '';
@@ -70,16 +69,6 @@
 
   &--pulse {
     animation: pulse 1.5s infinite;
-  }
-
-  &--fx {
-    transition: transform .2s ease;
-    transform: scale(0.5);
-  }
-
-  &--visible {
-    opacity: 1;
-    transform: scale(1);
   }
 }
 
