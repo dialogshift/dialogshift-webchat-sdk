@@ -2,8 +2,16 @@ import { Observable, ObservableOptions } from './observable'
 
 export const config = {
   rootCls: 'ds-widget',
-  fxCls: 'ds-widget--fx',
   visibleCls: 'ds-widget--visible',
+  fxCls: {
+    fade: 'ds-widget-fx--fade',
+    zoom: 'ds-widget-fx--zoom',
+  },
+}
+
+export interface BaseWidgetEffectsOptions {
+  appear?: 'fade' | ''
+  delay?: string
 }
 
 export interface BaseWidgetOptions extends ObservableOptions {
@@ -12,7 +20,7 @@ export interface BaseWidgetOptions extends ObservableOptions {
   renderTo?: HTMLElement
   animationDelay?: number
   content?: string | number
-  isAnimated?: boolean
+  effects?: BaseWidgetEffectsOptions
 }
 
 export type BaseWidgetDisplayMode = 'block' | 'flex'
@@ -25,9 +33,12 @@ export class BaseWidget extends Observable {
   private content: string | number
   private destroyed = false
   private displayMode: BaseWidgetDisplayMode = 'block'
+  private effects: BaseWidgetEffectsOptions = {
+    appear: '',
+    delay: '0s',
+  }
   protected visible = true
   protected animationDelay = 250
-  protected isAnimated = false
 
   constructor(options: BaseWidgetOptions) {
     super({ events: options.events })
@@ -43,18 +54,36 @@ export class BaseWidget extends Observable {
     const boxElem = this.getBoxElem()
     boxElem.style.display = this.getDisplayMode()
 
-    setTimeout(() => {
-      boxElem.classList.add(config.visibleCls)
-    }, 10)
+    if (this.effects.appear !== '') {
+      this.showAnimateNode(boxElem)
+    } else {
+      setTimeout(() => {
+        boxElem.classList.add(config.visibleCls)
+      }, 10)
+    }
   }
 
   protected hideNode() {
     const boxElem = this.getBoxElem()
     boxElem.classList.remove(config.visibleCls)
 
-    setTimeout(() => {
-      boxElem.style.display = 'none'
-    }, this.animationDelay)
+    if (this.effects.appear !== '') {
+      this.hideAnimateNode(boxElem)
+    } else {
+      setTimeout(() => {
+        boxElem.style.display = 'none'
+      }, this.animationDelay)
+    }
+  }
+
+  protected showAnimateNode(boxElem: HTMLElement) {
+    boxElem.style.animationDelay = this.effects.delay
+    boxElem.classList.add(config.fxCls[this.effects.appear])
+  }
+
+  protected hideAnimateNode(boxElem: HTMLElement) {
+    boxElem.style.removeProperty('animationDelay')
+    boxElem.classList.remove(config.fxCls[this.effects.appear])
   }
 
   isDestroyed(): boolean {
@@ -94,9 +123,9 @@ export class BaseWidget extends Observable {
         classes = [...classes, ...baseCls]
       }
 
-      if (this.isAnimated) {
-        classes.push(config.fxCls)
-      }
+      // if ('in' in this.effects) {
+      //   classes.push(config.fxCls[this.effects['in']])
+      // }
 
       classes.forEach((item: string) => this.boxElem.classList.add(item))
     }
