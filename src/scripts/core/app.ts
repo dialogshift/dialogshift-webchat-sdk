@@ -54,7 +54,7 @@ export interface AppOptions {
   unreadCounter?: number
   context?: MixedObject
   direction?: 'rtl' | 'ltr'
-  effects: MixedObject
+  effects?: MixedObject
 }
 
 const appOptionsDefault = {
