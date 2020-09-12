@@ -69,7 +69,7 @@ export class WidgetManager {
       content,
       renderTo: this.wrapperWidget.getBoxElem(),
       visible: options.isButtonVisible,
-      // isAnimated: false,
+      effects: options.effects?.chatButton,
       events: [
         {
           type: 'toggle',
@@ -140,7 +140,6 @@ export class WidgetManager {
       hideTeaserAfterTimes: chatConfig.hideTeaserAfterTimes,
       renderTo: this.contentWrapperWidget.getBoxElem(),
       visible: isTeaserVisible,
-      // isAnimated: true,
       events: [
         {
           type: 'before:show',
@@ -187,7 +186,7 @@ export class WidgetManager {
       visible: options.unreadCounter > 0 ? true : false,
       renderTo: this.wrapperWidget.getBoxElem(),
       unreadCounter: options.unreadCounter,
-      // isAnimated: true,
+      effects: options.effects?.unreadCounter,
     })
   }
 

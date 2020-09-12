@@ -1,9 +1,17 @@
 .ds-widget {
   opacity: 0;
 
-  // &--fx {}
-
   &--visible {
     opacity: 1;
+  }
+
+  &-fx {
+    &--fade {
+      animation: widgetFade .25s ease both;
+    }
+
+    &--zoom {
+      animation: widgetZoom .25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
   }
 }

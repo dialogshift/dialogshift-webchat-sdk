@@ -54,6 +54,7 @@ export interface AppOptions {
   unreadCounter?: number
   context?: MixedObject
   direction?: 'rtl' | 'ltr'
+  effects: MixedObject
 }
 
 const appOptionsDefault = {
@@ -72,6 +73,15 @@ const appOptionsDefault = {
   unreadCounter: 0,
   context: {},
   direction: 'ltr',
+  effects: {
+    chatButton: {
+      appear: 'zoom',
+    },
+    unreadCounter: {
+      appear: 'fade',
+      delay: '2s',
+    },
+  },
 }
 
 export enum ActionEventType {
