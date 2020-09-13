@@ -73,15 +73,7 @@ const appOptionsDefault = {
   unreadCounter: 0,
   context: {},
   direction: 'ltr',
-  effects: {
-    chatButton: {
-      appear: 'zoom',
-    },
-    unreadCounter: {
-      appear: 'fade',
-      delay: '2s',
-    },
-  },
+  effects: {},
 }
 
 export enum ActionEventType {

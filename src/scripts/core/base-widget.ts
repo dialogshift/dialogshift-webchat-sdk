@@ -1,4 +1,5 @@
 import { Observable, ObservableOptions } from './observable'
+import { AudioSound, AudioService } from '../services/audio.service'
 
 export const config = {
   rootCls: 'ds-widget',
@@ -10,8 +11,9 @@ export const config = {
 }
 
 export interface BaseWidgetEffectsOptions {
-  appear?: 'fade' | ''
-  delay?: string
+  appear?: 'fade' | null
+  delay?: number
+  sound?: AudioSound
 }
 
 export interface BaseWidgetOptions extends ObservableOptions {
@@ -34,14 +36,18 @@ export class BaseWidget extends Observable {
   private destroyed = false
   private displayMode: BaseWidgetDisplayMode = 'block'
   private effects: BaseWidgetEffectsOptions = {
-    appear: '',
-    delay: '0s',
+    appear: null,
+    delay: 0,
   }
   protected visible = true
   protected animationDelay = 250
 
   constructor(options: BaseWidgetOptions) {
     super({ events: options.events })
+
+    if (!options.effects) {
+      delete options.effects
+    }
 
     Object.assign(this, options)
 
@@ -54,11 +60,14 @@ export class BaseWidget extends Observable {
     const boxElem = this.getBoxElem()
     boxElem.style.display = this.getDisplayMode()
 
-    if (this.effects.appear !== '') {
+    if (this.effects.appear) {
       this.showAnimateNode(boxElem)
     } else {
       setTimeout(() => {
         boxElem.classList.add(config.visibleCls)
+        if (this.effects.sound) {
+          AudioService.playSound(this.effects.sound)
+        }
       }, 10)
     }
   }
@@ -67,7 +76,7 @@ export class BaseWidget extends Observable {
     const boxElem = this.getBoxElem()
     boxElem.classList.remove(config.visibleCls)
 
-    if (this.effects.appear !== '') {
+    if (this.effects.appear) {
       this.hideAnimateNode(boxElem)
     } else {
       setTimeout(() => {
@@ -77,7 +86,13 @@ export class BaseWidget extends Observable {
   }
 
   protected showAnimateNode(boxElem: HTMLElement) {
-    boxElem.style.animationDelay = this.effects.delay
+    setTimeout(() => {
+      if (this.effects.sound) {
+        AudioService.playSound(this.effects.sound)
+      }
+    }, this.effects.delay)
+
+    boxElem.style.animationDelay = `${this.effects.delay}ms`
     boxElem.classList.add(config.fxCls[this.effects.appear])
   }
 
@@ -122,10 +137,6 @@ export class BaseWidget extends Observable {
       } else {
         classes = [...classes, ...baseCls]
       }
-
-      // if ('in' in this.effects) {
-      //   classes.push(config.fxCls[this.effects['in']])
-      // }
 
       classes.forEach((item: string) => this.boxElem.classList.add(item))
     }
