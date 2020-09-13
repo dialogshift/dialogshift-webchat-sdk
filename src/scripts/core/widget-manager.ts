@@ -140,6 +140,7 @@ export class WidgetManager {
       hideTeaserAfterTimes: chatConfig.hideTeaserAfterTimes,
       renderTo: this.contentWrapperWidget.getBoxElem(),
       visible: isTeaserVisible,
+      effects: options.effects?.teaser,
       events: [
         {
           type: 'before:show',
