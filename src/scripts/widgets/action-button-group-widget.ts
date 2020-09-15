@@ -15,7 +15,7 @@ export class ActionButtonGroupWidget extends BaseWidget {
     super(options)
   }
 
-  getBaseCls() {
+  getBaseCls(): string {
     return config.actionButtonGroupCls
   }
 
@@ -48,22 +48,26 @@ export class ActionButtonGroupWidget extends BaseWidget {
     // })
 
     // setTimeout(() => {
-    boxElem.style.opacity = '1'
+    // boxElem.style.opacity = '1'
     // }, 250)
 
     setTimeout(() => {
       boxElem.style.overflowY = 'visible'
       boxElem.style.maxHeight = 'auto'
     }, 500)
+
+    super.showNode()
   }
 
   protected hideNode() {
     const boxElem = this.getBoxElem()
 
     boxElem.style.overflowY = 'hidden'
-    boxElem.style.opacity = '0'
+    // boxElem.style.opacity = '0'
 
     setTimeout(() => (boxElem.style.maxHeight = '0'), 250)
     setTimeout(() => (boxElem.style.display = 'none'), 500)
+
+    super.hideNode()
   }
 }

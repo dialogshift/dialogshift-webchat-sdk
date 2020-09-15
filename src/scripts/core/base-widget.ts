@@ -7,11 +7,12 @@ export const config = {
   fxCls: {
     fade: 'ds-widget-fx--fade',
     zoom: 'ds-widget-fx--zoom',
+    fadeBottom: 'ds-widget-fx--fade-bottom',
   },
 }
 
 export interface BaseWidgetEffectsOptions {
-  appear?: 'fade' | null
+  appear?: 'fade' | 'fadeBottom' | 'zoom' | null
   delay?: number
   sound?: AudioSound
 }

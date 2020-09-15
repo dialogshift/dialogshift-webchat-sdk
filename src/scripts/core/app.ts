@@ -54,7 +54,6 @@ export interface AppOptions {
   unreadCounter?: number
   context?: MixedObject
   direction?: 'rtl' | 'ltr'
-  effects?: MixedObject
 }
 
 const appOptionsDefault = {
@@ -73,7 +72,6 @@ const appOptionsDefault = {
   unreadCounter: 0,
   context: {},
   direction: 'ltr',
-  effects: {},
 }
 
 export enum ActionEventType {
@@ -194,7 +192,7 @@ export class App {
       this.loadChat()
     })
 
-    this.widgetManager.renderUnreadWidget(this.options)
+    this.widgetManager.renderUnreadWidget(this.options, this.chatConfig)
 
     this.broadcast.on('ready', () => {
       this.ready = true

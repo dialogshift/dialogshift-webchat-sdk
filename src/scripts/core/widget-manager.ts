@@ -53,7 +53,7 @@ export class WidgetManager {
 
   renderChatButton(options: AppOptions, chatConfig: MixedObject) {
     const { locale } = options
-    const { buttonText, defaultLocale } = chatConfig
+    const { buttonText, defaultLocale, effects } = chatConfig
 
     let content = ''
 
@@ -69,7 +69,7 @@ export class WidgetManager {
       content,
       renderTo: this.wrapperWidget.getBoxElem(),
       visible: options.isButtonVisible,
-      effects: options.effects?.chatButton,
+      effects: effects?.chatButton,
       events: [
         {
           type: 'toggle',
@@ -122,7 +122,7 @@ export class WidgetManager {
     isTeaserVisible: boolean,
   ) {
     const { locale } = options
-    const { teaserText, defaultLocale } = chatConfig
+    const { teaserText, defaultLocale, effects } = chatConfig
 
     let content = 'Can I help you?'
 
@@ -140,7 +140,7 @@ export class WidgetManager {
       hideTeaserAfterTimes: chatConfig.hideTeaserAfterTimes,
       renderTo: this.contentWrapperWidget.getBoxElem(),
       visible: isTeaserVisible,
-      effects: options.effects?.teaser,
+      effects: effects?.teaser,
       events: [
         {
           type: 'before:show',
@@ -182,12 +182,14 @@ export class WidgetManager {
     })
   }
 
-  renderUnreadWidget(options: AppOptions) {
+  renderUnreadWidget(options: AppOptions, chatConfig: MixedObject) {
+    const { effects } = chatConfig
+
     this.unreadWidget = new UnreadWidget({
       visible: options.unreadCounter > 0 ? true : false,
       renderTo: this.wrapperWidget.getBoxElem(),
       unreadCounter: options.unreadCounter,
-      effects: options.effects?.unreadCounter,
+      effects: effects?.unreadCounter,
     })
   }
 
@@ -254,10 +256,11 @@ export class WidgetManager {
   }
 
   renderActionButtonGroupWidget(options: AppOptions, chatConfig: MixedObject) {
-    const { actionButtons } = chatConfig
+    const { actionButtons, effects } = chatConfig
 
     this.actionButtonGroupWidget = new ActionButtonGroupWidget({
       renderTo: this.contentWrapperWidget.getBoxElem(),
+      effects: effects?.actionButtons,
       visible:
         actionButtons &&
         actionButtons.length > 0 &&
