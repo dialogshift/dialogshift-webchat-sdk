@@ -88,13 +88,13 @@ export class BaseWidget extends Observable {
 
   protected showAnimateNode(boxElem: HTMLElement) {
     setTimeout(() => {
+      // boxElem.style.animationDelay = `${this.effects.delay}ms`
+      boxElem.classList.add(config.fxCls[this.effects.appear])
+
       if (this.effects.sound) {
         AudioService.playSound(this.effects.sound)
       }
     }, this.effects.delay)
-
-    boxElem.style.animationDelay = `${this.effects.delay}ms`
-    boxElem.classList.add(config.fxCls[this.effects.appear])
   }
 
   protected hideAnimateNode(boxElem: HTMLElement) {
