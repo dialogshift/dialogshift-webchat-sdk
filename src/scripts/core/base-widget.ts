@@ -8,11 +8,12 @@ export const config = {
     fade: 'ds-widget-fx--fade',
     zoom: 'ds-widget-fx--zoom',
     fadeBottom: 'ds-widget-fx--fade-bottom',
+    bounceInRight: 'ds-widget-fx--bounce-in-right',
   },
 }
 
 export interface BaseWidgetEffectsOptions {
-  appear?: 'fade' | 'fadeBottom' | 'zoom' | null
+  appear?: 'fade' | 'fadeBottom' | 'zoom' | 'bounceInRight' | null
   delay?: number
   sound?: AudioSound
 }
