@@ -140,10 +140,18 @@ export class App {
       }
 
       if (this.chatConfig.enableCSRFProtection) {
-        AnalyticsService.touchToken(this.options.id).then((token: string) => {
-          this.csrfToken = token
-          this.afterInit()
-        })
+        let csrfAfter = 0
+
+        if (this.chatConfig.csrfAfter) {
+          csrfAfter = this.chatConfig.csrfAfter
+        }
+
+        setTimeout(() => {
+          AnalyticsService.touchToken(this.options.id).then((token: string) => {
+            this.csrfToken = token
+            this.afterInit()
+          })
+        }, csrfAfter)
       } else {
         this.afterInit()
       }
