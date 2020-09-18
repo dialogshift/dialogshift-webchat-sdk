@@ -146,12 +146,13 @@ export class App {
           csrfAfter = this.chatConfig.csrfAfter
         }
 
-        setTimeout(() => {
-          AnalyticsService.touchToken(this.options.id).then((token: string) => {
+        AnalyticsService.touchToken(this.options.id, csrfAfter).then(
+          (token: string) => {
             this.csrfToken = token
-            this.afterInit()
-          })
-        }, csrfAfter)
+          },
+        )
+
+        this.afterInit()
       } else {
         this.afterInit()
       }
