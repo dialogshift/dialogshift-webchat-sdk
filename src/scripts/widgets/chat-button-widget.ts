@@ -1,9 +1,9 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
 
-type ButtonWidgetState = 'default' | 'active'
+type ChatButtonWidgetState = 'default' | 'active'
 
-export class ButtonWidget extends BaseWidget {
+export class ChatButtonWidget extends BaseWidget {
   private pressed = false
 
   constructor(options: BaseWidgetOptions) {
@@ -20,7 +20,7 @@ export class ButtonWidget extends BaseWidget {
     })
   }
 
-  getBaseCls() {
+  getBaseCls(): string {
     return config.buttonCls
   }
 
@@ -33,7 +33,7 @@ export class ButtonWidget extends BaseWidget {
     super.render()
   }
 
-  setState(state: ButtonWidgetState) {
+  setState(state: ChatButtonWidgetState) {
     if (state === 'active') {
       this.pressed = true
       this.getBoxElem().classList.add(config.buttonActiveCls)

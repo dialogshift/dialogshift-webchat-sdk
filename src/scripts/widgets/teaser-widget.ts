@@ -53,7 +53,7 @@ export class TeaserWidget extends BaseWidget {
     return true
   }
 
-  show(options= { force: false }): void {
+  show(options = { force: false }): void {
     if (options.force) {
       super.show()
       return

@@ -1,10 +1,10 @@
 import { config } from '../config/config'
 import { EventEmitter, Event } from './event-emitter'
+import { WidgetManager } from './widget-manager'
 import {
   WrapperWidget,
-  ButtonWidget,
+  ChatButtonWidget,
   ChatboxWidget,
-  IframeWidget,
   TeaserWidget,
   UnreadWidget,
 } from '../widgets/index'
@@ -53,6 +53,7 @@ export interface AppOptions {
   initialElement?: InitialElement
   unreadCounter?: number
   context?: MixedObject
+  direction?: 'rtl' | 'ltr'
 }
 
 const appOptionsDefault = {
@@ -70,6 +71,7 @@ const appOptionsDefault = {
   },
   unreadCounter: 0,
   context: {},
+  direction: 'ltr',
 }
 
 export enum ActionEventType {
@@ -93,14 +95,6 @@ export interface ActionEvent {
 }
 
 export class App {
-  public options: AppOptions
-  private wrapperWidget: WrapperWidget
-  private buttonWidget: ButtonWidget
-  private chatboxWidget: ChatboxWidget
-  private iframeWidget: IframeWidget
-  private teaserWidget: TeaserWidget
-  private unreadWidget: UnreadWidget
-  private actionButtonGroupWidget: ActionButtonGroupWidget
   private broadcast: EventEmitter
   private webchatService: WebchatService
   private chatConfig: MixedObject
@@ -108,6 +102,8 @@ export class App {
   private ready = false
   private csrfToken: string
   private isTeaserVisible = false
+  private widgetManager: WidgetManager
+  public options: AppOptions
 
   constructor(options: AppOptions) {
     if (!options) {
@@ -120,6 +116,7 @@ export class App {
 
     this.options = mergeDeep(appOptionsDefault, options) as AppOptions
     this.broadcast = new EventEmitter()
+    this.widgetManager = new WidgetManager(this.broadcast, this.webchatService)
 
     this.init()
   }
@@ -143,10 +140,19 @@ export class App {
       }
 
       if (this.chatConfig.enableCSRFProtection) {
-        AnalyticsService.touchToken(this.options.id).then((token: string) => {
-          this.csrfToken = token
-          this.afterInit()
-        })
+        let csrfAfter = 0
+
+        if (this.chatConfig.csrfAfter) {
+          csrfAfter = this.chatConfig.csrfAfter
+        }
+
+        AnalyticsService.touchToken(this.options.id, csrfAfter).then(
+          (token: string) => {
+            this.csrfToken = token
+          },
+        )
+
+        this.afterInit()
       } else {
         this.afterInit()
       }
@@ -164,32 +170,42 @@ export class App {
 
   private initWebchatService() {
     this.webchatService = new WebchatService({
-      targetWindow: this.iframeWidget.getBoxElem(),
+      targetWindow: this.widgetManager.getIframeWidget().getBoxElem(),
     })
   }
 
-  private renderContentWrapper(): HTMLElement {
-    const node = document.createElement('div')
-    node.classList.add('ds-content-wrapper')
-
-    this.wrapperWidget.getBoxElem().appendChild(node)
-
-    return node
-  }
-
   private render() {
-    this.renderWrapperWidget()
-    const contentWrapperNode = this.renderContentWrapper()
+    this.widgetManager.renderWrapper(this.options)
+    this.widgetManager.renderContentWrapper()
 
     if (this.options.renderButton) {
-      this.renderButtonWidget()
+      this.widgetManager.renderChatButton(this.options, this.chatConfig)
     }
 
-    this.createIframeWidget()
-    this.renderTeaserWidget(contentWrapperNode)
-    this.renderActionButtons(contentWrapperNode)
-    this.renderChatboxWidget()
-    this.renderUnreadWidget()
+    this.widgetManager.renderIframeWidget(this.options, () => {
+      this.initWebchatService()
+    })
+
+    this.widgetManager.renderTeaserWidget(
+      this.options,
+      this.chatConfig,
+      this.isTeaserVisible,
+    )
+
+    this.widgetManager.renderActionButtonGroupWidget(
+      this.options,
+      this.chatConfig,
+    )
+
+    this.widgetManager.renderChatboxWidget(this.options, () => {
+      this.loadChat()
+    })
+
+    this.widgetManager.renderUnreadWidget(this.options, this.chatConfig)
+
+    this.broadcast.on('ready', () => {
+      this.ready = true
+    })
   }
 
   private afterRender() {
@@ -197,15 +213,18 @@ export class App {
 
     if (showTeaserAfter) {
       setTimeout(() => {
-        if (!this.teaserWidget.isVisible() && !this.chatboxWidget.isVisible()) {
-          this.teaserWidget.show()
+        if (
+          !this.widgetManager.getTeaserWidget().isVisible() &&
+          !this.widgetManager.getChatboxWidget().isVisible()
+        ) {
+          this.widgetManager.getTeaserWidget().show()
         }
       }, showTeaserAfter * 1000)
     }
 
     if (hideTeaserAfter) {
       setTimeout(() => {
-        this.teaserWidget.hide()
+        this.widgetManager.getTeaserWidget().hide()
       }, hideTeaserAfter * 1000)
     }
 
@@ -243,8 +262,11 @@ export class App {
     })
 
     this.broadcast.on('message.receive', (event: Event) => {
-      if (!this.chatboxWidget.isVisible() && !event.data.fromHistory) {
-        this.unreadWidget.increase(1)
+      if (
+        !this.widgetManager.getChatboxWidget().isVisible() &&
+        !event.data.fromHistory
+      ) {
+        this.widgetManager.getUnreadWidget().increase(1)
       }
     })
 
@@ -295,234 +317,6 @@ export class App {
 
     if (message.name === ActionEventName.hideChatbox) {
       this.getChatboxWidget().hide()
-    }
-  }
-
-  private renderChatboxWidget() {
-    this.chatboxWidget = new ChatboxWidget({
-      visible: this.options.isChatboxVisible,
-      events: [
-        {
-          type: 'before:show',
-          callback: () => {
-            this.broadcast.fire('chatbox.show.before')
-
-            this.teaserWidget.hide()
-
-            if (this.unreadWidget) {
-              this.unreadWidget.reset()
-            }
-
-            if (this.buttonWidget) {
-              this.buttonWidget.setState('active')
-            }
-
-            if (this.webchatService) {
-              this.webchatService.setMinimized(false)
-            }
-
-            this.loadChat()
-          },
-        },
-        {
-          type: 'show',
-          callback: () => this.broadcast.fire('chatbox.show'),
-        },
-        {
-          type: 'before:hide',
-          callback: () => {
-            this.broadcast.fire('chatbox.hide.before')
-
-            if (this.isTeaserVisible) {
-              this.teaserWidget.show()
-            }
-
-            this.buttonWidget.setState('default')
-
-            if (this.webchatService) {
-              this.webchatService.setMinimized(true)
-            }
-          },
-        },
-        {
-          type: 'hide',
-          callback: () => {
-            this.broadcast.fire('chatbox.hide')
-          },
-        },
-      ],
-    })
-
-    this.chatboxWidget.render(this.wrapperWidget.getBoxElem())
-
-    this.broadcast.on('ready', () => {
-      this.ready = true
-      this.chatboxWidget.setState('ready')
-    })
-  }
-
-  private renderButtonWidget() {
-    const { locale } = this.options
-    const { buttonText, defaultLocale } = this.chatConfig
-
-    let content = ''
-
-    if (buttonText) {
-      if (buttonText[locale]) {
-        content = buttonText[locale]
-      } else if (defaultLocale && buttonText[defaultLocale]) {
-        content = buttonText[defaultLocale]
-      }
-    }
-
-    this.buttonWidget = new ButtonWidget({
-      content,
-      renderTo: this.wrapperWidget.getBoxElem(),
-      visible: this.options.isButtonVisible,
-      events: [
-        {
-          type: 'toggle',
-          callback: (event: MixedObject) => {
-            event.data.isPressed
-              ? this.chatboxWidget.show()
-              : this.chatboxWidget.hide()
-          },
-        },
-        {
-          type: 'before:show',
-          callback: () => this.broadcast.fire('button.show.before'),
-        },
-        {
-          type: 'show',
-          callback: () => this.broadcast.fire('button.show'),
-        },
-        {
-          type: 'before:hide',
-          callback: () => this.broadcast.fire('button.hide.before'),
-        },
-        {
-          type: 'hide',
-          callback: () => this.broadcast.fire('button.hide'),
-        },
-      ],
-    })
-  }
-
-  private renderWrapperWidget() {
-    this.wrapperWidget = new WrapperWidget({
-      renderTo: document.body,
-      position: this.options.position,
-      theme: this.options.theme,
-      direction: this.options.locale === 'ar' ? 'rtl' : 'ltr',
-    })
-
-    if (!this.options.renderButton) {
-      this.wrapperWidget.addCls(config.wrapperNoButtonCls)
-    }
-  }
-
-  private createIframeWidget() {
-    this.iframeWidget = new IframeWidget({
-      host: (config as MixedObject).env.iframeHost,
-      id: this.options.id,
-      initialElement: this.options.initialElement,
-      locale: this.options.locale,
-      events: [
-        {
-          type: 'render',
-          callback: () => this.initWebchatService(),
-        },
-      ],
-    })
-  }
-
-  private renderTeaserWidget(parentNode: HTMLElement) {
-    const { locale } = this.options
-    const { teaserText, defaultLocale } = this.chatConfig
-
-    let content = 'Can I help you?'
-
-    if (teaserText) {
-      if (teaserText[locale]) {
-        content = teaserText[locale]
-      } else if (defaultLocale && teaserText[defaultLocale]) {
-        content = teaserText[defaultLocale]
-      }
-    }
-
-    this.teaserWidget = new TeaserWidget({
-      content,
-      showTeaserOnce: this.chatConfig.showTeaserOnce,
-      hideTeaserAfterTimes: this.chatConfig.hideTeaserAfterTimes,
-      renderTo: parentNode,
-      visible: this.isTeaserVisible,
-      events: [
-        {
-          type: 'before:show',
-          callback: () => {
-            this.broadcast.fire('teaser.show.before')
-
-            if (this.actionButtonGroupWidget) {
-              this.actionButtonGroupWidget.show()
-            }
-
-            this.wrapperWidget.addCls(config.wrapperTeaserIsOpenCls)
-          },
-        },
-        {
-          type: 'show',
-          callback: () => this.broadcast.fire('teaser.show'),
-        },
-        {
-          type: 'before:hide',
-          callback: () => {
-            this.wrapperWidget.removeCls(config.wrapperTeaserIsOpenCls)
-
-            if (this.actionButtonGroupWidget) {
-              this.actionButtonGroupWidget.hide()
-            }
-
-            this.broadcast.fire('teaser.hide.before')
-          },
-        },
-        {
-          type: 'hide',
-          callback: () => this.broadcast.fire('teaser.hide'),
-        },
-        {
-          type: 'click',
-          callback: () => this.chatboxWidget.show(),
-        },
-      ],
-    })
-  }
-
-  private renderUnreadWidget() {
-    this.unreadWidget = new UnreadWidget({
-      visible: this.options.unreadCounter > 0 ? true : false,
-      renderTo: this.wrapperWidget.getBoxElem(),
-      unreadCounter: this.options.unreadCounter,
-    })
-  }
-
-  private renderActionButtons(parentNode: HTMLElement) {
-    const { actionButtons } = this.chatConfig
-
-    this.actionButtonGroupWidget = new ActionButtonGroupWidget({
-      renderTo: parentNode,
-      visible:
-        actionButtons && actionButtons.length > 0 && this.isTeaserVisible,
-    })
-
-    if (actionButtons && actionButtons.length > 0) {
-      actionButtons.forEach((item: MixedObject) => {
-        this.actionButtonGroupWidget.addButton({
-          ...item,
-          locale: this.options.locale,
-          defaultLocale: this.chatConfig.defaultLocale,
-          app: this,
-        })
-      })
     }
   }
 
@@ -588,27 +382,27 @@ export class App {
   }
 
   getWrapperWidget(): WrapperWidget {
-    return this.wrapperWidget
+    return this.widgetManager.getWrapperWidget()
   }
 
   getChatboxWidget(): ChatboxWidget {
-    return this.chatboxWidget
+    return this.widgetManager.getChatboxWidget()
   }
 
-  getButtonWidget(): ButtonWidget {
-    return this.buttonWidget
+  getButtonWidget(): ChatButtonWidget {
+    return this.widgetManager.getChatButtonWidget()
   }
 
   getTeaserWidget(): TeaserWidget {
-    return this.teaserWidget
+    return this.widgetManager.getTeaserWidget()
   }
 
   getUnreadWidget(): UnreadWidget {
-    return this.unreadWidget
+    return this.widgetManager.getUnreadWidget()
   }
 
   getActionButtonGroupWidget(): ActionButtonGroupWidget {
-    return this.actionButtonGroupWidget
+    return this.widgetManager.getActionButtonGroupWidget()
   }
 
   getContext(key: string): Promise<any> {
@@ -649,8 +443,10 @@ export class App {
 
     this.options.initialElement = mergedInitialElement
 
-    if (this.iframeWidget) {
-      this.iframeWidget.setInitialElement(mergedInitialElement)
+    if (this.widgetManager.getIframeWidget()) {
+      this.widgetManager
+        .getIframeWidget()
+        .setInitialElement(mergedInitialElement)
     }
   }
 
@@ -712,13 +508,13 @@ export class App {
 
     this.destroyed = true
 
-    this.unreadWidget.destroy()
-    this.teaserWidget.destroy()
-    this.buttonWidget.destroy()
-    this.iframeWidget.destroy()
-    this.chatboxWidget.destroy()
-    this.wrapperWidget.destroy()
-    this.actionButtonGroupWidget.destroy()
+    this.widgetManager.getUnreadWidget().destroy()
+    this.widgetManager.getTeaserWidget().destroy()
+    this.widgetManager.getChatButtonWidget().destroy()
+    this.widgetManager.getIframeWidget().destroy()
+    this.widgetManager.getChatboxWidget().destroy()
+    this.widgetManager.getWrapperWidget().destroy()
+    this.widgetManager.getActionButtonGroupWidget().destroy()
 
     this.broadcast.fire('destroy')
 
@@ -734,25 +530,29 @@ export class App {
   }
 
   loadChat() {
-    if (!this.iframeWidget.isRendered()) {
-      this.iframeWidget.render(this.chatboxWidget.getBoxElem())
+    if (!this.widgetManager.getIframeWidget().isRendered()) {
+      this.widgetManager
+        .getIframeWidget()
+        .render(this.widgetManager.getChatboxWidget().getBoxElem())
     }
 
-    if (!this.iframeWidget.isLoaded()) {
+    if (!this.widgetManager.getIframeWidget().isLoaded()) {
       UserService.touchUser(
         this.options.id,
         this.options.locale,
         this.csrfToken,
         this.options.context,
-      ).then((currentUserId: string) => this.iframeWidget.load(currentUserId))
+      ).then((currentUserId: string) =>
+        this.widgetManager.getIframeWidget().load(currentUserId),
+      )
     }
   }
 
   setActionButtons(buttons: MixedObject) {
-    this.actionButtonGroupWidget.clearButtons()
+    this.widgetManager.getActionButtonGroupWidget().clearButtons()
 
     buttons.forEach((item: MixedObject) => {
-      this.actionButtonGroupWidget.addButton({
+      this.widgetManager.getActionButtonGroupWidget().addButton({
         ...item,
         locale: this.options.locale,
         app: this,
