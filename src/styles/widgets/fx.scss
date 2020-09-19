@@ -76,3 +76,64 @@
     opacity: 1;
   }
 }
+
+@keyframes attentionPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 2px 15px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes attentionBounce {
+  0% {
+    transform: translateX(30px);
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  38% {
+    transform: translateX(0);
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+
+  55% {
+    transform: translateX(15px);
+    animation-timing-function: ease-in;
+  }
+
+  72% {
+    transform: translateX(0);
+    animation-timing-function: ease-out;
+  }
+
+  81% {
+    transform: translateX(10px);
+    animation-timing-function: ease-in;
+  }
+
+  90% {
+    transform: translateX(0);
+    animation-timing-function: ease-out;
+  }
+
+  95% {
+    transform: translateX(5px);
+    animation-timing-function: ease-in;
+  }
+
+  100% {
+    transform: translateX(0);
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+}

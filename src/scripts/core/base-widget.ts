@@ -9,6 +9,8 @@ export const config = {
     zoom: 'ds-widget-fx--zoom',
     fadeBottom: 'ds-widget-fx--fade-bottom',
     bounceInRight: 'ds-widget-fx--bounce-in-right',
+    pulse: 'ds-widget-fx--pulse',
+    bounce: 'ds-widget-fx--bounce',
   },
 }
 
@@ -16,6 +18,8 @@ export interface BaseWidgetEffectsOptions {
   appear?: 'fade' | 'fadeBottom' | 'zoom' | 'bounceInRight' | null
   delay?: number
   sound?: AudioSound
+  attention?: 'pulse' | 'bounce' | null
+  attentionInterval?: number
 }
 
 export interface BaseWidgetOptions extends ObservableOptions {
@@ -40,7 +44,10 @@ export class BaseWidget extends Observable {
   private effects: BaseWidgetEffectsOptions = {
     appear: null,
     delay: 0,
+    attention: null,
+    attentionInterval: 0,
   }
+  private attentionInterval: any = null
   protected visible = true
   protected animationDelay = 250
 
@@ -72,10 +79,41 @@ export class BaseWidget extends Observable {
         }
       }, 10)
     }
+
+    if (this.effects.attention && this.effects.attentionInterval) {
+      setTimeout(() => {
+        this.startAtention()
+      }, this.effects.delay)
+    }
+  }
+
+  protected startAtention() {
+    this.attentionInterval = setInterval(() => {
+      const boxElem = this.getBoxElem()
+
+      const handler = () => {
+        boxElem.removeEventListener('animationend', handler)
+        boxElem.classList.remove(config.fxCls[this.effects.attention])
+      }
+      boxElem.addEventListener('animationend', handler)
+
+      boxElem.classList.add(config.fxCls[this.effects.attention])
+    }, this.effects.attentionInterval)
+  }
+
+  protected stopAtention() {
+    this.attentionInterval && clearInterval(this.attentionInterval)
+    const boxElem = this.getBoxElem()
+    boxElem.classList.remove(config.fxCls[this.effects.attention])
   }
 
   protected hideNode() {
     const boxElem = this.getBoxElem()
+
+    if (this.effects.attention && this.effects.attentionInterval) {
+      this.stopAtention()
+    }
+
     boxElem.classList.remove(config.visibleCls)
 
     if (this.effects.appear) {
@@ -89,7 +127,14 @@ export class BaseWidget extends Observable {
 
   protected showAnimateNode(boxElem: HTMLElement) {
     setTimeout(() => {
-      // boxElem.style.animationDelay = `${this.effects.delay}ms`
+      const handler = () => {
+        boxElem.removeEventListener('animationend', handler)
+        boxElem.classList.add(config.visibleCls)
+        boxElem.classList.remove(config.fxCls[this.effects.appear])
+      }
+
+      boxElem.addEventListener('animationend', handler)
+
       boxElem.classList.add(config.fxCls[this.effects.appear])
 
       if (this.effects.sound) {
