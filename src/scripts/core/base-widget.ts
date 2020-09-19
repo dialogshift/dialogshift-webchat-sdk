@@ -1,4 +1,26 @@
 import { Observable, ObservableOptions } from './observable'
+import { AudioSound, AudioService } from '../services/audio.service'
+
+export const config = {
+  rootCls: 'ds-widget',
+  visibleCls: 'ds-widget--visible',
+  fxCls: {
+    fade: 'ds-widget-fx--fade',
+    zoom: 'ds-widget-fx--zoom',
+    fadeBottom: 'ds-widget-fx--fade-bottom',
+    bounceInRight: 'ds-widget-fx--bounce-in-right',
+    pulse: 'ds-widget-fx--pulse',
+    bounce: 'ds-widget-fx--bounce',
+  },
+}
+
+export interface BaseWidgetEffectsOptions {
+  appear?: 'fade' | 'fadeBottom' | 'zoom' | 'bounceInRight' | null
+  delay?: number
+  sound?: AudioSound
+  attention?: 'pulse' | 'bounce' | null
+  attentionInterval?: number
+}
 
 export interface BaseWidgetOptions extends ObservableOptions {
   visible?: boolean
@@ -6,23 +28,35 @@ export interface BaseWidgetOptions extends ObservableOptions {
   renderTo?: HTMLElement
   animationDelay?: number
   content?: string | number
+  effects?: BaseWidgetEffectsOptions
 }
 
 export type BaseWidgetDisplayMode = 'block' | 'flex'
 
 export class BaseWidget extends Observable {
-  private visible = true
   private baseCls = ''
   private renderTo: HTMLElement
-  protected animationDelay = 250
   private boxElem: HTMLElement
   private contentElem: HTMLElement
   private content: string | number
   private destroyed = false
   private displayMode: BaseWidgetDisplayMode = 'block'
+  private effects: BaseWidgetEffectsOptions = {
+    appear: null,
+    delay: 0,
+    attention: null,
+    attentionInterval: 0,
+  }
+  private attentionInterval: any = null
+  protected visible = true
+  protected animationDelay = 250
 
   constructor(options: BaseWidgetOptions) {
     super({ events: options.events })
+
+    if (!options.effects) {
+      delete options.effects
+    }
 
     Object.assign(this, options)
 
@@ -35,16 +69,83 @@ export class BaseWidget extends Observable {
     const boxElem = this.getBoxElem()
     boxElem.style.display = this.getDisplayMode()
 
-    setTimeout(() => {
-      boxElem.style.opacity = '1'
-    })
+    if (this.effects.appear) {
+      this.showAnimateNode(boxElem)
+    } else {
+      setTimeout(() => {
+        boxElem.classList.add(config.visibleCls)
+        if (this.effects.sound) {
+          AudioService.playSound(this.effects.sound)
+        }
+      }, 10)
+    }
+
+    if (this.effects.attention && this.effects.attentionInterval) {
+      setTimeout(() => {
+        this.startAtention()
+      }, this.effects.delay)
+    }
+  }
+
+  protected startAtention() {
+    this.attentionInterval = setInterval(() => {
+      const boxElem = this.getBoxElem()
+
+      const handler = () => {
+        boxElem.removeEventListener('animationend', handler)
+        boxElem.classList.remove(config.fxCls[this.effects.attention])
+      }
+      boxElem.addEventListener('animationend', handler)
+
+      boxElem.classList.add(config.fxCls[this.effects.attention])
+    }, this.effects.attentionInterval)
+  }
+
+  protected stopAtention() {
+    this.attentionInterval && clearInterval(this.attentionInterval)
+    const boxElem = this.getBoxElem()
+    boxElem.classList.remove(config.fxCls[this.effects.attention])
   }
 
   protected hideNode() {
     const boxElem = this.getBoxElem()
-    boxElem.style.opacity = '0'
 
-    setTimeout(() => (boxElem.style.display = 'none'))
+    if (this.effects.attention && this.effects.attentionInterval) {
+      this.stopAtention()
+    }
+
+    boxElem.classList.remove(config.visibleCls)
+
+    if (this.effects.appear) {
+      this.hideAnimateNode(boxElem)
+    } else {
+      setTimeout(() => {
+        boxElem.style.display = 'none'
+      }, this.animationDelay)
+    }
+  }
+
+  protected showAnimateNode(boxElem: HTMLElement) {
+    setTimeout(() => {
+      const handler = () => {
+        boxElem.removeEventListener('animationend', handler)
+        boxElem.classList.add(config.visibleCls)
+        boxElem.classList.remove(config.fxCls[this.effects.appear])
+      }
+
+      boxElem.addEventListener('animationend', handler)
+
+      boxElem.classList.add(config.fxCls[this.effects.appear])
+
+      if (this.effects.sound) {
+        AudioService.playSound(this.effects.sound)
+      }
+    }, this.effects.delay)
+  }
+
+  protected hideAnimateNode(boxElem: HTMLElement) {
+    boxElem.style.removeProperty('animationDelay')
+    boxElem.classList.remove(config.fxCls[this.effects.appear])
   }
 
   isDestroyed(): boolean {
@@ -59,7 +160,7 @@ export class BaseWidget extends Observable {
     return this.displayMode
   }
 
-  getBaseCls(): string {
+  getBaseCls(): string | string[] {
     return this.baseCls
   }
 
@@ -70,10 +171,21 @@ export class BaseWidget extends Observable {
   getBoxElem(): HTMLElement {
     if (!this.boxElem) {
       this.boxElem = this.createNode()
+      const baseCls = this.getBaseCls()
+      let classes = [config.rootCls]
 
-      if (this.getBaseCls()) {
-        this.boxElem.classList.add(this.getBaseCls())
+      if (typeof baseCls === 'string') {
+        classes = [
+          ...classes,
+          ...(baseCls.indexOf(' ') < 0
+            ? [baseCls]
+            : baseCls.replace(/^\s+|\s+$/g, '').split(/\s+/)),
+        ]
+      } else {
+        classes = [...classes, ...baseCls]
       }
+
+      classes.forEach((item: string) => this.boxElem.classList.add(item))
     }
 
     return this.boxElem
