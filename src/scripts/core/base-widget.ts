@@ -47,6 +47,7 @@ export class BaseWidget extends Observable {
     attention: null,
     attentionInterval: 0,
   }
+  private attentionInterval: any = null
   protected visible = true
   protected animationDelay = 250
 
@@ -87,7 +88,7 @@ export class BaseWidget extends Observable {
   }
 
   protected startAtention() {
-    const interval = setInterval(() => {
+    this.attentionInterval = setInterval(() => {
       const boxElem = this.getBoxElem()
 
       const handler = () => {
@@ -100,8 +101,19 @@ export class BaseWidget extends Observable {
     }, this.effects.attentionInterval)
   }
 
+  protected stopAtention() {
+    this.attentionInterval && clearInterval(this.attentionInterval)
+    const boxElem = this.getBoxElem()
+    boxElem.classList.remove(config.fxCls[this.effects.attention])
+  }
+
   protected hideNode() {
     const boxElem = this.getBoxElem()
+
+    if (this.effects.attention && this.effects.attentionInterval) {
+      this.stopAtention()
+    }
+
     boxElem.classList.remove(config.visibleCls)
 
     if (this.effects.appear) {
@@ -111,10 +123,6 @@ export class BaseWidget extends Observable {
         boxElem.style.display = 'none'
       }, this.animationDelay)
     }
-
-    // if (this.effects.bounceInterval) {
-    //   boxElem.classList.remove(config.fxCls.bounce)
-    // }
   }
 
   protected showAnimateNode(boxElem: HTMLElement) {
