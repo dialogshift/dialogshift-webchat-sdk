@@ -7,19 +7,27 @@
 
   &-fx {
     &--fade {
-      animation: widgetFade .25s ease both;
+      animation: widgetFade 0.25s ease both;
     }
 
     &--zoom {
-      animation: widgetZoom .25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      animation: widgetZoom 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     }
 
     &--fade-bottom {
-      animation: fadeBottom .5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      animation: fadeBottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     }
 
     &--bounce-in-right {
       animation: bounceInRight 1.1s both;
+    }
+
+    &--pulse {
+      animation: attentionPulse 1.5s both;
+    }
+
+    &--bounce {
+      animation: attentionBounce 1s both;
     }
   }
 }

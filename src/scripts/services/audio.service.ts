@@ -1,5 +1,5 @@
 export enum AudioSound {
-  cartoon = 'cartoon',
+  appear = 'appear',
 }
 
 const soundConfig = {
