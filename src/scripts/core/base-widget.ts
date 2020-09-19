@@ -9,6 +9,7 @@ export const config = {
     zoom: 'ds-widget-fx--zoom',
     fadeBottom: 'ds-widget-fx--fade-bottom',
     bounceInRight: 'ds-widget-fx--bounce-in-right',
+    pulse: 'ds-widget-fx--pulse',
   },
 }
 
@@ -16,6 +17,7 @@ export interface BaseWidgetEffectsOptions {
   appear?: 'fade' | 'fadeBottom' | 'zoom' | 'bounceInRight' | null
   delay?: number
   sound?: AudioSound
+  pulseInterval?: number
 }
 
 export interface BaseWidgetOptions extends ObservableOptions {
@@ -40,6 +42,7 @@ export class BaseWidget extends Observable {
   private effects: BaseWidgetEffectsOptions = {
     appear: null,
     delay: 0,
+    pulseInterval: 0,
   }
   protected visible = true
   protected animationDelay = 250
@@ -72,6 +75,26 @@ export class BaseWidget extends Observable {
         }
       }, 10)
     }
+
+    if (this.effects.pulseInterval) {
+      setTimeout(() => {
+        this.startPulse()
+      }, this.effects.delay)
+    }
+  }
+
+  protected startPulse() {
+    const interval = setInterval(() => {
+      const boxElem = this.getBoxElem()
+
+      const handler = () => {
+        boxElem.removeEventListener('animationend', handler)
+        boxElem.classList.remove(config.fxCls.pulse)
+      }
+      boxElem.addEventListener('animationend', handler)
+
+      boxElem.classList.add(config.fxCls.pulse)
+    }, this.effects.pulseInterval)
   }
 
   protected hideNode() {
@@ -85,11 +108,22 @@ export class BaseWidget extends Observable {
         boxElem.style.display = 'none'
       }, this.animationDelay)
     }
+
+    // if (this.effects.bounceInterval) {
+    //   boxElem.classList.remove(config.fxCls.bounce)
+    // }
   }
 
   protected showAnimateNode(boxElem: HTMLElement) {
     setTimeout(() => {
-      // boxElem.style.animationDelay = `${this.effects.delay}ms`
+      const handler = () => {
+        boxElem.removeEventListener('animationend', handler)
+        boxElem.classList.add(config.visibleCls)
+        boxElem.classList.remove(config.fxCls[this.effects.appear])
+      }
+
+      boxElem.addEventListener('animationend', handler)
+
       boxElem.classList.add(config.fxCls[this.effects.appear])
 
       if (this.effects.sound) {
