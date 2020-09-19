@@ -23,7 +23,11 @@
     }
 
     &--pulse {
-      animation: pulse-b 1.5s both;
+      animation: attentionPulse 1.5s both;
+    }
+
+    &--bounce {
+      animation: attentionBounce 1s both;
     }
   }
 }

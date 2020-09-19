@@ -10,6 +10,7 @@ export const config = {
     fadeBottom: 'ds-widget-fx--fade-bottom',
     bounceInRight: 'ds-widget-fx--bounce-in-right',
     pulse: 'ds-widget-fx--pulse',
+    bounce: 'ds-widget-fx--bounce',
   },
 }
 
@@ -17,7 +18,8 @@ export interface BaseWidgetEffectsOptions {
   appear?: 'fade' | 'fadeBottom' | 'zoom' | 'bounceInRight' | null
   delay?: number
   sound?: AudioSound
-  pulseInterval?: number
+  attention?: 'pulse' | 'bounce' | null
+  attentionInterval?: number
 }
 
 export interface BaseWidgetOptions extends ObservableOptions {
@@ -42,7 +44,8 @@ export class BaseWidget extends Observable {
   private effects: BaseWidgetEffectsOptions = {
     appear: null,
     delay: 0,
-    pulseInterval: 0,
+    attention: null,
+    attentionInterval: 0,
   }
   protected visible = true
   protected animationDelay = 250
@@ -76,25 +79,25 @@ export class BaseWidget extends Observable {
       }, 10)
     }
 
-    if (this.effects.pulseInterval) {
+    if (this.effects.attention && this.effects.attentionInterval) {
       setTimeout(() => {
-        this.startPulse()
+        this.startAtention()
       }, this.effects.delay)
     }
   }
 
-  protected startPulse() {
+  protected startAtention() {
     const interval = setInterval(() => {
       const boxElem = this.getBoxElem()
 
       const handler = () => {
         boxElem.removeEventListener('animationend', handler)
-        boxElem.classList.remove(config.fxCls.pulse)
+        boxElem.classList.remove(config.fxCls[this.effects.attention])
       }
       boxElem.addEventListener('animationend', handler)
 
-      boxElem.classList.add(config.fxCls.pulse)
-    }, this.effects.pulseInterval)
+      boxElem.classList.add(config.fxCls[this.effects.attention])
+    }, this.effects.attentionInterval)
   }
 
   protected hideNode() {
