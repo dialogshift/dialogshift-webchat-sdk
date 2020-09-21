@@ -125,6 +125,7 @@ export class App {
     if (parseUrlParam(window.location.href, 'ctrl') === 'forcenew') {
       UserService.deleteUser()
       AnalyticsService.deleteToken()
+      CookieService.delete('keep-chat-open')
       removeURLParameters(['ctrl'])
     }
 
