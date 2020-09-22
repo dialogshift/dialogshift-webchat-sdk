@@ -351,10 +351,15 @@ export class App {
       theme,
       noCookieModeSdk,
       forgetCustomerAfterHours,
+      isChatboxVisible,
     } = this.chatConfig
 
     if (setUnreadCounter) {
       this.options.unreadCounter = setUnreadCounter
+    }
+
+    if (isChatboxVisible !== undefined) {
+      this.options.isChatboxVisible = isChatboxVisible
     }
 
     if (showTeaserAfter === 0) {
