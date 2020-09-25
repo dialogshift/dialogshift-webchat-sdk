@@ -194,6 +194,7 @@ export class App {
     )
 
     this.widgetManager.renderActionButtonGroupWidget(
+      this,
       this.options,
       this.chatConfig,
     )
