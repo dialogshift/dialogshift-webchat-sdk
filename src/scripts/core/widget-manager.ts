@@ -12,7 +12,7 @@ import { EventEmitter } from './event-emitter'
 import { MixedObject } from '../types'
 import { config } from '../config/config'
 import { WebchatService } from '../services'
-import { AppOptions } from './app'
+import { AppOptions, App } from './app'
 
 export class WidgetManager {
   private readonly broadcast: EventEmitter
@@ -255,7 +255,11 @@ export class WidgetManager {
     })
   }
 
-  renderActionButtonGroupWidget(options: AppOptions, chatConfig: MixedObject) {
+  renderActionButtonGroupWidget(
+    app: App,
+    options: AppOptions,
+    chatConfig: MixedObject,
+  ) {
     const { actionButtons, effects } = chatConfig
 
     this.actionButtonGroupWidget = new ActionButtonGroupWidget({
@@ -271,9 +275,9 @@ export class WidgetManager {
       actionButtons.forEach((item: MixedObject) => {
         this.actionButtonGroupWidget.addButton({
           ...item,
+          app,
           locale: options.locale,
           defaultLocale: chatConfig.defaultLocale,
-          app: this,
         })
       })
     }
