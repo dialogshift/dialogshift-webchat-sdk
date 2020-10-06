@@ -37,14 +37,15 @@
   }
 
   &__content {
-    padding: 24px;
     text-align: center;
+    overflow-y: auto;
+    height: 100%;
   }
 
   &__title {
     font-size: 18px;
     text-align: center;
-    padding: 24px 0 16px;
+    padding: 48px 0 16px;
     font-weight: 600;
   }
 
@@ -69,6 +70,7 @@
   &__link {
     color: var(--link);
     text-decoration: underline;
+    padding-bottom: 24px;
 
     &:visited {
       color: var(--link);
