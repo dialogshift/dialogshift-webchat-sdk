@@ -7,6 +7,8 @@ import {
   TeaserWidget,
   UnreadWidget,
   ActionButtonGroupWidget,
+  WhatsappButtonWidget,
+  WhatsappWindowWidget,
 } from '../widgets/index'
 import { EventEmitter } from './event-emitter'
 import { MixedObject } from '../types'
@@ -15,9 +17,7 @@ import { WebchatService } from '../services'
 import { AppOptions, App } from './app'
 
 export class WidgetManager {
-  private readonly broadcast: EventEmitter
-  private readonly webchatService: WebchatService
-
+  private readonly app: App
   private chatButtonWidget: ChatButtonWidget
   private chatboxWidget: ChatboxWidget
   private wrapperWidget: WrapperWidget
@@ -26,10 +26,23 @@ export class WidgetManager {
   private teaserWidget: TeaserWidget
   private unreadWidget: UnreadWidget
   private actionButtonGroupWidget: ActionButtonGroupWidget
+  private whatsappButtonWidget: WhatsappButtonWidget
+  private whatsappWindowWidget: WhatsappWindowWidget
 
-  constructor(broadcast: EventEmitter, webchatService: WebchatService) {
-    this.broadcast = broadcast
-    this.webchatService = webchatService
+  constructor(app: App) {
+    this.app = app
+  }
+
+  private getWebchatService(): WebchatService {
+    return this.app.getWebchatService()
+  }
+
+  private getBroadcast(): EventEmitter {
+    return this.app.getBroadcast()
+  }
+
+  private isAppReady(): boolean {
+    return this.app.isReady()
   }
 
   renderWrapper(options: AppOptions) {
@@ -81,19 +94,19 @@ export class WidgetManager {
         },
         {
           type: 'before:show',
-          callback: () => this.broadcast.fire('button.show.before'),
+          callback: () => this.getBroadcast().fire('button.show.before'),
         },
         {
           type: 'show',
-          callback: () => this.broadcast.fire('button.show'),
+          callback: () => this.getBroadcast().fire('button.show'),
         },
         {
           type: 'before:hide',
-          callback: () => this.broadcast.fire('button.hide.before'),
+          callback: () => this.getBroadcast().fire('button.hide.before'),
         },
         {
           type: 'hide',
-          callback: () => this.broadcast.fire('button.hide'),
+          callback: () => this.getBroadcast().fire('button.hide'),
         },
       ],
     })
@@ -145,7 +158,7 @@ export class WidgetManager {
         {
           type: 'before:show',
           callback: () => {
-            this.broadcast.fire('teaser.show.before')
+            this.getBroadcast().fire('teaser.show.before')
 
             if (this.actionButtonGroupWidget) {
               this.actionButtonGroupWidget.show()
@@ -156,7 +169,7 @@ export class WidgetManager {
         },
         {
           type: 'show',
-          callback: () => this.broadcast.fire('teaser.show'),
+          callback: () => this.getBroadcast().fire('teaser.show'),
         },
         {
           type: 'before:hide',
@@ -167,12 +180,12 @@ export class WidgetManager {
               this.actionButtonGroupWidget.hide()
             }
 
-            this.broadcast.fire('teaser.hide.before')
+            this.getBroadcast().fire('teaser.hide.before')
           },
         },
         {
           type: 'hide',
-          callback: () => this.broadcast.fire('teaser.hide'),
+          callback: () => this.getBroadcast().fire('teaser.hide'),
         },
         {
           type: 'click',
@@ -200,7 +213,7 @@ export class WidgetManager {
         {
           type: 'before:show',
           callback: () => {
-            this.broadcast.fire('chatbox.show.before')
+            this.getBroadcast().fire('chatbox.show.before')
 
             this.teaserWidget.hide()
 
@@ -212,8 +225,8 @@ export class WidgetManager {
               this.chatButtonWidget.setState('active')
             }
 
-            if (this.webchatService) {
-              this.webchatService.setMinimized(false)
+            if (this.getWebchatService()) {
+              this.getWebchatService().setMinimized(false)
             }
 
             beforeShowCallback()
@@ -221,12 +234,12 @@ export class WidgetManager {
         },
         {
           type: 'show',
-          callback: () => this.broadcast.fire('chatbox.show'),
+          callback: () => this.getBroadcast().fire('chatbox.show'),
         },
         {
           type: 'before:hide',
           callback: () => {
-            this.broadcast.fire('chatbox.hide.before')
+            this.getBroadcast().fire('chatbox.hide.before')
 
             if (this.teaserWidget.isVisible()) {
               this.teaserWidget.show()
@@ -234,15 +247,15 @@ export class WidgetManager {
 
             this.chatButtonWidget.setState('default')
 
-            if (this.webchatService) {
-              this.webchatService.setMinimized(true)
+            if (this.getWebchatService()) {
+              this.getWebchatService().setMinimized(true)
             }
           },
         },
         {
           type: 'hide',
           callback: () => {
-            this.broadcast.fire('chatbox.hide')
+            this.getBroadcast().fire('chatbox.hide')
           },
         },
       ],
@@ -250,7 +263,7 @@ export class WidgetManager {
 
     this.chatboxWidget.render(this.wrapperWidget.getBoxElem())
 
-    this.broadcast.on('ready', () => {
+    this.getBroadcast().on('ready', () => {
       this.chatboxWidget.setState('ready')
     })
   }
@@ -283,6 +296,68 @@ export class WidgetManager {
     }
   }
 
+  renderWhatsappButtonWidget(options: AppOptions, chatConfig: MixedObject) {
+    const { effects } = chatConfig
+
+    this.whatsappButtonWidget = new WhatsappButtonWidget({
+      renderTo: this.wrapperWidget.getBoxElem(),
+      effects: effects?.whatsappButton,
+      visible: false,
+      events: [
+        {
+          type: 'toggle',
+          callback: (event: MixedObject) => {
+            event.data.isPressed
+              ? this.whatsappWindowWidget.show()
+              : this.whatsappWindowWidget.hide()
+          },
+        },
+      ],
+    })
+
+    this.chatboxWidget.on('show', () => {
+      if (!this.isAppReady()) {
+        this.getBroadcast().once('ready', () => {
+          this.whatsappButtonWidget.show()
+        })
+      } else {
+        this.whatsappButtonWidget.show()
+      }
+    })
+
+    this.chatboxWidget.on('before:hide', () => {
+      this.whatsappButtonWidget.hide()
+      this.whatsappButtonWidget.setState('default')
+    })
+  }
+
+  renderWhatsappWindowWidget(options: AppOptions) {
+    this.whatsappWindowWidget = new WhatsappWindowWidget({
+      renderTo: this.chatboxWidget.getBoxElem(),
+      visible: false,
+      clientId: options.id,
+      events: [
+        {
+          type: 'before:hide',
+          callback: () => {
+            this.iframeWidget.show()
+            this.whatsappButtonWidget.setState('default')
+          },
+        },
+        {
+          type: 'before:show',
+          callback: () => {
+            this.iframeWidget.hide()
+          },
+        },
+      ],
+    })
+
+    this.chatboxWidget.on('before:hide', () => {
+      this.whatsappWindowWidget.hide()
+    })
+  }
+
   getChatButtonWidget(): ChatButtonWidget {
     return this.chatButtonWidget
   }
@@ -309,5 +384,25 @@ export class WidgetManager {
 
   getActionButtonGroupWidget(): ActionButtonGroupWidget {
     return this.actionButtonGroupWidget
+  }
+
+  getWhatsappButtonWidget(): WhatsappButtonWidget {
+    return this.whatsappButtonWidget
+  }
+
+  getWhatsappWindowWidget(): WhatsappWindowWidget {
+    return this.whatsappWindowWidget
+  }
+
+  destroy() {
+    this.unreadWidget.destroy()
+    this.teaserWidget.destroy()
+    this.chatButtonWidget.destroy()
+    this.iframeWidget.destroy()
+    this.chatboxWidget.destroy()
+    this.wrapperWidget.destroy()
+    this.actionButtonGroupWidget.destroy()
+    this.whatsappButtonWidget.destroy()
+    this.whatsappWindowWidget.destroy()
   }
 }

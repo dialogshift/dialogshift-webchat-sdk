@@ -4,7 +4,7 @@ import {
   BaseWidgetDisplayMode,
 } from '../core/base-widget'
 import { config } from '../config/config'
-import { ActionButtonWidget } from './action-button-widget'
+import { ActionButtonWidget } from './action-button.widget'
 import { ActionButton } from '../models'
 import { MixedObject } from '../types'
 

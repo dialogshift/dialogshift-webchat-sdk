@@ -2,13 +2,6 @@ import { config } from '../config/config'
 import { EventEmitter, Event } from './event-emitter'
 import { WidgetManager } from './widget-manager'
 import {
-  WrapperWidget,
-  ChatButtonWidget,
-  ChatboxWidget,
-  TeaserWidget,
-  UnreadWidget,
-} from '../widgets/index'
-import {
   ApiService,
   WebchatService,
   CookieService,
@@ -22,7 +15,6 @@ import {
   mergeDeep,
   removeURLParameters,
 } from './utils'
-import { ActionButtonGroupWidget } from '../widgets/action-button-group-widget'
 import { MixedObject } from '../types'
 
 export enum ChatPosition {
@@ -116,7 +108,7 @@ export class App {
 
     this.options = mergeDeep(appOptionsDefault, options) as AppOptions
     this.broadcast = new EventEmitter()
-    this.widgetManager = new WidgetManager(this.broadcast, this.webchatService)
+    this.widgetManager = new WidgetManager(this)
 
     this.init()
   }
@@ -204,6 +196,8 @@ export class App {
     })
 
     this.widgetManager.renderUnreadWidget(this.options, this.chatConfig)
+    this.widgetManager.renderWhatsappButtonWidget(this.options, this.chatConfig)
+    this.widgetManager.renderWhatsappWindowWidget(this.options)
 
     this.broadcast.on('ready', () => {
       this.ready = true
@@ -307,18 +301,18 @@ export class App {
     }
 
     if (message.name === ActionEventName.setTeaserText) {
-      this.getTeaserWidget().setContent(message.payload.text)
-      this.getTeaserWidget().show({
+      this.widgetManager.getTeaserWidget().setContent(message.payload.text)
+      this.widgetManager.getTeaserWidget().show({
         force: true,
       })
     }
 
     if (message.name === ActionEventName.showChatbox) {
-      this.getChatboxWidget().show()
+      this.widgetManager.getChatboxWidget().show()
     }
 
     if (message.name === ActionEventName.hideChatbox) {
-      this.getChatboxWidget().hide()
+      this.widgetManager.getChatboxWidget().hide()
     }
   }
 
@@ -384,32 +378,16 @@ export class App {
     }
   }
 
+  getWebchatService(): WebchatService {
+    return this.webchatService
+  }
+
   getBroadcast(): EventEmitter {
     return this.broadcast
   }
 
-  getWrapperWidget(): WrapperWidget {
-    return this.widgetManager.getWrapperWidget()
-  }
-
-  getChatboxWidget(): ChatboxWidget {
-    return this.widgetManager.getChatboxWidget()
-  }
-
-  getButtonWidget(): ChatButtonWidget {
-    return this.widgetManager.getChatButtonWidget()
-  }
-
-  getTeaserWidget(): TeaserWidget {
-    return this.widgetManager.getTeaserWidget()
-  }
-
-  getUnreadWidget(): UnreadWidget {
-    return this.widgetManager.getUnreadWidget()
-  }
-
-  getActionButtonGroupWidget(): ActionButtonGroupWidget {
-    return this.widgetManager.getActionButtonGroupWidget()
+  getWidgetManager(): WidgetManager {
+    return this.widgetManager
   }
 
   getContext(key: string): Promise<any> {
@@ -490,15 +468,18 @@ export class App {
       }
 
       if (config.showChatbox) {
-        this.getChatboxWidget().show()
+        this.widgetManager.getChatboxWidget().show()
       } else {
         this.loadChat()
       }
     }
 
     if (this.isReady()) {
-      if (!this.getChatboxWidget().isVisible() && config.showChatbox) {
-        this.getChatboxWidget().show()
+      if (
+        !this.widgetManager.getChatboxWidget().isVisible() &&
+        config.showChatbox
+      ) {
+        this.widgetManager.getChatboxWidget().show()
       }
 
       this.webchatService.triggerElement({
@@ -515,16 +496,9 @@ export class App {
 
     this.destroyed = true
 
-    this.widgetManager.getUnreadWidget().destroy()
-    this.widgetManager.getTeaserWidget().destroy()
-    this.widgetManager.getChatButtonWidget().destroy()
-    this.widgetManager.getIframeWidget().destroy()
-    this.widgetManager.getChatboxWidget().destroy()
-    this.widgetManager.getWrapperWidget().destroy()
-    this.widgetManager.getActionButtonGroupWidget().destroy()
+    this.widgetManager.destroy()
 
     this.broadcast.fire('destroy')
-
     this.broadcast.offAll()
   }
 

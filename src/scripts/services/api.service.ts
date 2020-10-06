@@ -7,8 +7,12 @@ export class ApiService {
     return HttpService
   }
 
-  static getEndpoint(): string {
-    return (config as MixedObject).env.apiEndpoint
+  static getCoreEndpoint(): string {
+    return (config as MixedObject).env.coreApiEndpoint
+  }
+
+  static getIbeEndpoint(): string {
+    return (config as MixedObject).env.ibeApiEndpoint
   }
 
   static setContext(
@@ -25,7 +29,7 @@ export class ApiService {
     }
 
     return ApiService.getTransport().postRequest(
-      `${ApiService.getEndpoint()}/config/context`,
+      `${ApiService.getCoreEndpoint()}/config/context`,
       data,
     )
   }
@@ -36,7 +40,7 @@ export class ApiService {
   ): Promise<MixedObject> {
     return ApiService.getTransport()
       .getRequest(
-        `${ApiService.getEndpoint()}/config/context/${customerId}/${variable}`,
+        `${ApiService.getCoreEndpoint()}/config/context/${customerId}/${variable}`,
       )
       .then((response: MixedObject) => {
         return response[variable] ? response[variable] : null
@@ -48,7 +52,7 @@ export class ApiService {
     customerId = 'none',
   ): Promise<MixedObject> {
     return ApiService.getTransport().getRequest(
-      `${ApiService.getEndpoint()}/config/webapp/${clientId}/${customerId}`,
+      `${ApiService.getCoreEndpoint()}/config/webapp/${clientId}/${customerId}`,
     )
   }
 
@@ -59,7 +63,7 @@ export class ApiService {
     csrfToken?: string
     context?: MixedObject
   }): Promise<MixedObject | Error> {
-    let url = `${ApiService.getEndpoint()}/customer/v2/createnew/${
+    let url = `${ApiService.getCoreEndpoint()}/customer/v2/createnew/${
       options.source
     }/${options.clientId}/${options.locale}`
 
@@ -81,7 +85,7 @@ export class ApiService {
     currentURL: string
   }): Promise<MixedObject> {
     return ApiService.getTransport().postRequest(
-      `${ApiService.getEndpoint()}/customer/validate`,
+      `${ApiService.getCoreEndpoint()}/customer/validate`,
       {
         currentURL: options.currentURL,
         clientid: options.clientId,
@@ -107,8 +111,21 @@ export class ApiService {
     }
 
     return ApiService.getTransport().getRequest(
-      `${ApiService.getEndpoint()}/customer/csrf`,
+      `${ApiService.getCoreEndpoint()}/customer/csrf`,
       data,
+    )
+  }
+
+  static getWhatsappLink(
+    clientid: string,
+    custid: string,
+  ): Promise<MixedObject> {
+    return ApiService.getTransport().getRequest(
+      `${ApiService.getIbeEndpoint()}/whatsapp/onboard`,
+      {
+        clientid,
+        custid,
+      },
     )
   }
 }
