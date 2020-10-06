@@ -1,10 +1,8 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
 
-type ChatButtonWidgetState = 'default' | 'active'
-
 export class ChatButtonWidget extends BaseWidget {
-  private pressed = false
+  private isPressed = false
 
   constructor(options: BaseWidgetOptions) {
     super(options)
@@ -12,11 +10,7 @@ export class ChatButtonWidget extends BaseWidget {
 
   private bindEvents() {
     this.getBoxElem().addEventListener('click', () => {
-      this.pressed = !this.pressed
-
-      this.fire('toggle', {
-        isPressed: this.pressed,
-      })
+      this.toggle()
     })
   }
 
@@ -33,15 +27,25 @@ export class ChatButtonWidget extends BaseWidget {
     super.render()
   }
 
-  setState(state: ChatButtonWidgetState) {
-    if (state === 'active') {
-      this.pressed = true
-      this.getBoxElem().classList.add(config.buttonActiveCls)
+  toggle(state?: boolean, suppressEvent = false): void {
+    const isPressed = state === undefined ? !this.isPressed : !!state
+
+    if (isPressed === this.isPressed) {
+      return
     }
 
-    if (state === 'default') {
-      this.pressed = false
+    this.isPressed = isPressed
+
+    if (isPressed) {
+      this.getBoxElem().classList.add(config.buttonActiveCls)
+    } else {
       this.getBoxElem().classList.remove(config.buttonActiveCls)
+    }
+
+    if (!suppressEvent) {
+      this.fire('toggle', {
+        isPressed,
+      })
     }
   }
 

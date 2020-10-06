@@ -39,6 +39,7 @@ export interface AppOptions {
   theme?: AppTheme
   isChatboxVisible?: boolean
   isButtonVisible?: boolean
+  renderWaButton?: boolean
   showTeaserOnce?: boolean
   renderButton?: boolean
   showFooter?: boolean
@@ -54,6 +55,7 @@ const appOptionsDefault = {
   position: ChatPosition.right,
   isChatboxVisible: false,
   isButtonVisible: true,
+  renderWaButton: false,
   showTeaserOnce: false,
   renderButton: true,
   showFooter: true,
@@ -196,8 +198,11 @@ export class App {
     })
 
     this.widgetManager.renderUnreadWidget(this.options, this.chatConfig)
-    this.widgetManager.renderWhatsappButtonWidget(this.options, this.chatConfig)
-    this.widgetManager.renderWhatsappWindowWidget(this.options)
+
+    if (this.options.renderWaButton) {
+      this.widgetManager.renderWhatsappButtonWidget(this.chatConfig)
+      this.widgetManager.renderWhatsappWindowWidget(this.options)
+    }
 
     this.broadcast.on('ready', () => {
       this.ready = true
@@ -347,6 +352,7 @@ export class App {
       noCookieModeSdk,
       forgetCustomerAfterHours,
       isChatboxVisible,
+      renderWaButton,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -375,6 +381,10 @@ export class App {
 
     if (forgetCustomerAfterHours) {
       UserService.updateCookieLifetime(forgetCustomerAfterHours)
+    }
+
+    if (renderWaButton) {
+      this.options.renderWaButton = renderWaButton
     }
   }
 
