@@ -5,8 +5,6 @@ const config = {
   activeCls: 'ds-whatsapp-button--active',
 }
 
-type WhatsappButtonWidgetState = 'default' | 'active'
-
 export class WhatsappButtonWidget extends BaseWidget {
   private isPressed = false
 
@@ -26,27 +24,25 @@ export class WhatsappButtonWidget extends BaseWidget {
     this.bindEvents()
   }
 
-  toggle() {
-    if (this.isPressed) {
-      this.setState('default')
-    } else {
-      this.setState('active')
+  toggle(state?: boolean, suppressEvent = false): void {
+    const isPressed = state === undefined ? !this.isPressed : !!state
+
+    if (isPressed === this.isPressed) {
+      return
     }
 
-    this.fire('toggle', {
-      isPressed: this.isPressed,
-    })
-  }
+    this.isPressed = isPressed
 
-  setState(state: WhatsappButtonWidgetState) {
-    if (state === 'active') {
-      this.isPressed = true
+    if (isPressed) {
       this.getBoxElem().classList.add(config.activeCls)
+    } else {
+      this.getBoxElem().classList.remove(config.activeCls)
     }
 
-    if (state === 'default') {
-      this.isPressed = false
-      this.getBoxElem().classList.remove(config.activeCls)
+    if (!suppressEvent) {
+      this.fire('toggle', {
+        isPressed,
+      })
     }
   }
 

@@ -37,6 +37,8 @@ export class WhatsappWindowWidget extends BaseWidget {
 
   private loadQR() {
     if (!this.isLoaded) {
+      this.isLoaded = true
+
       ApiService.getWhatsappLink(
         this.clientId,
         UserService.getCustomerId(),
