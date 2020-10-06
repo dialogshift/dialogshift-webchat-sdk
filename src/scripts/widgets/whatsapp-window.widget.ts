@@ -65,6 +65,10 @@ export class WhatsappWindowWidget extends BaseWidget {
     const link = `<a class="${config.linkCls}" href="${this.waLink}" target="_blank">Connect</a>`
 
     this.setContent(title + description + qr + linkText + link)
+
+    // const svg = this.getBoxElem().querySelector('svg')
+    // svg.setAttribute('width', '228')
+    // svg.setAttribute('height', '228')
   }
 
   getBaseCls(): string {
