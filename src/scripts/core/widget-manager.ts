@@ -316,23 +316,15 @@ export class WidgetManager {
               }
 
               this.chatButtonWidget.toggle(true)
+              this.wrapperWidget.addCls('ds-whatsapp--opened')
             } else {
               this.whatsappWindowWidget.hide()
+              this.wrapperWidget.removeCls('ds-whatsapp--opened')
             }
           },
         },
       ],
     })
-
-    // this.chatboxWidget.on('show', () => {
-    //   if (!this.isAppReady()) {
-    //     this.getBroadcast().once('ready', () => {
-    //       this.whatsappButtonWidget.show()
-    //     })
-    //   } else {
-    //     this.whatsappButtonWidget.show()
-    //   }
-    // })
 
     this.chatboxWidget.on('before:hide', () => {
       this.whatsappButtonWidget.toggle(false)

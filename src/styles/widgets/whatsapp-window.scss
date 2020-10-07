@@ -55,10 +55,15 @@
     padding: 16px 0 0;
   }
 
-  &__text-link {
+  &__text-link,
+  &__text-link-mobile {
     font-size: 14px;
     text-align: center;
     padding: 8px 0 8px;
+  }
+
+  &__text-link-mobile {
+    display: none;
   }
 
   &__qr {
@@ -103,6 +108,34 @@
 
     &:hover {
       opacity: 1;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .ds-whatsapp-window {
+    &__cross {
+      width: 36px;
+      height: 36px;
+      right: 10px;
+      top: 10px;
+      background-size: 20px;
+    }
+
+    &__text {
+      display: none;
+    }
+
+    &__qr {
+      display: none;
+    }
+
+    &__text-link {
+      display: none;
+    }
+
+    &__text-link-mobile {
+      display: block;
     }
   }
 }

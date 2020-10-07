@@ -9,6 +9,7 @@ const config = {
   titleCls: 'ds-whatsapp-window__title',
   textCls: 'ds-whatsapp-window__text',
   textLinkCls: 'ds-whatsapp-window__text-link',
+  textLinkMobileCls: 'ds-whatsapp-window__text-link-mobile',
   qr: 'ds-whatsapp-window__qr',
   linkCls: 'ds-whatsapp-window__link',
   crossCls: 'ds-whatsapp-window__cross',
@@ -62,9 +63,10 @@ export class WhatsappWindowWidget extends BaseWidget {
     const description = `<div class="${config.textCls}">Scan the QR code with your phone</div>`
     const qr = `<div class="${config.qr}">${this.waSvg}</div>`
     const linkText = `<div class="${config.textLinkCls}">or clicking the link below</div>`
+    const linkMobileText = `<div class="${config.textLinkMobileCls}">Click the link below to open WhatsApp</div>`
     const link = `<a class="${config.linkCls}" href="${this.waLink}" target="_blank">Connect</a>`
 
-    this.setContent(title + description + qr + linkText + link)
+    this.setContent(title + description + qr + linkText + linkMobileText + link)
 
     // const svg = this.getBoxElem().querySelector('svg')
     // svg.setAttribute('width', '228')
