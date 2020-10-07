@@ -42,14 +42,7 @@ export class ActionButtonGroupWidget extends BaseWidget {
     const boxElem = this.getBoxElem()
 
     boxElem.style.display = this.getDisplayMode()
-
-    // setTimeout(() => {
     boxElem.style.maxHeight = '147px'
-    // })
-
-    // setTimeout(() => {
-    // boxElem.style.opacity = '1'
-    // }, 250)
 
     setTimeout(() => {
       boxElem.style.overflowY = 'visible'
@@ -63,7 +56,6 @@ export class ActionButtonGroupWidget extends BaseWidget {
     const boxElem = this.getBoxElem()
 
     boxElem.style.overflowY = 'hidden'
-    // boxElem.style.opacity = '0'
 
     setTimeout(() => (boxElem.style.maxHeight = '0'), 250)
     setTimeout(() => (boxElem.style.display = 'none'), 500)

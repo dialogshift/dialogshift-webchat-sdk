@@ -336,6 +336,7 @@ export class WidgetManager {
       renderTo: this.chatboxWidget.getBoxElem(),
       visible: false,
       clientId: options.id,
+      locale: options.locale,
       events: [
         {
           type: 'before:hide',
