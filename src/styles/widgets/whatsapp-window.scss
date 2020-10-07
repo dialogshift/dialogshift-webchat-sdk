@@ -137,5 +137,15 @@
     &__text-link-mobile {
       display: block;
     }
+
+    &__link {
+      padding: 12px 36px;
+      border: 2px solid var(--link);
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 20px;
+      display: inline-block;
+      margin: 36px auto;
+    }
   }
 }
