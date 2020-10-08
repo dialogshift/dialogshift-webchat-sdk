@@ -1,5 +1,6 @@
 @import 'common/font';
 @import 'common/colors';
+@import 'common/animation';
 
 @import 'themes/base';
 @import 'themes/round';
@@ -16,17 +17,5 @@
 @import 'widgets/content-wrapper';
 @import 'widgets/action-button-group';
 @import 'widgets/action-button';
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.7);
-  }
-
-  70% {
-    box-shadow: 0 0 0 15px rgba(204, 169, 44, 0);
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
-  }
-}
+@import 'widgets/whatsapp-button';
+@import 'widgets/whatsapp-window';

@@ -50,7 +50,7 @@ export class ActionButtonWidget extends BaseWidget {
     this.bindEvents()
   }
 
-  getBaseCls() {
+  getBaseCls(): string {
     return config.actionButtonCls
   }
 }
