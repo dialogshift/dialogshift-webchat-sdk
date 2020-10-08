@@ -38,7 +38,7 @@ export class ChatboxWidget extends BaseWidget {
     })
   }
 
-  getBaseCls() {
+  getBaseCls(): string {
     return config.chatCls
   }
 
