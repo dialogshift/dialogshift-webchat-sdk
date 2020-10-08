@@ -38,51 +38,51 @@ export const createFacade = (instance: App) => {
     },
 
     showChatbox() {
-      instance.getChatboxWidget().show()
+      instance.getWidgetManager().getChatboxWidget().show()
     },
 
     hideChatbox() {
-      instance.getChatboxWidget().hide()
+      instance.getWidgetManager().getChatboxWidget().hide()
     },
 
     showButton() {
-      instance.getButtonWidget().show()
+      instance.getWidgetManager().getChatButtonWidget().show()
     },
 
     hideButton() {
-      instance.getButtonWidget().hide()
+      instance.getWidgetManager().getChatButtonWidget().hide()
     },
 
     setButtonText(text: string) {
-      instance.getButtonWidget().setContent(text)
+      instance.getWidgetManager().getChatButtonWidget().setContent(text)
     },
 
     showTeaser() {
-      instance.getTeaserWidget().show()
+      instance.getWidgetManager().getTeaserWidget().show()
     },
 
     hideTeaser() {
-      instance.getTeaserWidget().hide()
+      instance.getWidgetManager().getTeaserWidget().hide()
     },
 
     setTeaserText(text: string) {
-      instance.getTeaserWidget().setContent(text)
+      instance.getWidgetManager().getTeaserWidget().setContent(text)
     },
 
     setPosition(position: ChatPosition) {
-      instance.getWrapperWidget().setPosition(position)
+      instance.getWidgetManager().getWrapperWidget().setPosition(position)
     },
 
     setTheme(theme: AppTheme) {
-      instance.getWrapperWidget().setTheme(theme)
+      instance.getWidgetManager().getWrapperWidget().setTheme(theme)
     },
 
     showActionButtons() {
-      instance.getActionButtonGroupWidget().show()
+      instance.getWidgetManager().getActionButtonGroupWidget().show()
     },
 
     hideActionButtons() {
-      instance.getActionButtonGroupWidget().hide()
+      instance.getWidgetManager().getActionButtonGroupWidget().hide()
     },
 
     setActionButtons(buttons: MixedObject[]) {
@@ -102,11 +102,11 @@ export const createFacade = (instance: App) => {
     },
 
     setUnreadCounter(amount: number) {
-      instance.getUnreadWidget().setCounter(amount)
+      instance.getWidgetManager().getUnreadWidget().setCounter(amount)
     },
 
     increaseUnreadCounter(amount: number) {
-      instance.getUnreadWidget().increase(amount)
+      instance.getWidgetManager().getUnreadWidget().increase(amount)
     },
 
     triggerElement(options: {
@@ -126,7 +126,7 @@ export const createFacade = (instance: App) => {
     },
 
     isChatboxVisible(): boolean {
-      const chatbox = instance.getChatboxWidget()
+      const chatbox = instance.getWidgetManager().getChatboxWidget()
       return chatbox ? chatbox.isVisible() : false
     },
 

@@ -87,6 +87,12 @@
 }
 
 @media (max-width: 576px) {
+  .ds-whatsapp--opened {
+    .ds-button {
+      display: none !important;
+    }
+  }
+
   .ds-wrapper {
     &--pl {
       .ds-button {

@@ -3,19 +3,21 @@
   bottom: 63px;
   border-radius: 50%;
   background-color: var(--unread-bg-color);
-  color: #fff;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 0px;
-  font-size: 12px;
-  line-height: 20px;
-  font-family: var(--font-family);
-  -webkit-font-smoothing: auto;
-  font-weight: 400;
   min-width: 21px;
   min-height: 21px;
-  text-align: center;
   z-index: 30;
-}
 
+  &__content {
+    color: #fff;
+    font-size: 12px;
+    line-height: 20px;
+    font-family: var(--font-family);
+    -webkit-font-smoothing: auto;
+    font-weight: 400;
+    text-align: center;
+  }
+}
 
 .ds-wrapper--pr .ds-unread {
   right: 20px;
