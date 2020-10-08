@@ -16,7 +16,7 @@ export class TeaserWidget extends BaseWidget {
     super(options)
   }
 
-  getBaseCls() {
+  getBaseCls(): string {
     return config.teaserCls
   }
 
