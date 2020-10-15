@@ -118,11 +118,11 @@ export class BaseWidget extends Observable {
 
     if (this.effects.appear) {
       this.hideAnimateNode(boxElem)
-    } else {
-      setTimeout(() => {
-        boxElem.style.display = 'none'
-      }, this.animationDelay)
     }
+
+    setTimeout(() => {
+      boxElem.style.display = 'none'
+    }, this.animationDelay)
   }
 
   protected showAnimateNode(boxElem: HTMLElement) {
