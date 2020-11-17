@@ -209,6 +209,7 @@ export class WidgetManager {
   renderChatboxWidget(options: AppOptions, beforeShowCallback: () => void) {
     this.chatboxWidget = new ChatboxWidget({
       visible: options.isChatboxVisible,
+      hasExtendedWidth: options.extendedWidth,
       events: [
         {
           type: 'before:show',
