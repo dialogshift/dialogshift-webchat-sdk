@@ -110,6 +110,10 @@ export class WidgetManager {
         },
       ],
     })
+
+    this.chatButtonWidget.once('toggle', () => {
+      this.chatButtonWidget.stopAttention()
+    })
   }
 
   renderIframeWidget(options: AppOptions, afterRender: () => void) {
@@ -209,6 +213,7 @@ export class WidgetManager {
   renderChatboxWidget(options: AppOptions, beforeShowCallback: () => void) {
     this.chatboxWidget = new ChatboxWidget({
       visible: options.isChatboxVisible,
+      hasExtendedWidth: options.extendedWidth,
       events: [
         {
           type: 'before:show',
