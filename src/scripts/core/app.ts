@@ -47,6 +47,7 @@ export interface AppOptions {
   unreadCounter?: number
   context?: MixedObject
   direction?: 'rtl' | 'ltr'
+  extendedWidth?: boolean
 }
 
 const appOptionsDefault = {
@@ -353,6 +354,7 @@ export class App {
       forgetCustomerAfterHours,
       isChatboxVisible,
       renderWaButton,
+      extendedWidth,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -385,6 +387,10 @@ export class App {
 
     if (renderWaButton) {
       this.options.renderWaButton = renderWaButton
+    }
+
+    if (extendedWidth) {
+      this.options.extendedWidth = extendedWidth
     }
   }
 
