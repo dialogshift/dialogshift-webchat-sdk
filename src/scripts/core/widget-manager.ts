@@ -113,6 +113,7 @@ export class WidgetManager {
 
     this.chatButtonWidget.once('toggle', () => {
       this.chatButtonWidget.stopAttention()
+      this.whatsappButtonWidget.stopAttention()
     })
   }
 
