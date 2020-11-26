@@ -1,15 +1,24 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
 
-interface ChatboxWidgetOptions extends BaseWidgetOptions {}
+interface ChatboxWidgetOptions extends BaseWidgetOptions {
+  hasExtendedWidth: boolean
+}
 
 type ChatboxWidgetState = 'loading' | 'ready'
 
 export class ChatboxWidget extends BaseWidget {
+  private hasExtendedWidth = false
+
   constructor(options: ChatboxWidgetOptions) {
     super(options)
 
     this.setState('loading')
+
+    if (options.hasExtendedWidth) {
+      this.hasExtendedWidth = true
+      this.getBoxElem().classList.add(config.chatHasExtendedWidth)
+    }
 
     this.on('before:show', () => document.body.classList.add(config.chatIsOpen))
     this.on('before:hide', () =>
