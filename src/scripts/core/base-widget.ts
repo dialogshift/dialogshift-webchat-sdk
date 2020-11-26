@@ -82,36 +82,16 @@ export class BaseWidget extends Observable {
 
     if (this.effects.attention && this.effects.attentionInterval) {
       setTimeout(() => {
-        this.startAtention()
+        this.startAttention()
       }, this.effects.delay)
     }
-  }
-
-  protected startAtention() {
-    this.attentionInterval = setInterval(() => {
-      const boxElem = this.getBoxElem()
-
-      const handler = () => {
-        boxElem.removeEventListener('animationend', handler)
-        boxElem.classList.remove(config.fxCls[this.effects.attention])
-      }
-      boxElem.addEventListener('animationend', handler)
-
-      boxElem.classList.add(config.fxCls[this.effects.attention])
-    }, this.effects.attentionInterval)
-  }
-
-  protected stopAtention() {
-    this.attentionInterval && clearInterval(this.attentionInterval)
-    const boxElem = this.getBoxElem()
-    boxElem.classList.remove(config.fxCls[this.effects.attention])
   }
 
   protected hideNode() {
     const boxElem = this.getBoxElem()
 
     if (this.effects.attention && this.effects.attentionInterval) {
-      this.stopAtention()
+      this.stopAttention()
     }
 
     boxElem.classList.remove(config.visibleCls)
@@ -146,6 +126,26 @@ export class BaseWidget extends Observable {
   protected hideAnimateNode(boxElem: HTMLElement) {
     boxElem.style.removeProperty('animationDelay')
     boxElem.classList.remove(config.fxCls[this.effects.appear])
+  }
+
+  startAttention() {
+    this.attentionInterval = setInterval(() => {
+      const boxElem = this.getBoxElem()
+
+      const handler = () => {
+        boxElem.removeEventListener('animationend', handler)
+        boxElem.classList.remove(config.fxCls[this.effects.attention])
+      }
+      boxElem.addEventListener('animationend', handler)
+
+      boxElem.classList.add(config.fxCls[this.effects.attention])
+    }, this.effects.attentionInterval)
+  }
+
+  stopAttention() {
+    this.attentionInterval && clearInterval(this.attentionInterval)
+    const boxElem = this.getBoxElem()
+    boxElem.classList.remove(config.fxCls[this.effects.attention])
   }
 
   isDestroyed(): boolean {

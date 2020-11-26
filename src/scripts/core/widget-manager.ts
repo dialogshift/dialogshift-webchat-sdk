@@ -110,6 +110,10 @@ export class WidgetManager {
         },
       ],
     })
+
+    this.chatButtonWidget.once('toggle', () => {
+      this.chatButtonWidget.stopAttention()
+    })
   }
 
   renderIframeWidget(options: AppOptions, afterRender: () => void) {
