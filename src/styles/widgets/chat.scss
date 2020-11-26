@@ -7,7 +7,6 @@
   max-height: 710px !important;
   box-shadow: 2px 8px 16px rgba(0, 0, 0, 0.3);
   border-radius: 12px;
-  // overflow: hidden !important;
   z-index: -1;
   background-color: #fff;
 
@@ -30,6 +29,10 @@
       display: block;
     }
   }
+}
+
+.ds-chat--extended-width {
+  width: 425px !important;
 }
 
 .ds-wrapper--pr .ds-chat {

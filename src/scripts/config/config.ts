@@ -22,6 +22,7 @@ export const config = {
   chatCls: 'ds-chat',
   chatLoadingCls: 'ds-chat--loading',
   chatIsOpen: 'ds-chat--opened',
+  chatHasExtendedWidth: 'ds-chat--extended-width',
 
   iframeCls: 'ds-iframe',
 
