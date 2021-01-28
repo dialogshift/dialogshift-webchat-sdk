@@ -61,6 +61,7 @@ export class UserService {
           clientId,
           currentUserId,
           currentURL,
+          context,
         })
           .then(() => {
             resolve(currentUserId)
