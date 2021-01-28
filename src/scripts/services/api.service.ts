@@ -83,14 +83,21 @@ export class ApiService {
     clientId: string
     currentUserId: string
     currentURL: string
+    context?: MixedObject
   }): Promise<MixedObject> {
+    const data: { [key: string]: any } = {
+      currentURL: options.currentURL,
+      clientid: options.clientId,
+      custid: options.currentUserId,
+    }
+
+    if (options.context) {
+      data.context = JSON.stringify(options.context)
+    }
+
     return ApiService.getTransport().postRequest(
       `${ApiService.getCoreEndpoint()}/customer/validate`,
-      {
-        currentURL: options.currentURL,
-        clientid: options.clientId,
-        custid: options.currentUserId,
-      },
+      data,
     )
   }
 
