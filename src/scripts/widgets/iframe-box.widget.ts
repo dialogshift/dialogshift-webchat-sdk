@@ -12,9 +12,14 @@ interface IframeBoxWidgetOptions extends BaseWidgetOptions {
 export class IframeBoxWidget extends BaseWidget {
   private loaded = false
   private crossElem: HTMLElement
+  private iframe: HTMLIFrameElement | null
 
   constructor(options: IframeBoxWidgetOptions) {
     super(options)
+  }
+
+  protected hideNode() {
+    super.hideNode()
   }
 
   getBaseCls(): string {
@@ -34,11 +39,12 @@ export class IframeBoxWidget extends BaseWidget {
   // }
 
   load(url: string): IframeBoxWidget {
-    if (this.isRendered() && !this.loaded) {
-      this.loaded = true
-      const ifarme = document.createElement('iframe')
-      ifarme.src = url
-      this.getBoxElem().appendChild(ifarme)
+    if (!this.iframe) {
+      this.iframe = document.createElement('iframe')
+      this.iframe.src = url
+      this.getBoxElem().appendChild(this.iframe)
+    } else {
+      this.iframe.src = url
     }
 
     return this
@@ -65,6 +71,8 @@ export class IframeBoxWidget extends BaseWidget {
   bindEvents() {
     this.crossElem.addEventListener('click', (event: MouseEvent) => {
       event.stopPropagation()
+      this.iframe.parentNode.removeChild(this.iframe)
+      this.iframe = null
       this.hide()
     })
   }
