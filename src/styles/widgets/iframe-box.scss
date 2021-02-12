@@ -2,7 +2,7 @@
   height: calc(100% - 115px - 60px);
   bottom: calc(15px + 60px + 25px);
   position: fixed;
-  width: 376px !important;
+  width: 376px;
   min-height: 250px !important;
   max-height: 710px !important;
   box-shadow: 2px 8px 16px rgba(0, 0, 0, 0.3);
@@ -10,7 +10,9 @@
   z-index: -1;
   background-color: #fff;
   right: 460px;
-  transition: opacity .15s ease, transform .5s ease;
+  transition: opacity .15s ease,
+  transform .5s ease,
+  width .25s ease;
   transform: translateX(150px);
 
   iframe {
