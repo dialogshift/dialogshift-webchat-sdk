@@ -76,4 +76,8 @@ export class IframeBoxWidget extends BaseWidget {
       this.hide()
     })
   }
+
+  setWidth(width: string) {
+    this.getBoxElem().style.width = `${width}px`
+  }
 }
