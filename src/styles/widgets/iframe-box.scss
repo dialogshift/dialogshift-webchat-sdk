@@ -10,6 +10,8 @@
   z-index: -1;
   background-color: #fff;
   right: 460px;
+  transition: opacity .15s ease, transform .5s ease;
+  transform: translateX(150px);
 
   iframe {
     width: 100% !important;
@@ -39,5 +41,9 @@
     &:hover {
       opacity: 1;
     }
+  }
+
+  &.ds-widget--visible {
+    transform: translateX(0);
   }
 }
