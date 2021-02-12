@@ -1,5 +1,9 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
-import { config } from '../config/config'
+
+const config = {
+  baseCls: 'ds-iframe-box',
+  crossCls: 'ds-iframe-box__cross',
+}
 
 interface IframeBoxWidgetOptions extends BaseWidgetOptions {
   // host: string
@@ -7,14 +11,14 @@ interface IframeBoxWidgetOptions extends BaseWidgetOptions {
 
 export class IframeBoxWidget extends BaseWidget {
   private loaded = false
-  private iFrame: HTMLIFrameElement
+  private crossElem: HTMLElement
 
   constructor(options: IframeBoxWidgetOptions) {
     super(options)
   }
 
   getBaseCls(): string {
-    return config.iframeBoxCls
+    return config.baseCls
   }
 
   // getBoxElem(): HTMLIFrameElement {
@@ -46,5 +50,22 @@ export class IframeBoxWidget extends BaseWidget {
 
   getContentElem(): null {
     return null
+  }
+
+  render() {
+    this.crossElem = this.createNode()
+    this.crossElem.classList.add(config.crossCls)
+    this.bindEvents()
+
+    this.getBoxElem().appendChild(this.crossElem)
+
+    super.render()
+  }
+
+  bindEvents() {
+    this.crossElem.addEventListener('click', (event: MouseEvent) => {
+      event.stopPropagation()
+      this.hide()
+    })
   }
 }
