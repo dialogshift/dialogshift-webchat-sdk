@@ -1,0 +1,52 @@
+.ds-iframe-box {
+  height: calc(100% - 115px - 60px);
+  bottom: calc(15px + 60px + 25px);
+  position: fixed;
+  width: 376px;
+  min-height: 250px !important;
+  max-height: 710px !important;
+  box-shadow: 2px 8px 16px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  z-index: -1;
+  background-color: #fff;
+  right: 460px;
+  transition: opacity .15s ease,
+  transform .5s ease,
+  width .25s ease;
+  transform: translateX(150px);
+
+  iframe {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    border: none;
+    z-index: 20;
+    border-radius: 12px;
+  }
+
+  &__cross {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 24px;
+    height: 24px;
+    background-color: var(--teaser-close-bg-color);
+    border-radius: 50%;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTkuMzMzNyAyLjU0NjY5TDE3LjQ1MzcgMC42NjY2ODdMMTAuMDAwMyA4LjEyMDAyTDIuNTQ2OTkgMC42NjY2ODdMMC42NjY5OTIgMi41NDY2OUw4LjEyMDMzIDEwTDAuNjY2OTkyIDE3LjQ1MzRMMi41NDY5OSAxOS4zMzM0TDEwLjAwMDMgMTEuODhMMTcuNDUzNyAxOS4zMzM0TDE5LjMzMzcgMTcuNDUzNEwxMS44ODAzIDEwTDE5LjMzMzcgMi41NDY2OVoiIGZpbGw9IndoaXRlIi8+PG1hc2sgaWQ9Im1hc2swIiBtYXNrLXR5cGU9ImFscGhhIiBtYXNrVW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4PSIwIiB5PSIwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiPjxwYXRoIGQ9Ik0xOS4zMzM3IDIuNTQ2NjlMMTcuNDUzNyAwLjY2NjY4N0wxMC4wMDAzIDguMTIwMDJMMi41NDY5OSAwLjY2NjY4N0wwLjY2Njk5MiAyLjU0NjY5TDguMTIwMzMgMTBMMC42NjY5OTIgMTcuNDUzNEwyLjU0Njk5IDE5LjMzMzRMMTAuMDAwMyAxMS44OEwxNy40NTM3IDE5LjMzMzRMMTkuMzMzNyAxNy40NTM0TDExLjg4MDMgMTBMMTkuMzMzNyAyLjU0NjY5WiIgZmlsbD0id2hpdGUiLz48L21hc2s+PGcgbWFzaz0idXJsKCNtYXNrMCkiPjwvZz48L3N2Zz4=');
+    background-size: 12px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.75;
+    transition: background-color 0.25s ease, opacity 0.15s ease;
+    cursor: pointer;
+    z-index: 100;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &.ds-widget--visible {
+    transform: translateX(0);
+  }
+}
