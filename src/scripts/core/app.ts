@@ -205,6 +205,8 @@ export class App {
       this.widgetManager.renderWhatsappWindowWidget(this.options)
     }
 
+    this.widgetManager.renderIframeBox()
+
     this.broadcast.on('ready', () => {
       this.ready = true
     })
@@ -259,6 +261,22 @@ export class App {
 
         if (message.type === ActionEventType.action) {
           this.proceedActionEvent(message)
+        }
+
+        if (message.payload && message.payload.openInBox === true) {
+          this.widgetManager.getIframeBoxWidget().load(message.payload.url)
+
+          setTimeout(() => {
+            if (message.payload.boxWidth) {
+              this.widgetManager
+                .getIframeBoxWidget()
+                .setWidth(message.payload.boxWidth)
+            } else {
+              this.widgetManager.getIframeBoxWidget().setWidth('376')
+            }
+
+            this.widgetManager.getIframeBoxWidget().show()
+          }, 300)
         }
       }
     })

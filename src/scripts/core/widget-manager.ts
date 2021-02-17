@@ -9,6 +9,7 @@ import {
   ActionButtonGroupWidget,
   WhatsappButtonWidget,
   WhatsappWindowWidget,
+  IframeBoxWidget,
 } from '../widgets/index'
 import { EventEmitter } from './event-emitter'
 import { MixedObject } from '../types'
@@ -28,6 +29,7 @@ export class WidgetManager {
   private actionButtonGroupWidget: ActionButtonGroupWidget
   private whatsappButtonWidget: WhatsappButtonWidget
   private whatsappWindowWidget: WhatsappWindowWidget
+  private iframeBoxWidget: IframeBoxWidget
 
   constructor(app: App) {
     this.app = app
@@ -43,6 +45,13 @@ export class WidgetManager {
 
   private isAppReady(): boolean {
     return this.app.isReady()
+  }
+
+  renderIframeBox() {
+    this.iframeBoxWidget = new IframeBoxWidget({
+      visible: false,
+      renderTo: this.wrapperWidget.getBoxElem(),
+    })
   }
 
   renderWrapper(options: AppOptions) {
@@ -254,6 +263,10 @@ export class WidgetManager {
               this.teaserWidget.show()
             }
 
+            if (this.iframeBoxWidget.isVisible()) {
+              this.iframeBoxWidget.hide()
+            }
+
             this.chatButtonWidget.toggle(false)
 
             if (this.getWebchatService()) {
@@ -404,6 +417,10 @@ export class WidgetManager {
     return this.whatsappWindowWidget
   }
 
+  getIframeBoxWidget(): IframeBoxWidget {
+    return this.iframeBoxWidget
+  }
+
   destroy() {
     this.unreadWidget.destroy()
     this.teaserWidget.destroy()
@@ -412,6 +429,7 @@ export class WidgetManager {
     this.chatboxWidget.destroy()
     this.wrapperWidget.destroy()
     this.actionButtonGroupWidget.destroy()
+    this.iframeBoxWidget.destroy()
 
     if (this.whatsappButtonWidget) {
       this.whatsappButtonWidget.destroy()
