@@ -10,10 +10,11 @@
   z-index: -1;
   background-color: #fff;
   right: 460px;
-  transition: opacity .15s ease,
-  transform .5s ease,
-  width .25s ease;
+  transition: opacity .25s ease,
+    transform .5s ease,
+    width .25s ease;
   transform: translateX(150px);
+  background-color: #fff;
 
   iframe {
     width: 100% !important;
@@ -48,5 +49,37 @@
 
   &.ds-widget--visible {
     transform: translateX(0);
+  }
+}
+
+
+@media (max-width: 576px) {
+  .ds-iframe-box {
+    bottom: 0;
+    width: 100% !important;
+    height: 100%;
+    min-height: 250px !important;
+    max-height: auto;
+    box-shadow: none;
+    border-radius: 12px;
+    z-index: 40;
+    left: 0;
+    right: 0;
+    top: 0;
+    transform: translate(0, 75px);
+    opacity: 0;
+
+    &__cross {
+      width: 36px;
+      height: 36px;
+      right: 10px;
+      top: 10px;
+      background-size: 20px;
+    }
+
+    &.ds-widget--visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
   }
 }
