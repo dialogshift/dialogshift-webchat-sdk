@@ -44,6 +44,13 @@ export class IframeWidget extends BaseWidget {
     return document.createElement('iframe')
   }
 
+  getViewportWidth(): number {
+    return Math.max(
+      document.documentElement.clientWidth || 0,
+      window.innerWidth || 0,
+    )
+  }
+
   buildUrl(): string {
     let iframeUrl = `${this.host}?clid=${this.id}&custid=${this.currentUserId}`
 
@@ -61,6 +68,7 @@ export class IframeWidget extends BaseWidget {
       iframeUrl += `&lg=${this.locale}`
     }
 
+    iframeUrl += `&viewport=${this.getViewportWidth()}`
     iframeUrl += `&curl=${location.origin + location.pathname}`
 
     return iframeUrl
