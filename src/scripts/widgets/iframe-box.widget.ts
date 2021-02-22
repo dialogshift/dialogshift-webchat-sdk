@@ -42,7 +42,7 @@ export class IframeBoxWidget extends BaseWidget {
     if (!this.iframe) {
       this.iframe = document.createElement('iframe')
       this.iframe.src = url
-      this.iframe.scrolling = 'no'
+      this.iframe.scrolling = 'yes'
       this.iframe.frameBorder = '0'
 
       this.getBoxElem().appendChild(this.iframe)
