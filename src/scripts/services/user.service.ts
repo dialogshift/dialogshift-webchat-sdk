@@ -18,10 +18,12 @@ export class UserService {
   }
 
   static updateCookieLifetime(forgetCustomerAfterHours: number) {
-    UserService.setCustomerId(
-      UserService.getCustomerId(),
-      3600 * forgetCustomerAfterHours,
-    )
+    if (UserService.getCustomerId()) {
+      UserService.setCustomerId(
+        UserService.getCustomerId(),
+        3600 * forgetCustomerAfterHours,
+      )
+    }
   }
 
   static touchUser(
