@@ -43,8 +43,9 @@ export class UserService {
       if (location.pathname.indexOf('/g/') !== -1) {
         source = 'pwa-c2o'
       }
-      console.log(currentUserId, currentUserId === 'null')
-      if (!currentUserId) {
+
+      // remove one month later 03.03.2021
+      if (!currentUserId && currentUserId !== 'null') {
         ApiService.createUser({
           clientId,
           source,
