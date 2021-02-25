@@ -44,7 +44,8 @@ export class UserService {
         source = 'pwa-c2o'
       }
 
-      if (!currentUserId) {
+      // remove one month later 03.03.2021
+      if (!currentUserId && currentUserId !== 'null') {
         ApiService.createUser({
           clientId,
           source,
