@@ -18,10 +18,12 @@ export class UserService {
   }
 
   static updateCookieLifetime(forgetCustomerAfterHours: number) {
-    UserService.setCustomerId(
-      UserService.getCustomerId(),
-      3600 * forgetCustomerAfterHours,
-    )
+    if (UserService.getCustomerId()) {
+      UserService.setCustomerId(
+        UserService.getCustomerId(),
+        3600 * forgetCustomerAfterHours,
+      )
+    }
   }
 
   static touchUser(
@@ -42,7 +44,8 @@ export class UserService {
         source = 'pwa-c2o'
       }
 
-      if (!currentUserId) {
+      // remove one month later 03.03.2021
+      if (!currentUserId && currentUserId !== 'null') {
         ApiService.createUser({
           clientId,
           source,
