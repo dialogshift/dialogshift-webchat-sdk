@@ -52,8 +52,6 @@ export class ChatboxWidget extends BaseWidget {
   }
 
   setState(state: ChatboxWidgetState) {
-    console.log(state)
-
     if (state === 'loading') {
       this.getBoxElem().classList.add(config.chatLoadingCls)
     }
