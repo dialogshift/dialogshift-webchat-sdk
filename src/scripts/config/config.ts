@@ -20,6 +20,8 @@ export const config = {
   buttonActiveCls: 'ds-button--active',
 
   chatCls: 'ds-chat',
+  chatLoaderCls: 'ds-chat-loader',
+  chatLoaderImageCls: 'ds-chat-loader-image',
   chatLoadingCls: 'ds-chat--loading',
   chatIsOpen: 'ds-chat--opened',
   chatHasExtendedWidth: 'ds-chat--extended-width',
