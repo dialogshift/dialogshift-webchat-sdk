@@ -6,12 +6,14 @@ interface WrapperWidgetOptions extends BaseWidgetOptions {
   position: ChatPosition
   theme: AppTheme
   direction: 'rtl' | 'ltr'
+  baseCustomCls?: string
 }
 
 export class WrapperWidget extends BaseWidget {
   private position: ChatPosition
   private theme: AppTheme
   private direction: 'rtl' | 'ltr' = 'ltr'
+  private baseCustomCls: string
 
   constructor(options: WrapperWidgetOptions) {
     super(options)
@@ -44,7 +46,8 @@ export class WrapperWidget extends BaseWidget {
     this.theme = theme
 
     const boxElem = this.getBoxElem()
-    const themeCls = config[`theme${theme.charAt(0).toUpperCase() + theme.slice(1)}`]
+    const themeCls =
+      config[`theme${theme.charAt(0).toUpperCase() + theme.slice(1)}`]
 
     boxElem.classList.remove(config.themeRound)
     boxElem.classList.remove(config.themeTile)
@@ -57,6 +60,10 @@ export class WrapperWidget extends BaseWidget {
 
     if (this.direction === 'rtl') {
       this.getBoxElem().classList.add(config.wrapperDirectionRtlCls)
+    }
+
+    if (this.baseCustomCls) {
+      this.getBoxElem().classList.add(this.baseCustomCls)
     }
 
     super.render()

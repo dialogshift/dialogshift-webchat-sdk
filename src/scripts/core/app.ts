@@ -48,6 +48,7 @@ export interface AppOptions {
   context?: MixedObject
   direction?: 'rtl' | 'ltr'
   extendedWidth?: boolean
+  baseCls?: string
 }
 
 const appOptionsDefault = {
