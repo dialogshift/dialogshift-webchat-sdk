@@ -60,6 +60,7 @@ export class WidgetManager {
       position: options.position,
       theme: options.theme,
       direction: options.direction,
+      baseCustomCls: options.baseCls,
     })
 
     if (!options.renderButton) {
