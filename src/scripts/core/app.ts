@@ -6,6 +6,7 @@ import {
   WebchatService,
   CookieService,
   UserService,
+  TokenService,
 } from '../services'
 import {
   parseUrlParam,
@@ -119,6 +120,7 @@ export class App {
   private init() {
     if (parseUrlParam(window.location.href, 'ctrl') === 'forcenew') {
       UserService.deleteUser()
+      TokenService.deleteToken()
       CookieService.delete('keep-chat-open')
       removeURLParameters(['ctrl'])
     }
@@ -134,7 +136,23 @@ export class App {
         return
       }
 
-      this.afterInit()
+      if (this.chatConfig.enableCSRFProtection) {
+        let csrfAfter = 0
+
+        if (this.chatConfig.csrfAfter) {
+          csrfAfter = this.chatConfig.csrfAfter
+        }
+
+        TokenService.touchToken(this.options.id, csrfAfter).then(
+          (token: string) => {
+            this.csrfToken = token
+          },
+        )
+
+        this.afterInit()
+      } else {
+        this.afterInit()
+      }
     })
   }
 

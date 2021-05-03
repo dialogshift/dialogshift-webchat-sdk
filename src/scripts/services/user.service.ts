@@ -1,4 +1,4 @@
-import { ApiService, CookieService } from './'
+import { ApiService, CookieService, TokenService } from './'
 import { parseUrlParam } from '../core/utils'
 import { MixedObject } from '../types'
 
@@ -13,6 +13,8 @@ export class UserService {
     CookieService.set(customerIdCookieName, id, {
       expires: expires ? expires : 86400 * 90, // 90 days
     })
+
+    TokenService.deleteToken()
   }
 
   static updateCookieLifetime(forgetCustomerAfterHours: number) {
