@@ -52,7 +52,7 @@ export class IframeWidget extends BaseWidget {
   }
 
   buildUrl(): string {
-    let iframeUrl = `${this.host}?clid=${this.id}&custid=${this.currentUserId}`
+    let iframeUrl = `${this.host}?clid=${this.id}&custid=${this.currentUserId}&source=embed`
 
     if (this.customerId) {
       iframeUrl += `&cid=${this.customerId}`
