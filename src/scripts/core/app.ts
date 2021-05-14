@@ -558,8 +558,8 @@ export class App {
         this.options.locale,
         this.csrfToken,
         this.options.context,
-      ).then((currentUserId: string) =>
-        this.widgetManager.getIframeWidget().load(currentUserId),
+      ).then((customerId: string) =>
+        this.widgetManager.getIframeWidget().load(customerId),
       )
     }
   }

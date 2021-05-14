@@ -13,7 +13,6 @@ interface IframeWidgetOptions extends BaseWidgetOptions {
 export class IframeWidget extends BaseWidget {
   private host: string
   private id: string
-  private currentUserId: string
   private customerId: string
   private loaded = false
   private initialElement: InitialElement = {
@@ -52,11 +51,7 @@ export class IframeWidget extends BaseWidget {
   }
 
   buildUrl(): string {
-    let iframeUrl = `${this.host}?clid=${this.id}&custid=${this.currentUserId}&source=embed`
-
-    if (this.customerId) {
-      iframeUrl += `&cid=${this.customerId}`
-    }
+    let iframeUrl = `${this.host}?clid=${this.id}&cid=${this.customerId}&source=embed`
 
     if (this.initialElement.suppress) {
       iframeUrl += '&init=suppress'
@@ -74,8 +69,8 @@ export class IframeWidget extends BaseWidget {
     return iframeUrl
   }
 
-  load(currentUserId: string) {
-    this.currentUserId = currentUserId
+  load(customerId: string) {
+    this.customerId = customerId
 
     if (this.isRendered() && !this.loaded) {
       this.loaded = true
