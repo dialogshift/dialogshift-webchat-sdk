@@ -51,7 +51,7 @@ export class IframeWidget extends BaseWidget {
   }
 
   buildUrl(): string {
-    let iframeUrl = `${this.host}?clid=${this.id}&cid=${this.customerId}&source=embed`
+    let iframeUrl = `${this.host}?clid=${this.id}&cid=${this.customerId}&source=pwa-embed`
 
     if (this.initialElement.suppress) {
       iframeUrl += '&init=suppress'
