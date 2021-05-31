@@ -81,14 +81,14 @@ export class ApiService {
 
   static validateUser(options: {
     clientId: string
-    currentUserId: string
+    customerId: string
     currentURL: string
     context?: MixedObject
   }): Promise<MixedObject> {
     const data: { [key: string]: any } = {
       currentURL: options.currentURL,
       clientid: options.clientId,
-      custid: options.currentUserId,
+      custid: options.customerId,
     }
 
     if (options.context) {
