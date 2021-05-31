@@ -553,6 +553,8 @@ export class App {
     }
 
     if (!this.widgetManager.getIframeWidget().isLoaded()) {
+      this.widgetManager.getIframeWidget().setLoaded(true)
+
       UserService.touchUser(
         this.options.id,
         this.options.locale,
