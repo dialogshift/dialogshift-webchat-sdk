@@ -35,6 +35,10 @@ export class IframeWidget extends BaseWidget {
     return super.getBoxElem() as HTMLIFrameElement
   }
 
+  setLoaded(value: boolean) {
+    this.loaded = value
+  }
+
   isLoaded(): boolean {
     return this.loaded
   }
@@ -72,8 +76,7 @@ export class IframeWidget extends BaseWidget {
   load(customerId: string) {
     this.customerId = customerId
 
-    if (this.isRendered() && !this.loaded) {
-      this.loaded = true
+    if (this.isRendered()) {
       this.getBoxElem().src = this.buildUrl()
     }
   }
