@@ -558,9 +558,9 @@ export class App {
         this.options.locale,
         this.csrfToken,
         this.options.context,
-      ).then((customerId: string) =>
-        this.widgetManager.getIframeWidget().load(customerId),
-      )
+      ).then((customerId: string) => {
+        this.widgetManager.getIframeWidget().load(customerId)
+      })
     }
   }
 

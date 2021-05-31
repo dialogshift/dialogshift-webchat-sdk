@@ -74,6 +74,7 @@ export class IframeWidget extends BaseWidget {
 
     if (this.isRendered() && !this.loaded) {
       this.loaded = true
+
       this.getBoxElem().src = this.buildUrl()
     }
   }
