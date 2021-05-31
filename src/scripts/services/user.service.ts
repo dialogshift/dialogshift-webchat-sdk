@@ -34,7 +34,7 @@ export class UserService {
   ): Promise<string> {
     return new Promise((resolve: any) => {
       let source = 'pwa-embed'
-      const currentUserId = CookieService.get(customerIdCookieName)
+      const customerId = CookieService.get(customerIdCookieName)
 
       if (!clientId) {
         throw new Error('Client ID is undefined')
@@ -45,7 +45,7 @@ export class UserService {
       }
 
       // remove one month later 03.03.2021
-      if (!currentUserId && currentUserId !== 'null') {
+      if (!customerId && customerId !== 'null') {
         ApiService.createUser({
           clientId,
           source,
@@ -62,12 +62,12 @@ export class UserService {
 
         ApiService.validateUser({
           clientId,
-          currentUserId,
+          customerId,
           currentURL,
           context,
         })
           .then(() => {
-            resolve(currentUserId)
+            resolve(customerId)
           })
           .catch(() => {
             ApiService.createUser({
