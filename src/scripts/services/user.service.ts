@@ -46,6 +46,8 @@ export class UserService {
 
       // remove one month later 03.03.2021
       if (!customerId && customerId !== 'null') {
+        console.log('create 1')
+
         ApiService.createUser({
           clientId,
           source,
@@ -70,6 +72,7 @@ export class UserService {
             resolve(customerId)
           })
           .catch(() => {
+            console.log('create 2')
             ApiService.createUser({
               clientId,
               source,
