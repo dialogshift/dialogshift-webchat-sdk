@@ -1,4 +1,4 @@
-import { HttpService } from './'
+import { HttpService } from './http.service'
 import { config } from '../config/config'
 import { MixedObject } from '../types'
 
@@ -75,6 +75,8 @@ export class ApiService {
       options.csrfToken ? (url += '&') : (url += '?')
       url += `context=${encodeURIComponent(JSON.stringify(options.context))}`
     }
+
+    url.indexOf('?') === -1 ? (url += '?origin=sdk') : (url += '&origin=sdk')
 
     return ApiService.getTransport().getRequest(url)
   }

@@ -179,10 +179,6 @@ export class App {
       this.widgetManager.renderChatButton(this.options, this.chatConfig)
     }
 
-    this.widgetManager.renderIframeWidget(this.options, () => {
-      this.initWebchatService()
-    })
-
     this.widgetManager.renderTeaserWidget(
       this.options,
       this.chatConfig,
@@ -207,6 +203,13 @@ export class App {
     }
 
     this.widgetManager.renderIframeBox()
+
+    this.widgetManager.renderIframeWidget(this.options, () => {
+      // For a separate thread. @todo refactor render flow.
+      setTimeout(() => {
+        this.initWebchatService()
+      }, 20)
+    })
 
     this.broadcast.on('ready', () => {
       this.ready = true
@@ -546,14 +549,10 @@ export class App {
   }
 
   loadChat() {
-    if (!this.widgetManager.getIframeWidget().isRendered()) {
-      this.widgetManager
-        .getIframeWidget()
-        .render(this.widgetManager.getChatboxWidget().getBoxElem())
-    }
+    const iframeWidget = this.widgetManager.getIframeWidget()
 
-    if (!this.widgetManager.getIframeWidget().isLoaded()) {
-      this.widgetManager.getIframeWidget().setLoaded(true)
+    if (!iframeWidget.isLoaded()) {
+      iframeWidget.setLoaded(true)
 
       UserService.touchUser(
         this.options.id,
@@ -561,7 +560,10 @@ export class App {
         this.csrfToken,
         this.options.context,
       ).then((customerId: string) => {
-        this.widgetManager.getIframeWidget().load(customerId)
+        // Debug interval
+        setTimeout(() => {
+          iframeWidget.load(customerId)
+        }, 20)
       })
     }
   }
