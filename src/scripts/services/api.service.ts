@@ -1,4 +1,4 @@
-import { HttpService } from './'
+import { HttpService } from './http.service'
 import { config } from '../config/config'
 import { MixedObject } from '../types'
 
