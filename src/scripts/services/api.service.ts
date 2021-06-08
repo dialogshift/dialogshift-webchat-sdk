@@ -76,8 +76,7 @@ export class ApiService {
       url += `context=${encodeURIComponent(JSON.stringify(options.context))}`
     }
 
-    url.indexOf('?') === -1 ? (url += '?') : (url += '&')
-    url += `origin=sdk`
+    url.indexOf('?') === -1 ? (url += '?origin=sdk') : (url += '&origin=sdk')
 
     return ApiService.getTransport().getRequest(url)
   }
