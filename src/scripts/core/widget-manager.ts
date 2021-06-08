@@ -136,6 +136,7 @@ export class WidgetManager {
       id: options.id,
       initialElement: options.initialElement,
       locale: options.locale,
+      renderTo: this.getChatboxWidget().getBoxElem(),
       events: [
         {
           type: 'render',
