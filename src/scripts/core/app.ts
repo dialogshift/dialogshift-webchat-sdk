@@ -560,7 +560,10 @@ export class App {
         this.csrfToken,
         this.options.context,
       ).then((customerId: string) => {
-        iframeWidget.load(customerId)
+        // Debug interval
+        setTimeout(() => {
+          iframeWidget.load(customerId)
+        }, 20)
       })
     }
   }
