@@ -78,6 +78,8 @@ export class ApiService {
 
     url.indexOf('?') === -1 ? (url += '?origin=sdk') : (url += '&origin=sdk')
 
+    url += '&v=2.3.14'
+
     return ApiService.getTransport().getRequest(url)
   }
 
