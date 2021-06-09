@@ -204,13 +204,6 @@ export class App {
 
     this.widgetManager.renderIframeBox()
 
-    this.widgetManager.renderIframeWidget(this.options, () => {
-      // For a separate thread. @todo refactor render flow.
-      setTimeout(() => {
-        this.initWebchatService()
-      }, 20)
-    })
-
     this.broadcast.on('ready', () => {
       this.ready = true
     })
@@ -549,20 +542,34 @@ export class App {
   }
 
   loadChat() {
+    const load = () => {
+      const iframeWidget = this.widgetManager.getIframeWidget()
+
+      if (!iframeWidget.isLoaded()) {
+        iframeWidget.setLoaded(true)
+
+        UserService.touchUser(
+          this.options.id,
+          this.options.locale,
+          this.csrfToken,
+          this.options.context,
+        ).then((customerId: string) => {
+          // Debug interval
+          setTimeout(() => {
+            iframeWidget.load(customerId)
+          }, 20)
+        })
+      }
+    }
+
     const iframeWidget = this.widgetManager.getIframeWidget()
 
-    if (!iframeWidget.isLoaded()) {
-      iframeWidget.setLoaded(true)
-
-      UserService.touchUser(
-        this.options.id,
-        this.options.locale,
-        this.csrfToken,
-        this.options.context,
-      ).then((customerId: string) => {
-        // Debug interval
+    if (!iframeWidget || !iframeWidget.isRendered()) {
+      this.widgetManager.renderIframeWidget(this.options, () => {
+        // For a separate thread. @todo refactor render flow.
         setTimeout(() => {
-          iframeWidget.load(customerId)
+          this.initWebchatService()
+          load()
         }, 20)
       })
     }
