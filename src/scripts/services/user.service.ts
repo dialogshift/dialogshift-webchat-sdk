@@ -52,6 +52,7 @@ export class UserService {
           locale,
           csrfToken,
           context,
+          debug: '1',
         }).then((data: any) => {
           UserService.setCustomerId(data.custid)
 
@@ -75,6 +76,7 @@ export class UserService {
               source,
               locale,
               csrfToken,
+              debug: '2',
             }).then((data: any) => {
               UserService.setCustomerId(data.custid)
 
