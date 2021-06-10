@@ -62,6 +62,7 @@ export class ApiService {
     locale: string
     csrfToken?: string
     context?: MixedObject
+    debug?: string
   }): Promise<MixedObject | Error> {
     let url = `${ApiService.getCoreEndpoint()}/customer/v2/createnew/${
       options.source
@@ -77,6 +78,12 @@ export class ApiService {
     }
 
     url.indexOf('?') === -1 ? (url += '?origin=sdk') : (url += '&origin=sdk')
+
+    url += '&v=2.3.15'
+
+    if (options.debug) {
+      url += `&debug=${options.debug}`
+    }
 
     return ApiService.getTransport().getRequest(url)
   }
