@@ -338,9 +338,14 @@ export class App {
   }
 
   private loadConfig(): Promise<MixedObject> {
+    const channel = this.options.context.channel
+      ? this.options.context.channel
+      : 'pwa-embed'
+
     return ApiService.getConfig(
       this.options.id,
       UserService.getCustomerId(),
+      channel,
     ).then((data: MixedObject) => {
       this.chatConfig = data
 

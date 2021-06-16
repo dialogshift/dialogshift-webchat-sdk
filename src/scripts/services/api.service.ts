@@ -50,10 +50,15 @@ export class ApiService {
   static getConfig(
     clientId: string,
     customerId = 'none',
+    channel?: string,
   ): Promise<MixedObject> {
-    return ApiService.getTransport().getRequest(
-      `${ApiService.getCoreEndpoint()}/config/webapp/${clientId}/${customerId}`,
-    )
+    let url = `${ApiService.getCoreEndpoint()}/config/webapp/${clientId}/${customerId}`
+
+    if (channel) {
+      url += `?channel=${channel}`
+    }
+
+    return ApiService.getTransport().getRequest(url)
   }
 
   static createUser(options: {
