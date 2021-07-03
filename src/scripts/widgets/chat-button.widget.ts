@@ -27,7 +27,7 @@ export class ChatButtonWidget extends BaseWidget {
     super.render()
   }
 
-  toggle(state?: boolean, suppressEvent = false): void {
+  toggle(state?: boolean, suppressEvent = false, timeout = 100): void {
     const isPressed = state === undefined ? !this.isPressed : !!state
 
     if (isPressed === this.isPressed) {
@@ -37,9 +37,11 @@ export class ChatButtonWidget extends BaseWidget {
     this.isPressed = isPressed
 
     if (isPressed) {
-      this.getBoxElem().classList.add(config.buttonActiveCls)
+      this.getBoxElem().classList.add(config.buttonHiddenCls)
     } else {
-      this.getBoxElem().classList.remove(config.buttonActiveCls)
+      setTimeout(() => {
+        this.getBoxElem().classList.remove(config.buttonHiddenCls)
+      }, timeout)
     }
 
     if (!suppressEvent) {
