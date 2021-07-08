@@ -14,6 +14,7 @@ import {
   injectCss,
   mergeDeep,
   removeURLParameters,
+  inIframe,
 } from './utils'
 import { MixedObject } from '../types'
 
@@ -172,7 +173,11 @@ export class App {
   }
 
   private render() {
-    this.widgetManager.renderWrapper(this.options)
+    this.widgetManager.renderWrapper(
+      Object.assign({}, this.options, {
+        visible: !inIframe(),
+      }),
+    )
     this.widgetManager.renderContentWrapper()
 
     if (this.options.renderButton) {
