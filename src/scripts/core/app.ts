@@ -200,7 +200,7 @@ export class App {
       this.loadChat()
     })
 
-    this.widgetManager.renderHeader()
+    // this.widgetManager.renderHeader()
 
     this.widgetManager.renderUnreadWidget(this.options, this.chatConfig)
 
