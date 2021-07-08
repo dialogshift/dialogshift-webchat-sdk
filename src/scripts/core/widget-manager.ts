@@ -66,13 +66,14 @@ export class WidgetManager {
     })
   }
 
-  renderWrapper(options: AppOptions) {
+  renderWrapper(options: AppOptions & { visible: boolean }) {
     this.wrapperWidget = new WrapperWidget({
       renderTo: document.body,
       position: options.position,
       theme: options.theme,
       direction: options.direction,
       baseCustomCls: options.baseCls,
+      visible: options.visible,
     })
 
     if (!options.renderButton) {
