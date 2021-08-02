@@ -10,6 +10,8 @@ import {
   WhatsappButtonWidget,
   WhatsappWindowWidget,
   IframeBoxWidget,
+  FooterWidget,
+  // HeaderWidget,
 } from '../widgets/index'
 import { EventEmitter } from './event-emitter'
 import { MixedObject } from '../types'
@@ -30,6 +32,8 @@ export class WidgetManager {
   private whatsappButtonWidget: WhatsappButtonWidget
   private whatsappWindowWidget: WhatsappWindowWidget
   private iframeBoxWidget: IframeBoxWidget
+  private footerWidget: FooterWidget
+  // private headerWidget: HeaderWidget
 
   constructor(app: App) {
     this.app = app
@@ -47,6 +51,16 @@ export class WidgetManager {
     return this.app.isReady()
   }
 
+  // renderHeader() {
+  //   this.headerWidget = new HeaderWidget({
+  //     renderTo: this.chatboxWidget.getBoxElem(),
+  //   })
+
+  //   this.headerWidget.getCloseButton().on('click', () => {
+  //     this.chatboxWidget.hide()
+  //   })
+  // }
+
   renderIframeBox() {
     this.iframeBoxWidget = new IframeBoxWidget({
       visible: false,
@@ -54,13 +68,14 @@ export class WidgetManager {
     })
   }
 
-  renderWrapper(options: AppOptions) {
+  renderWrapper(options: AppOptions & { visible: boolean }) {
     this.wrapperWidget = new WrapperWidget({
       renderTo: document.body,
       position: options.position,
       theme: options.theme,
       direction: options.direction,
       baseCustomCls: options.baseCls,
+      visible: options.visible,
     })
 
     if (!options.renderButton) {
@@ -70,6 +85,12 @@ export class WidgetManager {
 
   renderContentWrapper() {
     this.contentWrapperWidget = new ContentWrapperWidget({
+      renderTo: this.wrapperWidget.getBoxElem(),
+    })
+  }
+
+  renderFooter() {
+    this.footerWidget = new FooterWidget({
       renderTo: this.wrapperWidget.getBoxElem(),
     })
   }
@@ -90,7 +111,7 @@ export class WidgetManager {
 
     this.chatButtonWidget = new ChatButtonWidget({
       content,
-      renderTo: this.wrapperWidget.getBoxElem(),
+      renderTo: this.footerWidget.getBoxElem(),
       visible: options.isButtonVisible,
       effects: effects?.chatButton,
       events: [
@@ -321,11 +342,13 @@ export class WidgetManager {
   }
 
   renderWhatsappButtonWidget(chatConfig: MixedObject) {
-    const { effects } = chatConfig
+    const { effects, bwWaButton, slideWaButton } = chatConfig
 
     this.whatsappButtonWidget = new WhatsappButtonWidget({
-      renderTo: this.wrapperWidget.getBoxElem(),
+      renderTo: this.footerWidget.getBoxElem(),
       effects: effects?.whatsappButton,
+      blackWhiteStyle: bwWaButton,
+      slideWaButton: slideWaButton,
       events: [
         {
           type: 'toggle',
@@ -432,6 +455,7 @@ export class WidgetManager {
     this.wrapperWidget.destroy()
     this.actionButtonGroupWidget.destroy()
     this.iframeBoxWidget.destroy()
+    // this.headerWidget.destroy()
 
     if (this.whatsappButtonWidget) {
       this.whatsappButtonWidget.destroy()

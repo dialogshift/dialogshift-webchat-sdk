@@ -14,6 +14,7 @@ import {
   injectCss,
   mergeDeep,
   removeURLParameters,
+  inIframe,
 } from './utils'
 import { MixedObject } from '../types'
 
@@ -48,6 +49,7 @@ export interface AppOptions {
   context?: MixedObject
   direction?: 'rtl' | 'ltr'
   extendedWidth?: boolean
+  bwWaButton?: boolean
   baseCls?: string
 }
 
@@ -172,8 +174,13 @@ export class App {
   }
 
   private render() {
-    this.widgetManager.renderWrapper(this.options)
+    this.widgetManager.renderWrapper(
+      Object.assign({}, this.options, {
+        visible: !inIframe(),
+      }),
+    )
     this.widgetManager.renderContentWrapper()
+    this.widgetManager.renderFooter()
 
     if (this.options.renderButton) {
       this.widgetManager.renderChatButton(this.options, this.chatConfig)
@@ -194,6 +201,8 @@ export class App {
     this.widgetManager.renderChatboxWidget(this.options, () => {
       this.loadChat()
     })
+
+    // this.widgetManager.renderHeader()
 
     this.widgetManager.renderUnreadWidget(this.options, this.chatConfig)
 
@@ -375,6 +384,7 @@ export class App {
       isChatboxVisible,
       renderWaButton,
       extendedWidth,
+      bwWaButton,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -411,6 +421,10 @@ export class App {
 
     if (extendedWidth) {
       this.options.extendedWidth = extendedWidth
+    }
+
+    if (bwWaButton) {
+      this.options.bwWaButton = bwWaButton
     }
   }
 

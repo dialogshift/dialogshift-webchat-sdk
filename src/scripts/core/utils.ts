@@ -133,3 +133,11 @@ export const isCrawler = (): boolean => {
     navigator.userAgent,
   )
 }
+
+export const inIframe = (): boolean => {
+  try {
+    return window.self !== window.top
+  } catch (e) {
+    return true
+  }
+}
