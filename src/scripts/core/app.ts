@@ -49,6 +49,7 @@ export interface AppOptions {
   context?: MixedObject
   direction?: 'rtl' | 'ltr'
   extendedWidth?: boolean
+  bwWaButton?: boolean
   baseCls?: string
 }
 
@@ -382,6 +383,7 @@ export class App {
       isChatboxVisible,
       renderWaButton,
       extendedWidth,
+      bwWaButton,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -418,6 +420,10 @@ export class App {
 
     if (extendedWidth) {
       this.options.extendedWidth = extendedWidth
+    }
+
+    if (bwWaButton) {
+      this.options.bwWaButton = bwWaButton
     }
   }
 
