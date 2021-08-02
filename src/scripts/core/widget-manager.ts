@@ -10,6 +10,7 @@ import {
   WhatsappButtonWidget,
   WhatsappWindowWidget,
   IframeBoxWidget,
+  FooterWidget,
   // HeaderWidget,
 } from '../widgets/index'
 import { EventEmitter } from './event-emitter'
@@ -31,6 +32,7 @@ export class WidgetManager {
   private whatsappButtonWidget: WhatsappButtonWidget
   private whatsappWindowWidget: WhatsappWindowWidget
   private iframeBoxWidget: IframeBoxWidget
+  private footerWidget: FooterWidget
   // private headerWidget: HeaderWidget
 
   constructor(app: App) {
@@ -87,6 +89,12 @@ export class WidgetManager {
     })
   }
 
+  renderFooter() {
+    this.footerWidget = new FooterWidget({
+      renderTo: this.wrapperWidget.getBoxElem(),
+    })
+  }
+
   renderChatButton(options: AppOptions, chatConfig: MixedObject) {
     const { locale } = options
     const { buttonText, defaultLocale, effects } = chatConfig
@@ -103,7 +111,7 @@ export class WidgetManager {
 
     this.chatButtonWidget = new ChatButtonWidget({
       content,
-      renderTo: this.wrapperWidget.getBoxElem(),
+      renderTo: this.footerWidget.getBoxElem(),
       visible: options.isButtonVisible,
       effects: effects?.chatButton,
       events: [
@@ -337,7 +345,7 @@ export class WidgetManager {
     const { effects, bwWaButton, slideWaButton } = chatConfig
 
     this.whatsappButtonWidget = new WhatsappButtonWidget({
-      renderTo: this.wrapperWidget.getBoxElem(),
+      renderTo: this.footerWidget.getBoxElem(),
       effects: effects?.whatsappButton,
       blackWhiteStyle: bwWaButton,
       slideWaButton: slideWaButton,
