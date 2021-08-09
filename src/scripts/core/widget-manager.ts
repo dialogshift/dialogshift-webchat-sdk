@@ -55,7 +55,11 @@ export class WidgetManager {
     })
 
     this.headerWidget.getCloseButton().on('click', () => {
-      this.chatboxWidget.hide()
+      if (this.whatsappWindowWidget.isVisible()) {
+        this.whatsappWindowWidget.hide()
+      } else {
+        this.chatboxWidget.hide()
+      }
     })
   }
 
