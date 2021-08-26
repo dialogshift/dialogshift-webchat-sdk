@@ -355,9 +355,9 @@ export class WidgetManager {
                   }
                 })
               } else {
-                  if (this.whatsappWindowWidget) {
-                    this.whatsappWindowWidget.show()
-                  }
+                if (this.whatsappWindowWidget) {
+                  this.whatsappWindowWidget.show()
+                }
               }
 
               this.chatButtonWidget.toggle(true)
