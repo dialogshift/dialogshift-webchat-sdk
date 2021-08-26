@@ -55,7 +55,7 @@ export class WidgetManager {
     })
 
     this.headerWidget.getCloseButton().on('click', () => {
-      if (this.whatsappWindowWidget.isVisible()) {
+      if (this.whatsappWindowWidget && this.whatsappWindowWidget.isVisible()) {
         this.whatsappWindowWidget.hide()
       } else {
         this.chatboxWidget.hide()
@@ -350,16 +350,23 @@ export class WidgetManager {
             if (event.data.isPressed) {
               if (!this.isAppReady()) {
                 this.getBroadcast().once('ready', () => {
-                  this.whatsappWindowWidget.show()
+                  if (this.whatsappWindowWidget) {
+                    this.whatsappWindowWidget.show()
+                  }
                 })
               } else {
-                this.whatsappWindowWidget.show()
+                  if (this.whatsappWindowWidget) {
+                    this.whatsappWindowWidget.show()
+                  }
               }
 
               this.chatButtonWidget.toggle(true)
               this.wrapperWidget.addCls('ds-whatsapp--opened')
             } else {
-              this.whatsappWindowWidget.hide()
+              if (this.whatsappWindowWidget) {
+                this.whatsappWindowWidget.hide()
+              }
+
               this.wrapperWidget.removeCls('ds-whatsapp--opened')
             }
           },
@@ -396,7 +403,9 @@ export class WidgetManager {
     })
 
     this.chatboxWidget.on('before:hide', () => {
-      this.whatsappWindowWidget.hide()
+      if (this.whatsappWindowWidget) {
+        this.whatsappWindowWidget.hide()
+      }
     })
   }
 
