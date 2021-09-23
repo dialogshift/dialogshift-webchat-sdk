@@ -450,17 +450,6 @@ export class WidgetManager {
   }
 
   destroy() {
-<<<<<<< Updated upstream
-    this.unreadWidget.destroy()
-    this.teaserWidget.destroy()
-    this.chatButtonWidget.destroy()
-    this.iframeWidget.destroy()
-    this.chatboxWidget.destroy()
-    this.wrapperWidget.destroy()
-    this.actionButtonGroupWidget.destroy()
-    this.iframeBoxWidget.destroy()
-    this.headerWidget.destroy()
-=======
     if (this.unreadWidget) {
       this.unreadWidget.destroy()
     }
@@ -497,10 +486,9 @@ export class WidgetManager {
       this.headerWidget.destroy()
     }
 
-    if (this.footerWidget) {
-      this.footerWidget.destroy()
-    }
->>>>>>> Stashed changes
+    // if (this.footerWidget) {
+    //   this.footerWidget.destroy()
+    // }
 
     if (this.whatsappButtonWidget) {
       this.whatsappButtonWidget.destroy()
