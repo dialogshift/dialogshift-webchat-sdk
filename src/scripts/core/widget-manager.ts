@@ -450,6 +450,7 @@ export class WidgetManager {
   }
 
   destroy() {
+<<<<<<< Updated upstream
     this.unreadWidget.destroy()
     this.teaserWidget.destroy()
     this.chatButtonWidget.destroy()
@@ -459,6 +460,47 @@ export class WidgetManager {
     this.actionButtonGroupWidget.destroy()
     this.iframeBoxWidget.destroy()
     this.headerWidget.destroy()
+=======
+    if (this.unreadWidget) {
+      this.unreadWidget.destroy()
+    }
+
+    if (this.teaserWidget) {
+      this.teaserWidget.destroy()
+    }
+
+    if (this.chatButtonWidget) {
+      this.chatButtonWidget.destroy()
+    }
+
+    if (this.iframeWidget) {
+      this.iframeWidget.destroy()
+    }
+
+    if (this.chatboxWidget) {
+      this.chatboxWidget.destroy()
+    }
+
+    if (this.wrapperWidget) {
+      this.wrapperWidget.destroy()
+    }
+
+    if (this.actionButtonGroupWidget) {
+      this.actionButtonGroupWidget.destroy()
+    }
+
+    if (this.iframeBoxWidget) {
+      this.iframeBoxWidget.destroy()
+    }
+
+    if (this.headerWidget) {
+      this.headerWidget.destroy()
+    }
+
+    if (this.footerWidget) {
+      this.footerWidget.destroy()
+    }
+>>>>>>> Stashed changes
 
     if (this.whatsappButtonWidget) {
       this.whatsappButtonWidget.destroy()
