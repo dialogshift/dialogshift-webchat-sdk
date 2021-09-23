@@ -11,7 +11,6 @@ import {
   WhatsappWindowWidget,
   IframeBoxWidget,
   HeaderWidget,
-  FooterWidget,
 } from '../widgets/index'
 import { EventEmitter } from './event-emitter'
 import { MixedObject } from '../types'
@@ -33,7 +32,6 @@ export class WidgetManager {
   private whatsappWindowWidget: WhatsappWindowWidget
   private iframeBoxWidget: IframeBoxWidget
   private headerWidget: HeaderWidget
-  private footerWidget: FooterWidget
 
   constructor(app: App) {
     this.app = app
@@ -93,12 +91,6 @@ export class WidgetManager {
     })
   }
 
-  renderFooter() {
-    this.footerWidget = new FooterWidget({
-      renderTo: this.wrapperWidget.getBoxElem(),
-    })
-  }
-
   renderChatButton(options: AppOptions, chatConfig: MixedObject) {
     const { locale } = options
     const { buttonText, defaultLocale, effects } = chatConfig
@@ -115,7 +107,7 @@ export class WidgetManager {
 
     this.chatButtonWidget = new ChatButtonWidget({
       content,
-      renderTo: this.footerWidget.getBoxElem(),
+      renderTo: this.wrapperWidget.getBoxElem(),
       visible: options.isButtonVisible,
       effects: effects?.chatButton,
       events: [
@@ -346,13 +338,11 @@ export class WidgetManager {
   }
 
   renderWhatsappButtonWidget(chatConfig: MixedObject) {
-    const { effects, bwWaButton, slideWaButton } = chatConfig
+    const { effects } = chatConfig
 
     this.whatsappButtonWidget = new WhatsappButtonWidget({
-      slideWaButton,
-      renderTo: this.footerWidget.getBoxElem(),
+      renderTo: this.wrapperWidget.getBoxElem(),
       effects: effects?.whatsappButton,
-      blackWhiteStyle: bwWaButton,
       events: [
         {
           type: 'toggle',
@@ -460,16 +450,45 @@ export class WidgetManager {
   }
 
   destroy() {
-    this.unreadWidget.destroy()
-    this.teaserWidget.destroy()
-    this.chatButtonWidget.destroy()
-    this.iframeWidget.destroy()
-    this.chatboxWidget.destroy()
-    this.wrapperWidget.destroy()
-    this.actionButtonGroupWidget.destroy()
-    this.iframeBoxWidget.destroy()
-    this.headerWidget.destroy()
-    this.footerWidget.destroy()
+    if (this.unreadWidget) {
+      this.unreadWidget.destroy()
+    }
+
+    if (this.teaserWidget) {
+      this.teaserWidget.destroy()
+    }
+
+    if (this.chatButtonWidget) {
+      this.chatButtonWidget.destroy()
+    }
+
+    if (this.iframeWidget) {
+      this.iframeWidget.destroy()
+    }
+
+    if (this.chatboxWidget) {
+      this.chatboxWidget.destroy()
+    }
+
+    if (this.wrapperWidget) {
+      this.wrapperWidget.destroy()
+    }
+
+    if (this.actionButtonGroupWidget) {
+      this.actionButtonGroupWidget.destroy()
+    }
+
+    if (this.iframeBoxWidget) {
+      this.iframeBoxWidget.destroy()
+    }
+
+    if (this.headerWidget) {
+      this.headerWidget.destroy()
+    }
+
+    // if (this.footerWidget) {
+    //   this.footerWidget.destroy()
+    // }
 
     if (this.whatsappButtonWidget) {
       this.whatsappButtonWidget.destroy()
