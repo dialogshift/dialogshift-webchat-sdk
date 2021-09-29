@@ -181,7 +181,6 @@ export class App {
       }),
     )
     this.widgetManager.renderContentWrapper()
-    this.widgetManager.renderFooter()
 
     if (this.options.renderButton) {
       this.widgetManager.renderChatButton(this.options, this.chatConfig)
