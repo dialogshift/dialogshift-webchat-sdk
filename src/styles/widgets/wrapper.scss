@@ -23,7 +23,7 @@
   }
 
   &--pl {
-    left: 20px;
+    left: var(--base-margin-left);
 
     &:after {
       left: 0px;
@@ -34,7 +34,7 @@
   }
 
   &--pr {
-    right: 20px;
+    right: var(--base-margin-right);
 
     &:after {
       right: 0px;

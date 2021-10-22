@@ -1,14 +1,8 @@
 .ds-chat {
-  // height: calc(100% - 15px - 60px - 15px - 25px);
-  // bottom: calc(15px + 60px + 25px);
   height: calc(100% - 15px - 15px);
   bottom: 20px;
-
-  // min-height: 250px !important;
-  // max-height: 710px !important;
   min-height: 310px !important;
   max-height: 770px !important;
-
   transition: opacity 0.25s ease, transform 0.25s ease;
   position: fixed;
   width: 376px !important;
@@ -54,11 +48,11 @@
 }
 
 .ds-wrapper--pr .ds-chat {
-  right: 20px;
+  right: var(--base-margin-right);
 }
 
 .ds-wrapper--pl .ds-chat {
-  left: 20px;
+  left: var(--base-margin-left);
 }
 
 .ds-wrapper--no-button .ds-chat {
