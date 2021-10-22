@@ -3,15 +3,15 @@
   max-width: 300px;
   bottom: calc(15px + 60px + 25px);
   z-index: 20;
-  right: 20px;
+  right: var(--base-margin-right);
 }
 
 .ds-wrapper--pr .ds-content-wrapper {
-  right: 20px;
+  right: var(--base-margin-right);
 }
 
 .ds-wrapper--pl .ds-content-wrapper {
-  left: 20px;
+  left: var(--base-margin-left);
 }
 
 @media (max-width: 576px) {
@@ -22,13 +22,13 @@
 
     &--pl {
       .ds-content-wrapper {
-        left: 15px;
+        left: var(--base-margin-left-mobile);
       }
     }
 
     &--pr {
       .ds-content-wrapper {
-        right: 15px;
+        right: var(--base-margin-right-mobile);
       }
     }
   }
