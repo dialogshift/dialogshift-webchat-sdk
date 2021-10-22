@@ -20,24 +20,24 @@
 }
 
 .ds-wrapper--pr .ds-unread {
-  right: 20px;
+  right: var(--base-margin-right);
 }
 
 .ds-wrapper--pl .ds-unread {
-  left: 20px;
+  left: var(--base-margin-left);
 }
 
 @media (max-width: 576px) {
   .ds-wrapper {
     &--pl {
-      .ds-teaser {
-        left: 10px;
+      .ds-unread {
+        left: var(--base-margin-left-mobile);
       }
     }
 
     &--pr {
-      .ds-teaser {
-        right: 10px;
+      .ds-unread {
+        right: var(--base-margin-right-mobile);
       }
     }
   }

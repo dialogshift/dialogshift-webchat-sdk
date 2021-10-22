@@ -82,13 +82,13 @@
 .ds-wrapper {
   &--pl {
     .ds-button {
-      left: 20px;
+      left: var(--base-margin-left);
     }
   }
 
   &--pr {
     .ds-button {
-      right: 20px;
+      right: var(--base-margin-right);
     }
   }
 }
@@ -103,7 +103,7 @@
   .ds-wrapper {
     &--pl {
       .ds-button {
-        left: 15px;
+        left: var(--base-margin-left-mobile);
 
         &--active {
           top: 10px;
@@ -114,7 +114,7 @@
 
     &--pr {
       .ds-button {
-        right: 10px;
+        right: var(--base-margin-right-mobile);
 
         &--active {
           top: 10px;
@@ -178,9 +178,4 @@
     opacity: 0;
     transform: scale(0.7);
   }
-
-  // 100% {
-  //   opacity: 0;
-  //   z-index: -1;
-  // }
 }
