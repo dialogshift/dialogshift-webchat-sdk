@@ -1,6 +1,6 @@
 .ds-unread {
   position: fixed;
-  bottom: 63px;
+  bottom: calc(43px + var(--base-margin-bottom));
   border-radius: 50%;
   background-color: var(--unread-bg-color);
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 0px;
@@ -20,24 +20,28 @@
 }
 
 .ds-wrapper--pr .ds-unread {
-  right: 20px;
+  right: var(--base-margin-right);
 }
 
 .ds-wrapper--pl .ds-unread {
-  left: 20px;
+  left: var(--base-margin-left);
 }
 
 @media (max-width: 576px) {
+  .ds-unread {
+    bottom: calc(43px + var(--base-margin-bottom-mobile));
+  }
+
   .ds-wrapper {
     &--pl {
-      .ds-teaser {
-        left: 10px;
+      .ds-unread {
+        left: var(--base-margin-left-mobile);
       }
     }
 
     &--pr {
-      .ds-teaser {
-        right: 10px;
+      .ds-unread {
+        right: var(--base-margin-right-mobile);
       }
     }
   }

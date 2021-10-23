@@ -10,7 +10,7 @@ import {
   WhatsappButtonWidget,
   WhatsappWindowWidget,
   IframeBoxWidget,
-  // HeaderWidget,
+  HeaderWidget,
 } from '../widgets/index'
 import { EventEmitter } from './event-emitter'
 import { MixedObject } from '../types'
@@ -31,7 +31,7 @@ export class WidgetManager {
   private whatsappButtonWidget: WhatsappButtonWidget
   private whatsappWindowWidget: WhatsappWindowWidget
   private iframeBoxWidget: IframeBoxWidget
-  // private headerWidget: HeaderWidget
+  private headerWidget: HeaderWidget
 
   constructor(app: App) {
     this.app = app
@@ -49,15 +49,19 @@ export class WidgetManager {
     return this.app.isReady()
   }
 
-  // renderHeader() {
-  //   this.headerWidget = new HeaderWidget({
-  //     renderTo: this.chatboxWidget.getBoxElem(),
-  //   })
+  renderHeader() {
+    this.headerWidget = new HeaderWidget({
+      renderTo: this.chatboxWidget.getBoxElem(),
+    })
 
-  //   this.headerWidget.getCloseButton().on('click', () => {
-  //     this.chatboxWidget.hide()
-  //   })
-  // }
+    this.headerWidget.getCloseButton().on('click', () => {
+      if (this.whatsappWindowWidget && this.whatsappWindowWidget.isVisible()) {
+        this.whatsappWindowWidget.hide()
+      } else {
+        this.chatboxWidget.hide()
+      }
+    })
+  }
 
   renderIframeBox() {
     this.iframeBoxWidget = new IframeBoxWidget({
@@ -346,16 +350,23 @@ export class WidgetManager {
             if (event.data.isPressed) {
               if (!this.isAppReady()) {
                 this.getBroadcast().once('ready', () => {
-                  this.whatsappWindowWidget.show()
+                  if (this.whatsappWindowWidget) {
+                    this.whatsappWindowWidget.show()
+                  }
                 })
               } else {
-                this.whatsappWindowWidget.show()
+                if (this.whatsappWindowWidget) {
+                  this.whatsappWindowWidget.show()
+                }
               }
 
               this.chatButtonWidget.toggle(true)
               this.wrapperWidget.addCls('ds-whatsapp--opened')
             } else {
-              this.whatsappWindowWidget.hide()
+              if (this.whatsappWindowWidget) {
+                this.whatsappWindowWidget.hide()
+              }
+
               this.wrapperWidget.removeCls('ds-whatsapp--opened')
             }
           },
@@ -392,7 +403,9 @@ export class WidgetManager {
     })
 
     this.chatboxWidget.on('before:hide', () => {
-      this.whatsappWindowWidget.hide()
+      if (this.whatsappWindowWidget) {
+        this.whatsappWindowWidget.hide()
+      }
     })
   }
 
@@ -468,6 +481,14 @@ export class WidgetManager {
     if (this.iframeBoxWidget) {
       this.iframeBoxWidget.destroy()
     }
+
+    if (this.headerWidget) {
+      this.headerWidget.destroy()
+    }
+
+    // if (this.footerWidget) {
+    //   this.footerWidget.destroy()
+    // }
 
     if (this.whatsappButtonWidget) {
       this.whatsappButtonWidget.destroy()

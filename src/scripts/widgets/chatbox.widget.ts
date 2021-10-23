@@ -34,17 +34,19 @@ export class ChatboxWidget extends BaseWidget {
 
     setTimeout(() => {
       boxElem.style.opacity = '1'
+      boxElem.style.transform = 'translateY(0)'
     })
   }
 
   protected hideNode() {
     const boxElem = this.getBoxElem()
     boxElem.style.opacity = '0'
+    boxElem.style.transform = 'translateY(10px)'
 
     setTimeout(() => {
       boxElem.style.zIndex = '-1'
       boxElem.style.visibility = 'hidden'
-    })
+    }, 100)
   }
 
   getBaseCls(): string {

@@ -12,7 +12,6 @@ const config = {
   textLinkMobileCls: 'ds-whatsapp-window__text-link-mobile',
   qr: 'ds-whatsapp-window__qr',
   linkCls: 'ds-whatsapp-window__link',
-  crossCls: 'ds-whatsapp-window__cross',
 }
 
 const texts = {
@@ -48,7 +47,6 @@ interface WhatsappWindowWidgetOptions extends BaseWidgetOptions {
 }
 
 export class WhatsappWindowWidget extends BaseWidget {
-  private crossElem: HTMLElement
   private isLoaded = false
   private clientId: string
   private waSvg: string
@@ -118,22 +116,5 @@ export class WhatsappWindowWidget extends BaseWidget {
 
   getBaseCls(): string {
     return config.baseCls
-  }
-
-  render() {
-    this.crossElem = this.createNode()
-    this.crossElem.classList.add(config.crossCls)
-    this.bindEvents()
-
-    this.getBoxElem().appendChild(this.crossElem)
-
-    super.render()
-  }
-
-  bindEvents() {
-    this.crossElem.addEventListener('click', (event: MouseEvent) => {
-      event.stopPropagation()
-      this.hide()
-    })
   }
 }
