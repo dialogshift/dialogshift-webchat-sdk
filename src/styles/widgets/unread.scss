@@ -1,6 +1,6 @@
 .ds-unread {
   position: fixed;
-  bottom: 63px;
+  bottom: calc(43px + var(--base-margin-bottom));
   border-radius: 50%;
   background-color: var(--unread-bg-color);
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 0px;
@@ -28,6 +28,10 @@
 }
 
 @media (max-width: 576px) {
+  .ds-unread {
+    bottom: calc(43px + var(--base-margin-bottom-mobile));
+  }
+
   .ds-wrapper {
     &--pl {
       .ds-unread {
