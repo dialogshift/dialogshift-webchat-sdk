@@ -5,10 +5,12 @@
   background-color: var(--button-bg-color);
   border-radius: 30px;
   cursor: pointer;
-  transition: background-color 0.25s ease;
+  transition: background-color 0.25s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 6px 1px;
   position: fixed;
-  bottom: 20px;
+  bottom: var(--base-margin-bottom);
   z-index: 20;
 
   &:before {
@@ -67,6 +69,11 @@
     }
   }
 
+  &--hidden {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
   &--pulse {
     animation: pulse 1.5s infinite;
   }
@@ -75,18 +82,22 @@
 .ds-wrapper {
   &--pl {
     .ds-button {
-      left: 20px;
+      left: var(--base-margin-left);
     }
   }
 
   &--pr {
     .ds-button {
-      right: 20px;
+      right: var(--base-margin-right);
     }
   }
 }
 
 @media (max-width: 576px) {
+  .ds-button {
+    bottom: var(--base-margin-bottom-mobile);
+  }
+
   .ds-whatsapp--opened {
     .ds-button {
       display: none !important;
@@ -96,7 +107,7 @@
   .ds-wrapper {
     &--pl {
       .ds-button {
-        left: 15px;
+        left: var(--base-margin-left-mobile);
 
         &--active {
           top: 10px;
@@ -107,7 +118,7 @@
 
     &--pr {
       .ds-button {
-        right: 10px;
+        right: var(--base-margin-right-mobile);
 
         &--active {
           top: 10px;
@@ -158,5 +169,17 @@
 
   .ds-button--active:after {
     transition: none;
+  }
+}
+
+@keyframes hideAnimation {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
   }
 }

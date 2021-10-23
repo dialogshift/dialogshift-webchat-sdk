@@ -83,6 +83,7 @@ export enum ActionEventName {
   setTeaserText = 'set.teaser.text',
   showChatbox = 'show.chatbox',
   hideChatbox = 'hide.chatbox',
+  showWhatsApp = 'show.whatsApp',
 }
 
 export interface ActionEvent {
@@ -200,7 +201,7 @@ export class App {
       this.loadChat()
     })
 
-    // this.widgetManager.renderHeader()
+    this.widgetManager.renderHeader()
 
     this.widgetManager.renderUnreadWidget(this.options, this.chatConfig)
 
@@ -341,6 +342,10 @@ export class App {
 
     if (message.name === ActionEventName.hideChatbox) {
       this.widgetManager.getChatboxWidget().hide()
+    }
+
+    if (message.name === ActionEventName.showWhatsApp) {
+      this.widgetManager.getWhatsappWindowWidget().show()
     }
   }
 

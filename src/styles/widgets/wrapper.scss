@@ -1,6 +1,6 @@
 .ds-wrapper {
   position: fixed;
-  bottom: 20px;
+  bottom: var(--base-margin-bottom);
   z-index: 2147483001;
 
   &:after {
@@ -23,7 +23,7 @@
   }
 
   &--pl {
-    left: 20px;
+    left: var(--base-margin-left);
 
     &:after {
       left: 0px;
@@ -34,7 +34,7 @@
   }
 
   &--pr {
-    right: 20px;
+    right: var(--base-margin-right);
 
     &:after {
       right: 0px;
@@ -53,6 +53,8 @@
 
 @media (max-width: 576px) {
   .ds-wrapper {
+    bottom: var(--base-margin-bottom-mobile);
+
     &:after {
       display: none;
     }

@@ -18,6 +18,7 @@ export const config = {
   buttonLogoCls: 'ds-button--logo',
   buttonWithTextCls: 'ds-button--with-text',
   buttonActiveCls: 'ds-button--active',
+  buttonHiddenCls: 'ds-button--hidden',
 
   chatCls: 'ds-chat',
   chatLoaderCls: 'ds-chat-loader',
@@ -40,6 +41,10 @@ export const config = {
   actionButtonGroupCls: 'ds-action-button-group',
 
   actionButtonCls: 'ds-action-button',
+
+  headerCls: 'ds-header',
+
+  headerCloseButtonCls: 'ds-header-close-button',
 
   env: environment,
 }
