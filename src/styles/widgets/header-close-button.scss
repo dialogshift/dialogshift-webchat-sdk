@@ -29,3 +29,10 @@
     opacity 0.08s linear;
   }
 }
+
+@media (max-width: 576px) {
+  .ds-header-close-button {
+    right: 10px;
+    top: 10px;
+  }
+}
