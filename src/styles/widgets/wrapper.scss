@@ -1,6 +1,6 @@
 .ds-wrapper {
   position: fixed;
-  bottom: 20px;
+  bottom: var(--base-margin-bottom);
   z-index: 2147483001;
 
   &:after {
@@ -53,6 +53,8 @@
 
 @media (max-width: 576px) {
   .ds-wrapper {
+    bottom: var(--base-margin-bottom-mobile);
+
     &:after {
       display: none;
     }

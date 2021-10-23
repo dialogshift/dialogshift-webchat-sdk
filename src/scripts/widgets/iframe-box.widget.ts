@@ -5,9 +5,7 @@ const config = {
   crossCls: 'ds-iframe-box__cross',
 }
 
-interface IframeBoxWidgetOptions extends BaseWidgetOptions {
-  // host: string
-}
+interface IframeBoxWidgetOptions extends BaseWidgetOptions {}
 
 export class IframeBoxWidget extends BaseWidget {
   private loaded = false
@@ -26,17 +24,9 @@ export class IframeBoxWidget extends BaseWidget {
     return config.baseCls
   }
 
-  // getBoxElem(): HTMLIFrameElement {
-  //   return super.getBoxElem() as HTMLIFrameElement
-  // }
-
   isLoaded(): boolean {
     return this.loaded
   }
-
-  // createNode(): HTMLIFrameElement {
-  //   return document.createElement('iframe')
-  // }
 
   load(url: string): IframeBoxWidget {
     if (!this.iframe) {
