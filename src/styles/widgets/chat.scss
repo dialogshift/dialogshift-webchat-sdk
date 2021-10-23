@@ -1,6 +1,6 @@
 .ds-chat {
-  height: calc(100% - 15px - 15px);
-  bottom: 20px;
+  height: calc(100% - 10px - var(--base-margin-bottom));
+  bottom: var(--base-margin-bottom);
   min-height: 310px !important;
   max-height: 770px !important;
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -57,7 +57,7 @@
 
 .ds-wrapper--no-button .ds-chat {
   height: calc(100% - 15px - 15px);
-  bottom: 15px;
+  bottom: var(--base-margin-bottom);
 }
 
 @media (max-width: 576px) {

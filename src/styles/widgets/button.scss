@@ -10,7 +10,7 @@
     transform 0.25s ease;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 6px 1px;
   position: fixed;
-  bottom: 20px;
+  bottom: var(--base-margin-bottom);
   z-index: 20;
 
   &:before {
@@ -94,6 +94,10 @@
 }
 
 @media (max-width: 576px) {
+  .ds-button {
+    bottom: var(--base-margin-bottom-mobile);
+  }
+
   .ds-whatsapp--opened {
     .ds-button {
       display: none !important;
