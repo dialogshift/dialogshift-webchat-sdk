@@ -1,7 +1,7 @@
 {
   "name": "dialogshift-webchat-sdk",
-  "version": "2.3.22-develop.0",
-  "repository": {
+  "version": "2.4.0-develop.0",
+    "repository": {
     "type": "git",
     "url": "https://github.com/dialogshift/dialogshift-webchat-sdk"
   },
