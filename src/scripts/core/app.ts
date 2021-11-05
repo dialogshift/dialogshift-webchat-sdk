@@ -50,7 +50,7 @@ export interface AppOptions {
   direction?: 'rtl' | 'ltr'
   extendedWidth?: boolean
   baseCls?: string
-  showInIframe: boolean
+  showInIframe?: boolean
 }
 
 const appOptionsDefault = {
