@@ -50,6 +50,7 @@ export interface AppOptions {
   direction?: 'rtl' | 'ltr'
   extendedWidth?: boolean
   baseCls?: string
+  showInIframe: boolean
 }
 
 const appOptionsDefault = {
@@ -69,6 +70,7 @@ const appOptionsDefault = {
   unreadCounter: 0,
   context: {},
   direction: 'ltr',
+  showInIframe: false,
 }
 
 export enum ActionEventType {
@@ -174,9 +176,15 @@ export class App {
   }
 
   private render() {
+    const isWidgetManagerVisible = this.options.showInIframe
+      ? true
+      : inIframe()
+      ? false
+      : true
+
     this.widgetManager.renderWrapper(
       Object.assign({}, this.options, {
-        visible: !inIframe(),
+        visible: isWidgetManagerVisible,
       }),
     )
     this.widgetManager.renderContentWrapper()
