@@ -2,12 +2,13 @@ import { InitialElement } from '../core/app'
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
 
-interface IframeWidgetOptions extends BaseWidgetOptions {
+export interface IframeWidgetOptions extends BaseWidgetOptions {
   host: string
   id: string
   customerId?: string
   initialElement?: InitialElement
   locale?: string
+  channel?: string
 }
 
 export class IframeWidget extends BaseWidget {
@@ -20,6 +21,7 @@ export class IframeWidget extends BaseWidget {
     suppress: false,
   }
   private locale: string
+  private channel: string
 
   constructor(options: IframeWidgetOptions) {
     super(options)
@@ -65,6 +67,10 @@ export class IframeWidget extends BaseWidget {
 
     if (this.locale) {
       iframeUrl += `&lg=${this.locale}`
+    }
+
+    if (this.channel) {
+      iframeUrl += `&channel=${this.channel}`
     }
 
     iframeUrl += `&viewport=${this.getViewportWidth()}`
