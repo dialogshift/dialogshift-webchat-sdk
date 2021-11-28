@@ -596,13 +596,27 @@ export class App {
     const iframeWidget = this.widgetManager.getIframeWidget()
 
     if (!iframeWidget || !iframeWidget.isRendered()) {
-      this.widgetManager.renderIframeWidget(this.options, () => {
-        // For a separate thread. @todo refactor render flow.
-        setTimeout(() => {
-          this.initWebchatService()
-          load()
-        }, 20)
-      })
+      const channel = this.options.context.channel
+        ? this.options.context.channel
+        : 'pwa-embed'
+      const { id, initialElement, locale } = this.options
+
+      this.widgetManager.renderIframeWidget(
+        {
+          id,
+          initialElement,
+          locale,
+          channel,
+          host: (config as MixedObject).env.iframeHost,
+        },
+        () => {
+          // For a separate thread. @todo refactor render flow.
+          setTimeout(() => {
+            this.initWebchatService()
+            load()
+          }, 20)
+        },
+      )
     }
   }
 
