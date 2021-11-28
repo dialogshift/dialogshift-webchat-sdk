@@ -11,6 +11,7 @@ import {
   WhatsappWindowWidget,
   IframeBoxWidget,
   HeaderWidget,
+  IframeWidgetOptions,
 } from '../widgets/index'
 import { EventEmitter } from './event-emitter'
 import { MixedObject } from '../types'
@@ -147,13 +148,14 @@ export class WidgetManager {
     })
   }
 
-  renderIframeWidget(options: AppOptions, afterRender: () => void) {
+  renderIframeWidget(options: IframeWidgetOptions, afterRender: () => void) {
     this.iframeWidget = new IframeWidget({
-      host: (config as MixedObject).env.iframeHost,
+      host: options.host,
       id: options.id,
       initialElement: options.initialElement,
       locale: options.locale,
       renderTo: this.getChatboxWidget().getBoxElem(),
+      channel: options.channel,
       events: [
         {
           type: 'render',
