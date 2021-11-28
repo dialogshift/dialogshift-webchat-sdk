@@ -2,12 +2,13 @@ import { InitialElement } from '../core/app'
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
 
-interface IframeWidgetOptions extends BaseWidgetOptions {
+export interface IframeWidgetOptions extends BaseWidgetOptions {
   host: string
   id: string
   customerId?: string
   initialElement?: InitialElement
   locale?: string
+  channel?: string
 }
 
 export class IframeWidget extends BaseWidget {
@@ -20,6 +21,7 @@ export class IframeWidget extends BaseWidget {
     suppress: false,
   }
   private locale: string
+  private channel: string = 'pwa-embed'
 
   constructor(options: IframeWidgetOptions) {
     super(options)
@@ -55,7 +57,7 @@ export class IframeWidget extends BaseWidget {
   }
 
   buildUrl(): string {
-    let iframeUrl = `${this.host}?clid=${this.id}&cid=${this.customerId}&source=pwa-embed`
+    let iframeUrl = `${this.host}?clid=${this.id}&cid=${this.customerId}`
 
     if (this.initialElement.suppress) {
       iframeUrl += '&init=suppress'
@@ -66,6 +68,8 @@ export class IframeWidget extends BaseWidget {
     if (this.locale) {
       iframeUrl += `&lg=${this.locale}`
     }
+
+    iframeUrl += `&source=${this.channel}`
 
     iframeUrl += `&viewport=${this.getViewportWidth()}`
     iframeUrl += `&curl=${location.origin + location.pathname}`
