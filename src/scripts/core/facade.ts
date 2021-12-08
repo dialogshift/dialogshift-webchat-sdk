@@ -141,5 +141,9 @@ export const createFacade = (instance: App) => {
     isReady(): boolean {
       return instance.isReady()
     },
+
+    setLocale(locale: string) {
+      instance.setLocale(locale)
+    },
   }
 }
