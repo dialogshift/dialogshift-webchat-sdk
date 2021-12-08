@@ -631,4 +631,9 @@ export class App {
       })
     })
   }
+
+  setLocale(locale: string) {
+    this.options.locale = locale
+    this.widgetManager.setLocale(locale, this.chatConfig)
+  }
 }
