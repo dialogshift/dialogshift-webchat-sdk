@@ -117,4 +117,12 @@ export class WhatsappWindowWidget extends BaseWidget {
   getBaseCls(): string {
     return config.baseCls
   }
+
+  setLocale(locale: string) {
+    this.locale = locale
+
+    if (this.isLoaded) {
+      this.renderContent()
+    }
+  }
 }
