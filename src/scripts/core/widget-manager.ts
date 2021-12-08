@@ -12,6 +12,7 @@ import {
   IframeBoxWidget,
   HeaderWidget,
   IframeWidgetOptions,
+  ActionButtonWidget,
 } from '../widgets/index'
 import { EventEmitter } from './event-emitter'
 import { MixedObject } from '../types'
@@ -475,7 +476,7 @@ export class WidgetManager {
 
     if (this.actionButtonGroupWidget) {
       const buttons = this.actionButtonGroupWidget.getButtons()
-      buttons.forEach((button) => button.setLocale(locale))
+      buttons.forEach((button: ActionButtonWidget) => button.setLocale(locale))
     }
 
     if (this.whatsappWindowWidget) {
