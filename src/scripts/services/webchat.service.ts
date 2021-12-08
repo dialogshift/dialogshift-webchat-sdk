@@ -1,5 +1,3 @@
-import { MixedObject } from '../types'
-
 export interface WebchatServiceOptions {
   targetWindow: HTMLIFrameElement
 }

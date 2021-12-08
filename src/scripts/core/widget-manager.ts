@@ -19,6 +19,28 @@ import { config } from '../config/config'
 import { WebchatService } from '../services'
 import { AppOptions, App } from './app'
 
+const getTeaserText = ({
+  teaserText,
+  locale,
+  defaultLocale,
+}: {
+  teaserText?: { [key: string]: any }
+  locale?: string
+  defaultLocale?: string
+}): string => {
+  let content = 'Can I help you?'
+
+  if (teaserText) {
+    if (teaserText[locale]) {
+      content = teaserText[locale]
+    } else if (defaultLocale && teaserText[defaultLocale]) {
+      content = teaserText[defaultLocale]
+    }
+  }
+
+  return content
+}
+
 export class WidgetManager {
   private readonly app: App
   private chatButtonWidget: ChatButtonWidget
@@ -175,15 +197,7 @@ export class WidgetManager {
     const { locale } = options
     const { teaserText, defaultLocale, effects } = chatConfig
 
-    let content = 'Can I help you?'
-
-    if (teaserText) {
-      if (teaserText[locale]) {
-        content = teaserText[locale]
-      } else if (defaultLocale && teaserText[defaultLocale]) {
-        content = teaserText[defaultLocale]
-      }
-    }
+    const content = getTeaserText({ teaserText, locale, defaultLocale })
 
     this.teaserWidget = new TeaserWidget({
       content,
@@ -449,6 +463,24 @@ export class WidgetManager {
 
   getIframeBoxWidget(): IframeBoxWidget {
     return this.iframeBoxWidget
+  }
+
+  setLocale(locale: string, chatConfig: { [key: string]: any }) {
+    const { teaserText, defaultLocale } = chatConfig
+
+    if (this.teaserWidget) {
+      const teaserContent = getTeaserText({ teaserText, locale, defaultLocale })
+      this.teaserWidget.setContent(teaserContent)
+    }
+
+    if (this.actionButtonGroupWidget) {
+      const buttons = this.actionButtonGroupWidget.getButtons()
+      buttons.forEach((button) => button.setLocale(locale))
+    }
+
+    if (this.whatsappWindowWidget) {
+      this.whatsappWindowWidget.setLocale(locale)
+    }
   }
 
   destroy() {
