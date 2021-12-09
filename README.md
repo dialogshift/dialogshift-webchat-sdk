@@ -464,6 +464,14 @@ Dialogshift.instance().setActionButtons([{
 }])
 ```
 
+#### setLocale(locale: string)
+
+Changes current locale, updates widget content.
+
+```javascript
+Dialogshift.instance().setLocale('de')
+```
+
 `ActionButton`
 
 | Name      | Type    | Description                                                    |
