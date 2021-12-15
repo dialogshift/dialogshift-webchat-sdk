@@ -16,6 +16,7 @@ export const config = {
 
   buttonCls: 'ds-button',
   buttonLogoCls: 'ds-button--logo',
+  buttonIconContainerCls: 'ds-button--icon-container',
   buttonWithTextCls: 'ds-button--with-text',
   buttonActiveCls: 'ds-button--active',
   buttonHiddenCls: 'ds-button--hidden',
