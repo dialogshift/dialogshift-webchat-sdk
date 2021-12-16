@@ -21,12 +21,13 @@ export class IframeWidget extends BaseWidget {
     suppress: false,
   }
   private locale: string
-  private channel: string = 'pwa-embed'
+  private channel: string
 
   constructor(options: IframeWidgetOptions) {
     super(options)
 
     this.initialElement = options.initialElement
+    this.channel = options.channel || 'pwa-embed'
   }
 
   getBaseCls(): string {
