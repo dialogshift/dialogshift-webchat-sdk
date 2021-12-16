@@ -1,5 +1,6 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
+import { iconSvg } from '../consts'
 
 export class ChatButtonWidget extends BaseWidget {
   private isPressed = false
@@ -20,6 +21,12 @@ export class ChatButtonWidget extends BaseWidget {
 
   render() {
     const boxElem = this.getBoxElem()
+
+    const iconContainer = document.createElement('div')
+    iconContainer.classList.add(config.buttonIconContainerCls)
+    iconContainer.innerHTML = iconSvg
+    boxElem.appendChild(iconContainer)
+
     boxElem.classList.add(config.buttonLogoCls)
 
     this.bindEvents()
