@@ -358,10 +358,10 @@ export class WidgetManager {
     const { effects, bwWaButton, slideWaButton } = chatConfig
 
     this.whatsappButtonWidget = new WhatsappButtonWidget({
+      slideWaButton,
       renderTo: this.wrapperWidget.getBoxElem(),
       effects: effects?.whatsappButton,
       blackWhiteStyle: bwWaButton,
-      slideWaButton: slideWaButton,
       events: [
         {
           type: 'toggle',
