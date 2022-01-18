@@ -36,9 +36,9 @@
   }
 
   &--slide {
-    // right: 25px;
-    // opacity: 0;
-    // transform: scale(1);
+    right: 25px !important;
+    opacity: 0;
+    transform: scale(1);
   }
 }
 
@@ -90,7 +90,7 @@
 }
 
 .ds-footer:hover .ds-whatsapp-button--slide {
-  transform: translateX(-70px);
+  transform: translateX(-65px);
   opacity: 1;
 }
 
