@@ -356,6 +356,7 @@ export class WidgetManager {
 
   renderWhatsappButtonWidget(chatConfig: MixedObject) {
     const { effects, bwWaButton, slideWaButton } = chatConfig
+    console.log(slideWaButton)
 
     this.whatsappButtonWidget = new WhatsappButtonWidget({
       slideWaButton,
