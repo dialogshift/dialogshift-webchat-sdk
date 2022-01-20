@@ -1,0 +1,21 @@
+.ds-footer {
+  position: absolute;
+  width: 120px;
+  bottom: 0;
+  height: 60px;
+  overflow: visible;
+}
+
+.ds-wrapper {
+  &--pl {
+    .ds-footer {
+      left: 0;
+    }
+  }
+
+  &--pr {
+        .ds-footer {
+      right: 0;
+    }
+  }
+}
