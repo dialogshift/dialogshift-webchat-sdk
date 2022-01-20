@@ -366,7 +366,7 @@ export class WidgetManager {
     const { effects, bwWaButton, slideWaButton } = chatConfig
 
     this.whatsappButtonWidget = new WhatsappButtonWidget({
-      slideWaButton: true,
+      slideWaButton,
       renderTo: this.footerWidget.getBoxElem(),
       effects: effects?.whatsappButton,
       blackWhiteStyle: bwWaButton,
