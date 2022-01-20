@@ -49,6 +49,7 @@ export interface AppOptions {
   context?: MixedObject
   direction?: 'rtl' | 'ltr'
   extendedWidth?: boolean
+  bwWaButton?: boolean
   baseCls?: string
   showInIframe?: boolean
 }
@@ -188,6 +189,7 @@ export class App {
       }),
     )
     this.widgetManager.renderContentWrapper()
+    this.widgetManager.renderFooter()
 
     if (this.options.renderButton) {
       this.widgetManager.renderChatButton(this.options, this.chatConfig)
@@ -395,6 +397,7 @@ export class App {
       isChatboxVisible,
       renderWaButton,
       extendedWidth,
+      bwWaButton,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -431,6 +434,10 @@ export class App {
 
     if (extendedWidth) {
       this.options.extendedWidth = extendedWidth
+    }
+
+    if (bwWaButton) {
+      this.options.bwWaButton = bwWaButton
     }
   }
 
