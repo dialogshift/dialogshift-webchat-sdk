@@ -531,9 +531,9 @@ export class WidgetManager {
       this.headerWidget.destroy()
     }
 
-    // if (this.footerWidget) {
-    //   this.footerWidget.destroy()
-    // }
+    if (this.footerWidget) {
+      this.footerWidget.destroy()
+    }
 
     if (this.whatsappButtonWidget) {
       this.whatsappButtonWidget.destroy()
