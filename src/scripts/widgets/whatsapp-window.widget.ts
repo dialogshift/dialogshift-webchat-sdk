@@ -23,9 +23,9 @@ const texts = {
     link: 'Open WhatsApp',
   },
   de: {
-    title: 'Benutze WhatsApp',
-    description: 'Scanne den QR Code mit Deinem Smartphone',
-    linkText: 'oder klicke diesen Link an',
+    title: 'WhatsApp',
+    description: 'QR-Code mit dem Smartphone scannen',
+    linkText: 'auf dem Computer auch mit diesem Link',
     linkMobileText: 'Klicke den Button um WhatsApp zu öffnen',
     link: 'WhatsApp öffnen',
   },
