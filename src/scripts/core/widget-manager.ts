@@ -13,7 +13,7 @@ import {
   HeaderWidget,
   IframeWidgetOptions,
   ActionButtonWidget,
-  FooterWidget,
+  FooterWidget
 } from '../widgets/index'
 import { EventEmitter } from './event-emitter'
 import { MixedObject } from '../types'
