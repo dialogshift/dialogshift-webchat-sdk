@@ -20,6 +20,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
+    "postinstall": "patch-package",
     "build:umd": "rm -rf ./bundles && webpack --config webpack.config.js --progress",
     "build:es6": "rm -rf ./dist && tsc --outDir ./dist",
     "build": "npm run build:umd && npm run build:es6 && npm run build:styles",
@@ -46,6 +47,7 @@
     "mocha": "^9.2.2",
     "mocha-jsdom": "^2.0.0",
     "node-sass": "^7.0.0",
+    "patch-package": "^6.4.7",
     "scss-compile": "^0.1.7",
     "sinon": "^13.0.1",
     "ts-loader": "^9.2.8",
