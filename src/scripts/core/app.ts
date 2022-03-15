@@ -6,7 +6,7 @@ import {
   WebchatService,
   CookieService,
   UserService,
-  TokenService,
+  TokenService
 } from '../services'
 import {
   parseUrlParam,
@@ -14,7 +14,7 @@ import {
   injectCss,
   mergeDeep,
   removeURLParameters,
-  inIframe,
+  inIframe
 } from './utils'
 import { MixedObject } from '../types'
 
@@ -180,8 +180,8 @@ export class App {
     const isWidgetManagerVisible = this.options.showInIframe
       ? true
       : inIframe()
-      ? false
-      : true
+        ? false
+        : true
 
     this.widgetManager.renderWrapper(
       Object.assign({}, this.options, {
