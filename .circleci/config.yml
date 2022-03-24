@@ -19,18 +19,15 @@ jobs:
 
   build_stage:
     docker:
-      - image: node:10
-    working_directory: /home/ubuntu/ds-sdk
+      - image: ghcr.io/dialogshift-organization/dialogshift-webchat-sdk:latest
+    working_directory: ~/ds-sdk
     steps:
       - checkout
       - run: cp src/scripts/config/env.stage.ts src/scripts/config/env.ts
       - run: npm install
       - run: npm run test
       - run: npm run build
-      - run: apt-get update
-      - run: apt-get -qq install python-pip python-dev jq yui-compressor
-      - run: pip install awscli
-      - run: yui-compressor -o bundles/dialogshift-webchat-sdk.umd.min.js bundles/dialogshift-webchat-sdk.umd.js
+      - run: uglifyjs bundles/dialogshift-webchat-sdk.umd.js -o bundles/dialogshift-webchat-sdk.umd.min.js
       - run: mkdir sdk
       - run: mkdir sdk/$(jq -r '.version' package.json)
       - run: cp bundles/* sdk/$(jq -r '.version' package.json)
@@ -39,18 +36,15 @@ jobs:
 
   build_prod:
     docker:
-      - image: node:10
-    working_directory: /home/ubuntu/ds-sdk
+      - image: ghcr.io/dialogshift-organization/dialogshift-webchat-sdk:latest
+    working_directory: ~/ds-sdk
     steps:
       - checkout
       - run: cp src/scripts/config/env.prod.ts src/scripts/config/env.ts
       - run: npm install
       - run: npm run test
       - run: npm run build
-      - run: apt-get update
-      - run: apt-get -qq install python-pip python-dev jq yui-compressor
-      - run: pip install awscli
-      - run: yui-compressor -o bundles/dialogshift-webchat-sdk.umd.min.js bundles/dialogshift-webchat-sdk.umd.js
+      - run: uglifyjs bundles/dialogshift-webchat-sdk.umd.js -o bundles/dialogshift-webchat-sdk.umd.min.js
       - run: mkdir sdk
       - run: mkdir sdk/$(jq -r '.version' package.json)
       - run: cp bundles/* sdk/$(jq -r '.version' package.json)
