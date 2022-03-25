@@ -1,7 +1,7 @@
 import {
   BaseWidgetOptions,
   BaseWidget,
-  BaseWidgetDisplayMode,
+  BaseWidgetDisplayMode
 } from '../../core/base-widget'
 import { config } from '../../config/config'
 import { HeaderCloseButtonWidget } from './header-close-button.widget'
