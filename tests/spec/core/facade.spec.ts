@@ -5,7 +5,7 @@ import { createFacade } from '../../../src/scripts/core/facade'
 import { App } from '../../../src/scripts/core/app'
 
 describe('Facade', () => {
-  const sandbox = sinon.sandbox.create()
+  const sandbox = sinon.createSandbox()
 
   before(() => {
     sandbox.stub(App.prototype, <any>'init')
