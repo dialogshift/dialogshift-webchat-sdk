@@ -6,7 +6,7 @@ import { instance } from '../../src/scripts/index'
 
 describe('instance()', () => {
   let initStub
-  const sandbox = sinon.sandbox.create()
+  const sandbox = sinon.createSandbox()
 
   before(() => {
     initStub = sandbox.stub(App.prototype, <any>'init')
