@@ -119,6 +119,8 @@ export class App {
     this.broadcast = new EventEmitter()
     this.widgetManager = new WidgetManager(this)
 
+    this.options.context["hostUrl"] = window.location.href;
+
     this.init()
   }
 
