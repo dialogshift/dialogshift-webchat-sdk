@@ -119,12 +119,12 @@ export class App {
     this.broadcast = new EventEmitter()
     this.widgetManager = new WidgetManager(this)
 
-    this.options.context['hostUrl'] = window.location.href;
-
     this.init()
   }
 
   private init() {
+    this.options.context['hostUrl'] = window.location.href;
+
     if (parseUrlParam(window.location.href, 'ctrl') === 'forcenew') {
       UserService.deleteUser()
       TokenService.deleteToken()
