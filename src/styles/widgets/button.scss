@@ -22,7 +22,9 @@
   }
 
   &--icon-container > svg {
-   color: var(--button-icon-color);
+    color: var(--button-icon-color);
+    height: 30px;
+    width: 31px;
   }
 
   &:after {
