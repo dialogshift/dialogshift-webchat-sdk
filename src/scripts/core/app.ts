@@ -134,7 +134,7 @@ export class App {
 
     const openUrlParam = parseUrlParam(window.location.href, 'dschat')
 
-    if (openUrlParam === 'open') {
+    if (openUrlParam === 'open' && window.innerWidth > 576) {
       this.options.isChatboxVisible = true
     }
 
