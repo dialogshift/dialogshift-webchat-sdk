@@ -57,7 +57,7 @@ export interface AppOptions {
   bwWaButton?: boolean
   baseCls?: string
   showInIframe?: boolean
-  custidStoreMode: string
+  custidStoreMode?: string
 }
 
 const appOptionsDefault = {
