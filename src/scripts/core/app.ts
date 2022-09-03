@@ -33,6 +33,11 @@ export interface InitialElement {
   suppress?: boolean
 }
 
+export enum CustidStoreMode {
+  cookie = 'cookie',
+  session = 'session',
+}
+
 export interface AppOptions {
   id: string
   locale?: string
@@ -52,6 +57,7 @@ export interface AppOptions {
   bwWaButton?: boolean
   baseCls?: string
   showInIframe?: boolean
+  custidStoreMode: string
 }
 
 const appOptionsDefault = {
@@ -72,6 +78,7 @@ const appOptionsDefault = {
   context: {},
   direction: 'ltr',
   showInIframe: false,
+  custidStoreMode: CustidStoreMode.cookie,
 }
 
 export enum ActionEventType {
@@ -400,6 +407,7 @@ export class App {
       renderWaButton,
       extendedWidth,
       bwWaButton,
+      custidStoreMode,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -440,6 +448,10 @@ export class App {
 
     if (bwWaButton) {
       this.options.bwWaButton = bwWaButton
+    }
+
+    if (custidStoreMode) {
+      UserService.custidStoreMode = custidStoreMode
     }
   }
 

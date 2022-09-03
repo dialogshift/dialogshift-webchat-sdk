@@ -1,14 +1,13 @@
 import { MixedObject } from '../types'
-import { ApiService, CookieService } from '.'
+import { ApiService, CookieService, UserService } from '.'
 import { isCrawler } from '../core/utils'
 
 const csrfCookieName = 'ds-csrf'
-const customerIdCookieName = 'ds-custid'
 
 export class TokenService {
   static touchToken(clientId: string, csrfAfter: number): Promise<string> {
     return new Promise((resolve: any) => {
-      const customerId = CookieService.get(customerIdCookieName)
+      const customerId = UserService.getCustomerId()
       const csrftoken = CookieService.get(csrfCookieName)
       const sec = btoa(window.screen.width.toString())
       const realUserScore = isCrawler() ? 0 : 100
@@ -19,7 +18,7 @@ export class TokenService {
         resolve(csrftoken)
       } else {
         setTimeout(() => {
-          if (CookieService.get(customerIdCookieName)) {
+          if (UserService.getCustomerId()) {
             return
           }
 

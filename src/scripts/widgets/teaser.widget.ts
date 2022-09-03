@@ -1,6 +1,5 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
-import { CookieService } from '../services/cookie.service'
 
 interface TeaserWidgetOptions extends BaseWidgetOptions {
   showTeaserOnce: boolean
