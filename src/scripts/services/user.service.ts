@@ -89,7 +89,7 @@ export class UserService {
 
   static deleteUser() {
     CookieService.delete(customerIdCookieName)
-    CookieService.delete('times-counter')
-    CookieService.delete('teaser-display')
+    sessionStorage.removeItem('ds-times-counter')
+    sessionStorage.removeItem('ds-teaser-display')
   }
 }

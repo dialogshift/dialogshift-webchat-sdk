@@ -128,7 +128,7 @@ export class App {
     if (parseUrlParam(window.location.href, 'ctrl') === 'forcenew') {
       UserService.deleteUser()
       TokenService.deleteToken()
-      CookieService.delete('keep-chat-open')
+      // CookieService.delete('ds-keep-chat-open')
       removeURLParameters(['ctrl'])
     }
 
@@ -249,7 +249,7 @@ export class App {
       }, hideTeaserAfter * 1000)
     }
 
-    if (CookieService.get('keep-chat-open') === 'true') {
+    /* if (CookieService.get('keep-chat-open') === 'true') {
       this.setInitialElement({
         suppress: true,
       })
@@ -260,7 +260,7 @@ export class App {
           this.webchatService.setMinimized(true)
         }, 250)
       })
-    }
+    } */
   }
 
   private bindEvents() {
@@ -310,7 +310,7 @@ export class App {
     this.broadcast.on('command.receive', (event: any) => {
       const commandModel = event.data
 
-      if (commandModel.commandType === 'livechat') {
+      /* if (commandModel.commandType === 'livechat') {
         if (
           commandModel.action === 'start' &&
           this.chatConfig.keepChatOpenDuringLivechat
@@ -321,7 +321,7 @@ export class App {
         if (commandModel.action === 'end') {
           CookieService.set('keep-chat-open', 'false')
         }
-      }
+      } */
     })
   }
 
