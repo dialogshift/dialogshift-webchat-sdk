@@ -17,6 +17,7 @@ import {
   inIframe
 } from './utils'
 import { MixedObject } from '../types'
+import { CustidStoreMode } from '../enums'
 
 export enum ChatPosition {
   left = 'left',
@@ -31,11 +32,6 @@ export enum AppTheme {
 export interface InitialElement {
   successor?: string | null
   suppress?: boolean
-}
-
-export enum CustidStoreMode {
-  cookie = 'cookie',
-  session = 'session',
 }
 
 export interface AppOptions {

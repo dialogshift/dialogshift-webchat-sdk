@@ -1,7 +1,7 @@
 import { ApiService, CookieService, TokenService } from './'
 import { parseUrlParam } from '../core/utils'
 import { MixedObject } from '../types'
-import { CustidStoreMode } from '../core/app'
+import { CustidStoreMode } from '../enums'
 
 const customerIdCookieName = 'ds-custid'
 
