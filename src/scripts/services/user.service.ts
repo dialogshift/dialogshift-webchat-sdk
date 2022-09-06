@@ -12,7 +12,11 @@ export class UserService {
     if (this.custidStoreMode === CustidStoreMode.cookie) {
       return CookieService.get(customerIdCookieName)
     } else {
-      return sessionStorage.getItem(customerIdCookieName)
+      let customerId: string | null = sessionStorage.getItem(customerIdCookieName)
+      if (customerId === null) {
+        customerId = CookieService.get(customerIdCookieName)
+      }
+      return customerId
     }
   }
 
@@ -37,6 +41,9 @@ export class UserService {
       CookieService.delete(customerIdCookieName)
     } else {
       sessionStorage.removeItem(customerIdCookieName)
+      if (CookieService.get(customerIdCookieName) !== null) {
+        CookieService.delete(customerIdCookieName)
+      }
     }
   }
 
