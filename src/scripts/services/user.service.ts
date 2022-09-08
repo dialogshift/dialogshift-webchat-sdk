@@ -61,6 +61,7 @@ export class UserService {
     const customerId = sessionStorage.getItem(customerIdCookieName)
     if (customerId !== null) {
       UserService.saveCustomerId(customerId)
+      sessionStorage.removeItem(customerIdCookieName)
     }
   }
 

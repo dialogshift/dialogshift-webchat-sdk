@@ -311,7 +311,6 @@ export class App {
     })
 
     this.broadcast.on('command.receive', (event: any) => {
-      console.log(event)
       const commandModel = event.data
 
       if (commandModel.commandType === 'receivedCookieConsent') {
