@@ -56,6 +56,14 @@ export class UserService {
     }
   }
 
+  static switchToCookieModeAfterConsent() {
+    this.custidStoreMode = CustidStoreMode.cookie
+    const customerId = sessionStorage.getItem(customerIdCookieName)
+    if (customerId !== null) {
+      UserService.saveCustomerId(customerId)
+    }
+  }
+
   static touchUser(
     clientId: string,
     locale: string,
