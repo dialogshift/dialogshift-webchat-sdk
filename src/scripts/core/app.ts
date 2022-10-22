@@ -17,6 +17,7 @@ import {
   inIframe
 } from './utils'
 import { MixedObject } from '../types'
+import { CustidStoreMode } from '../enums'
 
 export enum ChatPosition {
   left = 'left',
@@ -52,6 +53,7 @@ export interface AppOptions {
   bwWaButton?: boolean
   baseCls?: string
   showInIframe?: boolean
+  custidStoreMode?: CustidStoreMode
 }
 
 const appOptionsDefault = {
@@ -72,6 +74,7 @@ const appOptionsDefault = {
   context: {},
   direction: 'ltr',
   showInIframe: false,
+  custidStoreMode: CustidStoreMode.cookie,
 }
 
 export enum ActionEventType {
@@ -128,7 +131,7 @@ export class App {
     if (parseUrlParam(window.location.href, 'ctrl') === 'forcenew') {
       UserService.deleteUser()
       TokenService.deleteToken()
-      CookieService.delete('keep-chat-open')
+      // CookieService.delete('ds-keep-chat-open')
       removeURLParameters(['ctrl'])
     }
 
@@ -249,7 +252,7 @@ export class App {
       }, hideTeaserAfter * 1000)
     }
 
-    if (CookieService.get('keep-chat-open') === 'true') {
+    /* if (CookieService.get('keep-chat-open') === 'true') {
       this.setInitialElement({
         suppress: true,
       })
@@ -260,7 +263,7 @@ export class App {
           this.webchatService.setMinimized(true)
         }, 250)
       })
-    }
+    } */
   }
 
   private bindEvents() {
@@ -310,7 +313,9 @@ export class App {
     this.broadcast.on('command.receive', (event: any) => {
       const commandModel = event.data
 
-      if (commandModel.commandType === 'livechat') {
+      if (commandModel.commandType === 'receivedCookieConsent') {
+        UserService.switchToCookieModeAfterConsent()
+      } /* else if (commandModel.commandType === 'livechat') {
         if (
           commandModel.action === 'start' &&
           this.chatConfig.keepChatOpenDuringLivechat
@@ -321,7 +326,7 @@ export class App {
         if (commandModel.action === 'end') {
           CookieService.set('keep-chat-open', 'false')
         }
-      }
+      } */
     })
   }
 
@@ -400,6 +405,7 @@ export class App {
       renderWaButton,
       extendedWidth,
       bwWaButton,
+      custidStoreMode,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -440,6 +446,10 @@ export class App {
 
     if (bwWaButton) {
       this.options.bwWaButton = bwWaButton
+    }
+
+    if (custidStoreMode) {
+      UserService.custidStoreMode = custidStoreMode
     }
   }
 

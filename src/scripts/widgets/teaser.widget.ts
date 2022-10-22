@@ -1,6 +1,5 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
-import { CookieService } from '../services/cookie.service'
 
 interface TeaserWidgetOptions extends BaseWidgetOptions {
   showTeaserOnce: boolean
@@ -38,8 +37,8 @@ export class TeaserWidget extends BaseWidget {
 
     let timesCounter = 0
 
-    if (CookieService.get('times-counter') !== null) {
-      timesCounter = parseInt(CookieService.get('times-counter'), 10)
+    if (sessionStorage.getItem('ds-times-counter') !== null) {
+      timesCounter = parseInt(sessionStorage.getItem('ds-times-counter'), 10)
     }
 
     timesCounter += 1
@@ -48,7 +47,7 @@ export class TeaserWidget extends BaseWidget {
       return false
     }
 
-    CookieService.set('times-counter', timesCounter)
+    sessionStorage.setItem('ds-times-counter', timesCounter.toString())
 
     return true
   }
@@ -63,13 +62,13 @@ export class TeaserWidget extends BaseWidget {
       return
     }
 
-    if (this.showTeaserOnce && CookieService.get('teaser-display') !== null) {
+    if (this.showTeaserOnce && sessionStorage.getItem('ds-teaser-display') !== null) {
       return
     }
 
     super.show()
 
-    CookieService.set('teaser-display', 'true')
+    sessionStorage.setItem('ds-teaser-display', 'true')
   }
 
   bindEvents() {
