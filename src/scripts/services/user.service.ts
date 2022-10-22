@@ -1,28 +1,67 @@
 import { ApiService, CookieService, TokenService } from './'
 import { parseUrlParam } from '../core/utils'
 import { MixedObject } from '../types'
+import { CustidStoreMode } from '../enums'
 
 const customerIdCookieName = 'ds-custid'
 
 export class UserService {
+  static custidStoreMode = CustidStoreMode.cookie
+
   static getCustomerId(): string | null {
-    return CookieService.get(customerIdCookieName)
+    if (this.custidStoreMode === CustidStoreMode.cookie) {
+      return CookieService.get(customerIdCookieName)
+    } else {
+      let customerId: string | null = sessionStorage.getItem(customerIdCookieName)
+      if (customerId === null) {
+        customerId = CookieService.get(customerIdCookieName)
+      }
+      return customerId
+    }
   }
 
   static setCustomerId(id: string, expires?: number) {
-    CookieService.set(customerIdCookieName, id, {
-      expires: expires ? expires : 86400 * 90, // 90 days
-    })
+    this.saveCustomerId(id, expires)
 
     TokenService.deleteToken()
   }
 
+  static saveCustomerId(id: string, expires?: number) {
+    if (this.custidStoreMode === CustidStoreMode.cookie) {
+      CookieService.set(customerIdCookieName, id, {
+        expires: expires ? expires : 86400 * 90, // 90 days
+      })
+    } else {
+      sessionStorage.setItem(customerIdCookieName, id)
+    }
+  }
+
+  static deleteCustomerId() {
+    if (this.custidStoreMode === CustidStoreMode.cookie) {
+      CookieService.delete(customerIdCookieName)
+    } else {
+      sessionStorage.removeItem(customerIdCookieName)
+      if (CookieService.get(customerIdCookieName) !== null) {
+        CookieService.delete(customerIdCookieName)
+      }
+    }
+  }
+
   static updateCookieLifetime(forgetCustomerAfterHours: number) {
-    if (UserService.getCustomerId()) {
+    if (this.custidStoreMode === CustidStoreMode.cookie && UserService.getCustomerId()) {
       UserService.setCustomerId(
         UserService.getCustomerId(),
         3600 * forgetCustomerAfterHours,
       )
+    }
+  }
+
+  static switchToCookieModeAfterConsent() {
+    this.custidStoreMode = CustidStoreMode.cookie
+    const customerId = sessionStorage.getItem(customerIdCookieName)
+    if (customerId !== null) {
+      UserService.saveCustomerId(customerId)
+      sessionStorage.removeItem(customerIdCookieName)
     }
   }
 
@@ -34,7 +73,7 @@ export class UserService {
   ): Promise<string> {
     return new Promise((resolve: any) => {
       let source = 'pwa-embed'
-      const customerId = CookieService.get(customerIdCookieName)
+      const customerId = this.getCustomerId()
 
       if (!clientId) {
         throw new Error('Client ID is undefined')
@@ -88,8 +127,8 @@ export class UserService {
   }
 
   static deleteUser() {
-    CookieService.delete(customerIdCookieName)
-    CookieService.delete('times-counter')
-    CookieService.delete('teaser-display')
+    this.deleteCustomerId()
+    sessionStorage.removeItem('ds-times-counter')
+    sessionStorage.removeItem('ds-teaser-display')
   }
 }
