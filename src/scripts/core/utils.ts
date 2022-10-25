@@ -77,17 +77,7 @@ export const isFontLoaded = (fontName: string): boolean => {
   return true
 }
 
-export const loadOpenSans = () => {
-  const style = document.createElement('link')
-  const head = document.querySelector('head')
-
-  style.rel = 'stylesheet'
-  style.href = 'https://fonts.googleapis.com/css?family=Open+Sans:400'
-
-  if (head !== null) {
-    head.appendChild(style)
-  }
-}
+export const loadOpenSans = () => {}
 
 export const isObject = (item: any): boolean => {
   return item && typeof item === 'object' && !Array.isArray(item)
