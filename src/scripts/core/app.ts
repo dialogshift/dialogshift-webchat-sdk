@@ -54,6 +54,7 @@ export interface AppOptions {
   baseCls?: string
   showInIframe?: boolean
   custidStoreMode?: CustidStoreMode
+  loadGaContext?: boolean
 }
 
 const appOptionsDefault = {
@@ -75,6 +76,7 @@ const appOptionsDefault = {
   direction: 'ltr',
   showInIframe: false,
   custidStoreMode: CustidStoreMode.cookie,
+  loadGaContext: false,
 }
 
 export enum ActionEventType {
