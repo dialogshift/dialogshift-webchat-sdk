@@ -2,11 +2,13 @@ import { ApiService, CookieService, TokenService } from './'
 import { parseUrlParam } from '../core/utils'
 import { MixedObject } from '../types'
 import { CustidStoreMode } from '../enums'
+import { GaService } from './ga.service'
 
 const customerIdCookieName = 'ds-custid'
 
 export class UserService {
   static custidStoreMode = CustidStoreMode.cookie
+  static loadGaContext = false
 
   static getCustomerId(): string | null {
     if (this.custidStoreMode === CustidStoreMode.cookie) {
@@ -103,6 +105,13 @@ export class UserService {
 
       if (location.pathname.indexOf('/g/') !== -1) {
         source = 'pwa-c2o'
+      }
+
+      if (this.loadGaContext) {
+        const ga = GaService.getGaValue()
+        if (ga !== null) {
+          context['_ga'] = ga
+        }
       }
 
       // remove one month later 03.03.2021
