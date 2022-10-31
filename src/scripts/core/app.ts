@@ -408,6 +408,7 @@ export class App {
       extendedWidth,
       bwWaButton,
       custidStoreMode,
+      loadGaContext,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -452,6 +453,10 @@ export class App {
 
     if (custidStoreMode) {
       UserService.custidStoreMode = custidStoreMode
+    }
+
+    if (loadGaContext) {
+      UserService.loadGaContext = loadGaContext
     }
   }
 
