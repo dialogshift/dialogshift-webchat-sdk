@@ -54,6 +54,7 @@ export interface AppOptions {
   baseCls?: string
   showInIframe?: boolean
   custidStoreMode?: CustidStoreMode
+  loadGaContext?: boolean
 }
 
 const appOptionsDefault = {
@@ -75,6 +76,7 @@ const appOptionsDefault = {
   direction: 'ltr',
   showInIframe: false,
   custidStoreMode: CustidStoreMode.cookie,
+  loadGaContext: false,
 }
 
 export enum ActionEventType {
@@ -406,6 +408,7 @@ export class App {
       extendedWidth,
       bwWaButton,
       custidStoreMode,
+      loadGaContext,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -450,6 +453,10 @@ export class App {
 
     if (custidStoreMode) {
       UserService.custidStoreMode = custidStoreMode
+    }
+
+    if (loadGaContext) {
+      UserService.loadGaContext = loadGaContext
     }
   }
 
