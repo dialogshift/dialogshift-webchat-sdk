@@ -89,6 +89,19 @@ export class UserService {
     }
   }
 
+  static switchToSessionModeAfterConsentDismiss() {
+    this.custidStoreMode = CustidStoreMode.session
+    const customerId = UserService.getCustomerId()
+    if (customerId !== null) {
+      try {
+        sessionStorage.setItem(customerIdCookieName, customerId)
+      } catch (e) {
+        console.log('Session storage blocked.');
+      }
+    }
+    UserService.deleteCustomerId()
+  }
+
   static touchUser(
     clientId: string,
     locale: string,
