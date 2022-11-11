@@ -317,6 +317,8 @@ export class App {
 
       if (commandModel.commandType === 'receivedCookieConsent') {
         UserService.switchToCookieModeAfterConsent()
+      } else if (commandModel.commandType === 'dismissCookieConsent') {
+        UserService.switchToSessionModeAfterConsentDismiss()
       } /* else if (commandModel.commandType === 'livechat') {
         if (
           commandModel.action === 'start' &&
