@@ -90,7 +90,7 @@ export class UserService {
   }
 
   static switchToSessionModeAfterConsentDismiss() {
-    const customerId = UserService.getCustomerId()
+    const customerId = CookieService.get(customerIdCookieName)
     this.custidStoreMode = CustidStoreMode.session
     if (customerId !== null) {
       try {
