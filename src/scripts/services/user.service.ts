@@ -95,7 +95,9 @@ export class UserService {
     if (customerId !== null) {
       console.log(customerId);
       try {
+        console.log(customerId);
         sessionStorage.setItem(customerIdCookieName, customerId)
+        console.log(customerId);
       } catch (e) {
         console.log('Session storage blocked.');
       }
