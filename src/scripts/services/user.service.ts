@@ -90,8 +90,9 @@ export class UserService {
   }
 
   static switchToSessionModeAfterConsentDismiss() {
+    const customerId = CookieService.get(customerIdCookieName)
+    UserService.deleteCustomerId()
     this.custidStoreMode = CustidStoreMode.session
-    const customerId = UserService.getCustomerId()
     if (customerId !== null) {
       try {
         sessionStorage.setItem(customerIdCookieName, customerId)
@@ -99,7 +100,6 @@ export class UserService {
         console.log('Session storage blocked.');
       }
     }
-    UserService.deleteCustomerId()
   }
 
   static touchUser(
