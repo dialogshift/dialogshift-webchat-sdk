@@ -12,7 +12,7 @@ const config = {
   textLinkMobileCls: 'ds-whatsapp-window__text-link-mobile',
   qr: 'ds-whatsapp-window__qr',
   linkCls: 'ds-whatsapp-window__link',
-  linkTestCls: 'ds-whatsapp-window__lint-text',
+  linkTestCls: 'ds-whatsapp-window__link-text',
 }
 
 const texts = {
