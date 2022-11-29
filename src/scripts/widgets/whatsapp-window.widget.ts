@@ -12,6 +12,7 @@ const config = {
   textLinkMobileCls: 'ds-whatsapp-window__text-link-mobile',
   qr: 'ds-whatsapp-window__qr',
   linkCls: 'ds-whatsapp-window__link',
+  linkTestCls: 'ds-whatsapp-window__lint-text',
 }
 
 const texts = {
@@ -103,12 +104,15 @@ export class WhatsappWindowWidget extends BaseWidget {
       this.locale,
       'linkText',
     )}</div>`
-    const linkMobileText = `<div class="${config.textLinkMobileCls}">
-      &nbsp;
-    </div>`
+    const linkMobileText = `<div class="${config.textLinkMobileCls}">${getText(
+      this.locale,
+      'linkMobileText',
+    )}</div>`
     const link = `<a class="${config.linkCls}" href="${
       this.waLink
-    }" target="_blank">${getText(this.locale, 'link')}</a>`
+    }" target="_blank">
+      <span class="${config.linkTestCls}">${getText(this.locale, 'link')}</span>
+    </a>`
 
     this.setContent(title + description + qr + linkText + linkMobileText + link)
   }
