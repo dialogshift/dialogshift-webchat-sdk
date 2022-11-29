@@ -83,7 +83,7 @@ export const isObject = (item: any): boolean => {
   return item && typeof item === 'object' && !Array.isArray(item)
 }
 
-export const mergeDeep = <T, U>(target: T, source: U): (T & U) | ({} & T) => {
+export const mergeDeep = <T extends object, U>(target: T, source: U): (T & U) | ({} & T) => {
   const output = Object.assign({}, target)
 
   if (isObject(target) && isObject(source)) {
