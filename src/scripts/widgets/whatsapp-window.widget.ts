@@ -103,10 +103,9 @@ export class WhatsappWindowWidget extends BaseWidget {
       this.locale,
       'linkText',
     )}</div>`
-    const linkMobileText = `<div class="${config.textLinkMobileCls}">${getText(
-      this.locale,
-      'linkMobileText',
-    )}</div>`
+    const linkMobileText = `<div class="${config.textLinkMobileCls}">
+      &nbsp;
+    </div>`
     const link = `<a class="${config.linkCls}" href="${
       this.waLink
     }" target="_blank">${getText(this.locale, 'link')}</a>`
