@@ -10,6 +10,7 @@
   bottom: calc(4px + var(--base-margin-bottom));
   z-index: 10;
   right: calc(75px + var(--base-margin-right));
+  visibility: hidden;
 
   &:before {
     content: '';
