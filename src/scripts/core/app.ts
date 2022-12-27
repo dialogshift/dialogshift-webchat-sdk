@@ -128,7 +128,7 @@ export class App {
   }
 
   private init() {
-    this.options.context['hostUrl'] = window.location.href;
+    this.options.context['hostUrl'] = encodeURI(window.location.href);
 
     if (parseUrlParam(window.location.href, 'ctrl') === 'forcenew') {
       UserService.deleteUser()
