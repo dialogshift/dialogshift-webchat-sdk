@@ -34,6 +34,7 @@ export class IframeBoxWidget extends BaseWidget {
       this.iframe.src = url
       this.iframe.scrolling = 'yes'
       this.iframe.frameBorder = '0'
+      this.iframe.sandbox.add('allow-same-origin')
 
       this.getBoxElem().appendChild(this.iframe)
     } else {
