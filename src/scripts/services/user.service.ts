@@ -9,17 +9,19 @@ const customerIdCookieName = 'ds-custid'
 export class UserService {
   static custidStoreMode = CustidStoreMode.cookie
   static loadGaContext = false
+  static customerId: string | null = null
 
   static getCustomerId(): string | null {
     if (this.custidStoreMode === CustidStoreMode.cookie) {
       return CookieService.get(customerIdCookieName)
     } else {
-      let customerId: string | null = null
+      let customerId: string | null = this.customerId
+      /* let customerId: string | null = null
       try {
         customerId = sessionStorage.getItem(customerIdCookieName)
       } catch (e) {
         console.log('Session storage blocked.')
-      }
+      }*/
       if (customerId === null) {
         customerId = CookieService.get(customerIdCookieName)
       }
@@ -39,11 +41,12 @@ export class UserService {
         expires: expires ? expires : 86400 * 90, // 90 days
       })
     } else {
-      try {
+      this.customerId = id
+      /* try {
         sessionStorage.setItem(customerIdCookieName, id)
       } catch (e) {
         console.log('Session storage blocked.')
-      }
+      }*/
     }
   }
 
@@ -51,14 +54,15 @@ export class UserService {
     if (this.custidStoreMode === CustidStoreMode.cookie) {
       CookieService.delete(customerIdCookieName)
     } else {
-      try {
+      this.customerId = null
+      /* try {
         sessionStorage.removeItem(customerIdCookieName)
       } catch (e) {
         console.log('Session storage blocked.')
       }
       if (CookieService.get(customerIdCookieName) !== null) {
         CookieService.delete(customerIdCookieName)
-      }
+      }*/
     }
   }
 
@@ -73,19 +77,20 @@ export class UserService {
 
   static switchToCookieModeAfterConsent() {
     this.custidStoreMode = CustidStoreMode.cookie
-    let customerId = null
+    const customerId = this.customerId
+    /* let customerId = null
     try {
       customerId = sessionStorage.getItem(customerIdCookieName)
     } catch (e) {
       console.log('Session storage blocked.')
-    }
+    }*/
     if (customerId !== null) {
       UserService.saveCustomerId(customerId)
-      try {
+      /* try {
         sessionStorage.removeItem(customerIdCookieName)
       } catch (e) {
         console.log('Session storage blocked.')
-      }
+      }*/
     }
   }
 
@@ -94,11 +99,12 @@ export class UserService {
     UserService.deleteCustomerId()
     this.custidStoreMode = CustidStoreMode.session
     if (customerId !== null) {
-      try {
+      this.customerId = customerId
+      /* try {
         sessionStorage.setItem(customerIdCookieName, customerId)
       } catch (e) {
         console.log('Session storage blocked.');
-      }
+      }*/
     }
   }
 
@@ -172,11 +178,11 @@ export class UserService {
 
   static deleteUser() {
     this.deleteCustomerId()
-    try {
+    /* try {
       sessionStorage.removeItem('ds-times-counter')
       sessionStorage.removeItem('ds-teaser-display')
     } catch (e) {
       console.log('Session storage blocked.')
-    }
+    }*/
   }
 }
