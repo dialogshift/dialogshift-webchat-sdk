@@ -37,7 +37,7 @@ export class TeaserWidget extends BaseWidget {
 
     let timesCounter = 0
 
-    let storedTimesCounter = null
+    /* let storedTimesCounter = null
     try {
       storedTimesCounter = sessionStorage.getItem('ds-times-counter')
     } catch (e) {
@@ -45,7 +45,7 @@ export class TeaserWidget extends BaseWidget {
     }
     if (storedTimesCounter !== null) {
       timesCounter = parseInt(storedTimesCounter, 10)
-    }
+    }*/
 
     timesCounter += 1
 
@@ -53,11 +53,11 @@ export class TeaserWidget extends BaseWidget {
       return false
     }
 
-    try {
+    /* try {
       sessionStorage.setItem('ds-times-counter', timesCounter.toString())
     } catch (e) {
       console.log('Session storage blocked.')
-    }
+    }*/
 
     return true
   }
@@ -72,23 +72,23 @@ export class TeaserWidget extends BaseWidget {
       return
     }
 
-    let teaserDisplay = null
-    try {
+    const teaserDisplay = null
+    /* try {
       teaserDisplay = sessionStorage.getItem('ds-teaser-display')
     } catch (e) {
       console.log('Session storage blocked.')
-    }
+    }*/
     if (this.showTeaserOnce && teaserDisplay !== null) {
       return
     }
 
     super.show()
 
-    try {
+    /* try {
       sessionStorage.setItem('ds-teaser-display', 'true')
     } catch (e) {
       console.log('Session storage blocked.')
-    }
+    }*/
   }
 
   bindEvents() {
