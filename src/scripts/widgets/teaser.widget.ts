@@ -1,6 +1,6 @@
 import { BaseWidget, BaseWidgetOptions } from '../core/base-widget'
 import { config } from '../config/config'
-import { CustidStoreMode } from "../enums";
+import { CustidStoreMode } from '../enums';
 
 interface TeaserWidgetOptions extends BaseWidgetOptions {
   showTeaserOnce: boolean
