@@ -1,18 +1,22 @@
-import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
+import { BaseWidget, BaseWidgetOptions } from '../core/base-widget'
 import { config } from '../config/config'
+import { CustidStoreMode } from "../enums";
 
 interface TeaserWidgetOptions extends BaseWidgetOptions {
   showTeaserOnce: boolean
   hideTeaserAfterTimes: number
+  custidStoreMode: CustidStoreMode
 }
 
 export class TeaserWidget extends BaseWidget {
   private crossElem: HTMLElement
   private showTeaserOnce: boolean
   private hideTeaserAfterTimes: number
+  private custidStoreMode: CustidStoreMode
 
   constructor(options: TeaserWidgetOptions) {
     super(options)
+    this.custidStoreMode = options.custidStoreMode
   }
 
   getBaseCls(): string {
@@ -37,15 +41,17 @@ export class TeaserWidget extends BaseWidget {
 
     let timesCounter = 0
 
-    /* let storedTimesCounter = null
-    try {
-      storedTimesCounter = sessionStorage.getItem('ds-times-counter')
-    } catch (e) {
-      console.log('Session storage blocked.')
+    if (this.custidStoreMode === CustidStoreMode.cookie) {
+      let storedTimesCounter = null
+      try {
+        storedTimesCounter = sessionStorage.getItem('ds-times-counter')
+      } catch (e) {
+        console.log('Session storage blocked.')
+      }
+      if (storedTimesCounter !== null) {
+        timesCounter = parseInt(storedTimesCounter, 10)
+      }
     }
-    if (storedTimesCounter !== null) {
-      timesCounter = parseInt(storedTimesCounter, 10)
-    }*/
 
     timesCounter += 1
 
@@ -53,11 +59,13 @@ export class TeaserWidget extends BaseWidget {
       return false
     }
 
-    /* try {
-      sessionStorage.setItem('ds-times-counter', timesCounter.toString())
-    } catch (e) {
-      console.log('Session storage blocked.')
-    }*/
+    if (this.custidStoreMode === CustidStoreMode.cookie) {
+      try {
+        sessionStorage.setItem('ds-times-counter', timesCounter.toString())
+      } catch (e) {
+        console.log('Session storage blocked.')
+      }
+    }
 
     return true
   }
@@ -72,23 +80,27 @@ export class TeaserWidget extends BaseWidget {
       return
     }
 
-    const teaserDisplay = null
-    /* try {
-      teaserDisplay = sessionStorage.getItem('ds-teaser-display')
-    } catch (e) {
-      console.log('Session storage blocked.')
-    }*/
+    let teaserDisplay = null
+    if (this.custidStoreMode === CustidStoreMode.cookie) {
+      try {
+        teaserDisplay = sessionStorage.getItem('ds-teaser-display')
+      } catch (e) {
+        console.log('Session storage blocked.')
+      }
+    }
     if (this.showTeaserOnce && teaserDisplay !== null) {
       return
     }
 
     super.show()
 
-    /* try {
-      sessionStorage.setItem('ds-teaser-display', 'true')
-    } catch (e) {
-      console.log('Session storage blocked.')
-    }*/
+    if (this.custidStoreMode === CustidStoreMode.cookie) {
+      try {
+        sessionStorage.setItem('ds-teaser-display', 'true')
+      } catch (e) {
+        console.log('Session storage blocked.')
+      }
+    }
   }
 
   bindEvents() {

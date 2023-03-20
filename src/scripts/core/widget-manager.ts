@@ -215,6 +215,7 @@ export class WidgetManager {
       renderTo: this.contentWrapperWidget.getBoxElem(),
       visible: isTeaserVisible,
       effects: effects?.teaser,
+      custidStoreMode: options.custidStoreMode,
       events: [
         {
           type: 'before:show',
