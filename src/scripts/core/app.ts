@@ -454,10 +454,12 @@ export class App {
     }
 
     if (custidStoreMode) {
+      this.options.custidStoreMode = custidStoreMode
       UserService.custidStoreMode = custidStoreMode
     }
 
     if (loadGaContext) {
+      this.options.loadGaContext = loadGaContext
       UserService.loadGaContext = loadGaContext
     }
   }
