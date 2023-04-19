@@ -378,6 +378,7 @@ export class App {
     return ApiService.getConfig(
       this.options.id,
       UserService.getCustomerId(),
+      window.location.host,
       channel,
     ).then((data: MixedObject) => {
       this.chatConfig = data
