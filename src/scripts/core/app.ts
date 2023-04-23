@@ -55,6 +55,7 @@ export interface AppOptions {
   showInIframe?: boolean
   custidStoreMode?: CustidStoreMode
   loadGaContext?: boolean
+  channelOverride?: string
 }
 
 const appOptionsDefault = {
@@ -390,6 +391,10 @@ export class App {
       if (this.chatConfig.defaultLg) {
         this.chatConfig.defaultLocale = this.chatConfig.defaultLg
         delete this.chatConfig.defaultLg
+      }
+
+      if (this.chatConfig.channelOverride) {
+        this.options.context.channel = this.chatConfig.channelOverride
       }
 
       this.applyConfig()
