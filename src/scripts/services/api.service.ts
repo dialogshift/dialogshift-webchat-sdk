@@ -50,13 +50,19 @@ export class ApiService {
   static getConfig(
     clientId: string,
     customerId = 'none',
+    host: string,
     channel?: string,
   ): Promise<MixedObject> {
     let url = `${ApiService.getCoreEndpoint()}/config/webapp/${clientId}/${customerId}`
 
-    if (channel) {
-      url += `?channel=${channel}`
+    const queryData = {
+      host,
     }
+    if (channel) {
+      queryData['channel'] = channel
+    }
+    const queryString = new URLSearchParams(queryData)
+    url += `?${queryString.toString()}`
 
     return ApiService.getTransport().getRequest(url)
   }
