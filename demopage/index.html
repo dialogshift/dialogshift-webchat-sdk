@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>DialogShift SDK Demopage</title>
+  <style>
+      body {
+          font-family: 'Open Sans', sans-serif;
+      }
+      a {
+          color: #4787ef;
+      }
+      a:hover {
+          text-decoration: none;
+      }
+  </style>
+  <script type="text/javascript" src="../bundles/dialogshift-webchat-sdk.umd.js"></script>
+  <link rel="stylesheet" type="text/css" href="../bundles/dialogshift-webchat-sdk.min.css" />
+</head>
+<body>
+  <a href="?lg=de">De<a />&nbsp;|&nbsp;<a href="?lg=en">En<a />
+  <script type="text/javascript">
+    const urlParams = new URLSearchParams(window.location.search);
+    let locale = urlParams.get("lg");
+    let localeList = ['en', 'de', 'fr', 'ar', 'it', 'ru'];
+
+    if (localeList.indexOf(locale) === -1) {
+      locale = 'en';
+    }
+
+    const client = Dialogshift.instance({
+      locale: locale,
+      id: urlParams.get("clid"),
+    });
+  </script>
+</body>
+</html>
