@@ -77,6 +77,7 @@ export class TeaserWidget extends BaseWidget {
     }
 
     if (!this.checkTimes()) {
+      this.hideNode()
       return
     }
 

@@ -246,7 +246,7 @@ export class App {
         ) {
           this.widgetManager.getTeaserWidget().show()
         }
-      }, showTeaserAfter * 1000 + 10)
+      }, showTeaserAfter * 1000)
     }
 
     if (hideTeaserAfter) {
