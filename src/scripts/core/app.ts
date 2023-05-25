@@ -244,7 +244,6 @@ export class App {
           !this.widgetManager.getTeaserWidget().isVisible() &&
           !this.widgetManager.getChatboxWidget().isVisible()
         ) {
-          console.log('ShowTeaserFIRE')
           this.widgetManager.getTeaserWidget().show()
         }
       }, showTeaserAfter * 1000)
@@ -252,7 +251,6 @@ export class App {
 
     if (hideTeaserAfter) {
       setTimeout(() => {
-        console.log('HideTeaserFIRE')
         this.widgetManager.getTeaserWidget().hide()
       }, hideTeaserAfter * 1000)
     }
