@@ -28,11 +28,19 @@
     transition: transform 0.16s linear,
     opacity 0.08s linear;
   }
+
+  &--left {
+    left: -15px;
+  }
 }
 
 @media (max-width: 576px) {
   .ds-header-close-button {
     right: 10px;
     top: 10px;
+
+    &--left {
+      left: 10px;
+    }
   }
 }
