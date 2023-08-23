@@ -76,7 +76,6 @@ export class WidgetManager {
   }
 
   renderHeader(options: AppOptions) {
-    console.log(options.leftCloseButton)
     this.headerWidget = new HeaderWidget({
       renderTo: this.chatboxWidget.getBoxElem(),
       leftCloseButton: options.leftCloseButton,
