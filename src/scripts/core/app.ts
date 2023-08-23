@@ -421,6 +421,7 @@ export class App {
       bwWaButton,
       custidStoreMode,
       loadGaContext,
+      leftCloseButton,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -471,6 +472,10 @@ export class App {
     if (loadGaContext) {
       this.options.loadGaContext = loadGaContext
       UserService.loadGaContext = loadGaContext
+    }
+
+    if (leftCloseButton) {
+      this.options.leftCloseButton = leftCloseButton
     }
   }
 
