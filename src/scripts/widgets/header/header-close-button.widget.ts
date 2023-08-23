@@ -6,7 +6,7 @@ interface HeaderCloseButtonWidgetOptions extends BaseWidgetOptions {
 }
 
 export class HeaderCloseButtonWidget extends BaseWidget {
-  private leftCloseButton: boolean
+  private readonly leftCloseButton: boolean
 
   constructor(options: HeaderCloseButtonWidgetOptions) {
     super(options)
