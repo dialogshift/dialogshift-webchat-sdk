@@ -46,6 +46,7 @@ export const config = {
   headerCls: 'ds-header',
 
   headerCloseButtonCls: 'ds-header-close-button',
+  headerCloseButtonLeftCls: 'ds-header-close-button--left',
 
   env: environment,
 }

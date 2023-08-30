@@ -1,9 +1,16 @@
 import { BaseWidgetOptions, BaseWidget } from '../../core/base-widget'
 import { config } from '../../config/config'
 
+interface HeaderCloseButtonWidgetOptions extends BaseWidgetOptions {
+  leftCloseButton: boolean
+}
+
 export class HeaderCloseButtonWidget extends BaseWidget {
-  constructor(options: BaseWidgetOptions) {
+  private readonly leftCloseButton: boolean
+
+  constructor(options: HeaderCloseButtonWidgetOptions) {
     super(options)
+    this.leftCloseButton = options.leftCloseButton
   }
 
   private bindEvents() {
@@ -19,6 +26,11 @@ export class HeaderCloseButtonWidget extends BaseWidget {
   }
 
   getBaseCls(): string {
-    return config.headerCloseButtonCls
+    let cls: string = config.headerCloseButtonCls
+    if (this.leftCloseButton) {
+      cls += ` ${config.headerCloseButtonLeftCls}`
+    }
+
+    return cls
   }
 }

@@ -6,11 +6,17 @@ import {
 import { config } from '../../config/config'
 import { HeaderCloseButtonWidget } from './header-close-button.widget'
 
+interface HeaderWidgetOptions extends BaseWidgetOptions {
+  leftCloseButton: boolean
+}
+
 export class HeaderWidget extends BaseWidget {
   private closeButton: HeaderCloseButtonWidget
+  private readonly leftCloseButton: boolean
 
-  constructor(options: BaseWidgetOptions) {
+  constructor(options: HeaderWidgetOptions) {
     super(options)
+    this.leftCloseButton = options.leftCloseButton
   }
 
   getBaseCls(): string {
@@ -24,6 +30,7 @@ export class HeaderWidget extends BaseWidget {
   renderCloseButton() {
     this.closeButton = new HeaderCloseButtonWidget({
       renderTo: this.getBoxElem(),
+      leftCloseButton: this.leftCloseButton,
     })
   }
 

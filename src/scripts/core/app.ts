@@ -56,6 +56,7 @@ export interface AppOptions {
   custidStoreMode?: CustidStoreMode
   loadGaContext?: boolean
   channelOverride?: string
+  leftCloseButton?: boolean
 }
 
 const appOptionsDefault = {
@@ -78,6 +79,7 @@ const appOptionsDefault = {
   showInIframe: false,
   custidStoreMode: CustidStoreMode.cookie,
   loadGaContext: false,
+  leftCloseButton: false,
 }
 
 export enum ActionEventType {
@@ -219,7 +221,9 @@ export class App {
       this.loadChat()
     })
 
-    this.widgetManager.renderHeader()
+    this.widgetManager.renderHeader(
+      this.options,
+    )
 
     this.widgetManager.renderUnreadWidget(this.options, this.chatConfig)
 
@@ -417,6 +421,7 @@ export class App {
       bwWaButton,
       custidStoreMode,
       loadGaContext,
+      leftCloseButton,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -467,6 +472,10 @@ export class App {
     if (loadGaContext) {
       this.options.loadGaContext = loadGaContext
       UserService.loadGaContext = loadGaContext
+    }
+
+    if (leftCloseButton) {
+      this.options.leftCloseButton = leftCloseButton
     }
   }
 
