@@ -47,10 +47,14 @@ export const createFacade = (instance: App) => {
 
     showButton() {
       instance.getWidgetManager().getChatButtonWidget().show()
+      instance.getWidgetManager().getWhatsappButtonWidget().show()
+      instance.getWidgetManager().getUnreadWidget().show()
     },
 
     hideButton() {
       instance.getWidgetManager().getChatButtonWidget().hide()
+      instance.getWidgetManager().getWhatsappButtonWidget().hide()
+      instance.getWidgetManager().getUnreadWidget().hide()
     },
 
     setButtonText(text: string) {
