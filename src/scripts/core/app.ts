@@ -384,6 +384,7 @@ export class App {
       this.options.id,
       UserService.getCustomerId(),
       window.location.host,
+      window.location.pathname,
       channel,
     ).then((data: MixedObject) => {
       this.chatConfig = data
