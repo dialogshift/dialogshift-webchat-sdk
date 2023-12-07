@@ -1,38 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>DialogShift SDK Demopage</title>
-  <style>
-      body {
-          font-family: 'Open Sans', sans-serif;
-      }
-      a {
-          color: #4787ef;
-      }
-      a:hover {
-          text-decoration: none;
-      }
-  </style>
-  <script type="text/javascript" src="../bundles/dialogshift-webchat-sdk.umd.js"></script>
-  <link rel="stylesheet" type="text/css" href="../bundles/dialogshift-webchat-sdk.min.css" />
+  <title>DialogShift SDK - Sandbox</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="//fonts.googleapis.com/css?family=Open+Sans"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.dialogshift.com/sdk/latest/dialogshift-webchat-sdk.min.css"
+  />
+  <script
+    type="text/javascript"
+    src="https://cdn.dialogshift.com/sdk/latest/dialogshift-webchat-sdk.umd.js"
+  ></script>
+  <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-  <a href="?lg=de">De<a />&nbsp;|&nbsp;<a href="?lg=en">En<a />
-  <script type="text/javascript">
-    const urlParams = new URLSearchParams(window.location.search);
-    let locale = urlParams.get("lg");
-    let localeList = ['en', 'de', 'fr', 'ar', 'it', 'ru'];
+<h3>Init / Destroy API</h3>
+<div class="controls">
+  <button id="init" class="btn">.instance(...)</button>
+  <button id="destroy" class="btn">.destroy()</button>
+</div>
 
-    if (localeList.indexOf(locale) === -1) {
-      locale = 'en';
-    }
+<h3>Chat container API</h3>
+<div class="controls">
+  <button id="setposition-left" class="btn">.setPosition('left')</button>
+  <button id="setposition-right" class="btn">
+    .setPosition('right')
+  </button>
+</div>
 
-    const client = Dialogshift.instance({
-      locale: locale,
-      id: urlParams.get("clid"),
-    });
-  </script>
+<h3>Chat themes</h3>
+<div class="controls">
+  <button id="settheme-round" class="btn">.setTheme('round')</button>
+  <button id="settheme-tile" class="btn">
+    .setTheme('tile')
+  </button>
+</div>
+
+<h3>Button API</h3>
+<div class="controls">
+  <button id="hide-chatbtn" class="btn">.hideButton()</button>
+  <button id="show-chatbtn" class="btn">.showButton()</button>
+  <button id="settext-chatbtn" class="btn">.setButtonText('Help')</button>
+  <button id="removetext-chatbtn" class="btn">.setButtonText('')</button>
+</div>
+
+<h3>Chatbox API</h3>
+<div class="controls">
+  <button id="hide-chatbox" class="btn">.hideChatbox()</button>
+  <button id="show-chatbox" class="btn">.showChatbox()</button>
+</div>
+
+<h3>Teaser API</h3>
+<div class="controls">
+  <button id="hide-teaser" class="btn">.hideTeaser()</button>
+  <button id="show-teaser" class="btn">.showTeaser()</button>
+  <button id="settext-teaser" class="btn">
+    .setTeaserText('Can I help you?')
+  </button>
+  <button id="changetext-teaser" class="btn">
+    .setTeaserText('Hi, can I help you?')
+  </button>
+</div>
+
+<h3>Action button API</h3>
+<div class="controls">
+  <button id="hide-action-buttons" class="btn">.hideActionButtons()</button>
+  <button id="show-action-buttons" class="btn">.showActionButtons()</button>
+  <button id="set-action-buttons-a" class="btn">.setActionButtons([...])</button>
+  <button id="set-action-buttons-b" class="btn">.setActionButtons([..., ...])</button>
+  <button id="set-action-buttons-c" class="btn">.setActionButtons([..., ..., ...])</button>
+</div>
+
+<h3>Unread API</h3>
+<div class="controls">
+  <button id="set-unread-1" class="btn">.setUnreadCounter(1)</button>
+  <button id="set-unread-10" class="btn">.setUnreadCounter(10)</button>
+  <button id="set-unread-0" class="btn">.setUnreadCounter(0)</button>
+  <button id="increase-unread-1" class="btn">
+    .increaseUnreadCounter(1)
+  </button>
+  <button id="increase-unread-2" class="btn">
+    .increaseUnreadCounter(2)
+  </button>
+</div>
+
+<h3>Unread API</h3>
+<div class="controls">
+  <button id="set-unread-1" class="btn">.setUnreadCounter(1)</button>
+  <button id="set-unread-10" class="btn">.setUnreadCounter(10)</button>
+  <button id="set-unread-0" class="btn">.setUnreadCounter(0)</button>
+  <button id="increase-unread-1" class="btn">
+    .increaseUnreadCounter(1)
+  </button>
+  <button id="increase-unread-2" class="btn">
+    .increaseUnreadCounter(2)
+  </button>
+</div>
+
+<h3>Trigger element API</h3>
+<div class="controls">
+  <button id="trigger-1" class="btn">
+    .triggerElement({successor: 'demo'})
+  </button>
+  <br />
+  <button id="trigger-2" class="btn">
+    .triggerElement({successor: 'welcome-back', suppressInitialElement:
+    false})
+  </button>
+  <br />
+  <button id="trigger-3" class="btn">
+    .triggerElement({successor: 'welcome-back', showChatbox: false})
+  </button>
+</div>
+
+<h3>Happened events</h3>
+<div id="event-list" class="event-list"></div>
+<script src="script.js" defer></script>
+
 </body>
 </html>
