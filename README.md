@@ -8,7 +8,7 @@
 
 A client library for embed [Dialogshift](https://www.dialogshift.com/) webchat to webpages. Written in TypeScript and published in `UMD` and `ES2015`.
 
-[SDK Demo](https://dialogshift-demo.glitch.me/)
+[SDK Demo](https://dialogshift-demo.github.io)
 
 ## Table of Contents
 
@@ -636,7 +636,7 @@ Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift
 
 ## Resources <a name = "resources"></a>
 
-[SDK Demo](https://dialogshift-demo.glitch.me/)
+[SDK Demo](https://dialogshift-demo.github.io)
 
 [https://www.dialogshift.com](https://www.dialogshift.com)
 
