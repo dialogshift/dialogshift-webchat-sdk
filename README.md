@@ -41,7 +41,7 @@ After scripts are loaded SDK is waiting for initialization.
 
 Starts when user calls `Dialogshift.instance(...options)` for the first time.
 
-1. SDK loads [Webconfig](https://support.dialogshift.com/sdk-quickstart/) with settings, custom css, custom options.
+1. SDK loads Webconfig with settings, custom css, custom options.
 2. Renders toggle button and other widgets on webpage.
 3. Fires event `init`. User can read chat config or work with widgets.
 
@@ -63,7 +63,7 @@ Starts when `Dialogshift.destroy()` is called.
 
 ## Getting started <a name = "getting-started"></a>
 
-You can install SDK using `npm` or use CDN link directly. To obtain app `id` signup and copy `id` in [Member area](https://member.dialogshift.com/). Read [Quick Start Guide](https://support.dialogshift.com/tutorial-quickstart/) for details.
+You can install SDK using `npm` or use CDN link directly. To obtain app `id` signup and copy `id` from [Member area](https://livechat.dialogshift.com/).
 
 Replace `%id%` in snippets below with your app `id` and initialize Dialogshift chat instance. Your app will interact with the chat client through the instance `Dialogshift.instance()`, which will available in your scope.
 
@@ -120,8 +120,8 @@ Creates a new one chat instance or returns previously created instance. Returns 
 ##### `chatConfig`
 
 | Property          | Type              | Description                                                                                                        |
-| ----------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
-| id                | string            | Chat id obtained from the [application dashboard](https://www.dialogshift.com/).                                   |
+| ----------------- | ----------------- |--------------------------------------------------------------------------------------------------------------------|
+| id                | string            | Client id obtained from the [application dashboard](https://livechat.dialogshift.com/).                            |
 | locale?           | string            | Chat locale. Defaults to `en`.                                                                                     |
 | position?         | 'left' \| 'right' | Chat position on webpage. Defaults to `right`.                                                                     |
 | isChatboxVisible? | boolean           | Show chat window expanded if `true`. Defaults to `false`.                                                          |
@@ -129,8 +129,8 @@ Creates a new one chat instance or returns previously created instance. Returns 
 | renderButton?     | boolean           | Render toggle button if `true`. If button is not rendered show or hide it later is impossible. Defaults to `true`. |                      |
 | initialElement?   | string            | Trigers initial message.                                                                                           |
 | unreadCounter?    | number            | Amount of unread messages.                                                                                         |
-| theme?            | 'round' \| 'tile' | UI theme. Defaults to `round`.                                                                                        |
-| context?          | object            | Context variables for visitor. |
+| theme?            | 'round' \| 'tile' | UI theme. Defaults to `round`.                                                                                     |
+| context?          | object            | Context variables for visitor.                                                                                     |
 
 First time initialization.
 
@@ -142,6 +142,7 @@ const client = Dialogshift.instance({
   initialElement: 'welcome-message',
   unreadCounter: 2,
   context: {
+    channel: 'pwa-ibe',  // pwa-ibe (Booking Engine), pwa-guestapp (Generic guest-app), for additional codes contact support@dialogshift.com
     email: 'foo@bar.baz',
     name: 'John Doe'
   }
@@ -294,7 +295,7 @@ Dialogshift.instance().isChatboxVisible()
 
 #### setContext(string key, string | object value): Promise
 
-Set context variable for visitor. [Read more](https://support.dialogshift.com/cms-context/) about context.
+Send additional context information to the chat instance.
 
 ```javascript
 Dialogshift.instance()
@@ -373,7 +374,7 @@ Dialogshift.instance().increaseUnreadCounter()
 
 #### getConfig(): Config
 
-Returns chat config created in [Member Area](https://member.dialogshift.com/#/app/configuration).
+Returns chat config.
 
 ```javascript
 const config = Dialogshift.instance().getConfig()
@@ -381,7 +382,7 @@ const config = Dialogshift.instance().getConfig()
 
 #### triggerElement(options: TriggerElementOptions)
 
-Triggers [conversational element](https://support.dialogshift.com/cms-introduction/) created in [Member Area](https://member.dialogshift.com/#/app/configuration).
+Triggers answer from chatbot content.
 
 `TriggerElementOptions`
 
@@ -638,13 +639,5 @@ Please use our [Github issue tracker](https://github.com/dialogshift/dialogshift
 [SDK Demo](https://dialogshift-demo.glitch.me/)
 
 [https://www.dialogshift.com](https://www.dialogshift.com)
-
-[Member area](https://member.dialogshift.com)
-
-[Examples](https://support.dialogshift.com/sdk-examples/)
-
-[Introduction to Dialogshift conversational framework](https://support.dialogshift.com)
-
-[Webchat config description](https://support.dialogshift.com/sdk-webchat-config/)
 
 [SDK NPM page](https://www.npmjs.com/package/dialogshift-webchat-sdk)
