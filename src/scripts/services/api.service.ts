@@ -55,6 +55,7 @@ export class ApiService {
     channel?: string,
   ): Promise<MixedObject> {
     let url = `${ApiService.getCoreEndpoint()}/config/webapp/${clientId}/${customerId}`
+
     const queryData = {
       host,
       path,
