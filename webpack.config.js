@@ -23,7 +23,7 @@ module.exports = (env, argv) => ({
     },
   },
   externals: [],
-  devtool: 'source-map',
+  devtool: 'hidden-source-map',
   module: {
     rules: [
       {

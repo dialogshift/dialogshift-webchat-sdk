@@ -4,7 +4,6 @@
     "target": "es5",
     "module": "es6",
     "lib": ["es2018", "dom"],
-    "declaration": false,
-    "sourceMap": true
+    "declaration": false
   }
 }
