@@ -35,7 +35,7 @@
     "publish-prod": "npm run clear-env && cp src/scripts/config/env.prod.ts src/scripts/config/env.ts && npm publish"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin-ts": "^2.13.0",
+    "@stylistic/eslint-plugin-ts": "^4.1.0",
     "@types/chai": "^4.3.20",
     "@types/mocha": "^10.0.10",
     "@types/sinon": "^17.0.4",
