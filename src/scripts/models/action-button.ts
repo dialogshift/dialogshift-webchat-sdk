@@ -63,7 +63,7 @@ export class ActionButton {
 
 export class ActionButtonNormalizer {
   static normalize(data: MixedObject): MixedObject {
-    const locales = ['en', 'de', 'fr', 'it', 'ru', 'ar', 'nl', 'cz', 'hu', 'ro', 'es', 'da', 'pl', 'cs', 'sv', 'pt']
+    const locales = ['en', 'de', 'fr', 'it', 'ru', 'ar', 'nl', 'cz', 'hu', 'ro', 'es', 'da', 'pl', 'cs', 'sv', 'pt', 'sk']
     const result: MixedObject = {
       type: data.type,
       successor: data.successor,
