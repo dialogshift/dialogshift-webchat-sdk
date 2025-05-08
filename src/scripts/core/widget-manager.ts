@@ -263,7 +263,7 @@ export class WidgetManager {
     const { effects } = chatConfig
 
     this.unreadWidget = new UnreadWidget({
-      visible: !!(options.unreadCounter ?? 0 > 0),
+      visible: (options.unreadCounter ?? 0) > 0,
       renderTo: this.wrapperWidget.getBoxElem(),
       unreadCounter: options.unreadCounter,
       effects: effects?.unreadCounter,
