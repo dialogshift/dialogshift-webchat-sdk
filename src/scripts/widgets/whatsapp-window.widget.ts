@@ -74,7 +74,7 @@ export class WhatsappWindowWidget extends BaseWidget {
 
       ApiService.getWhatsappLink(
         this.clientId,
-        UserService.getCustomerId(),
+        UserService.getCustomerId() as string,
       ).then((response: MixedObject) => {
         this.waLink = response.waLink
         this.waSvg = response.waSvg

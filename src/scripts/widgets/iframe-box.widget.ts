@@ -50,10 +50,6 @@ export class IframeBoxWidget extends BaseWidget {
     throw new Error('Method is not allowed for an iframe')
   }
 
-  getContentElem(): null {
-    return null
-  }
-
   render() {
     this.crossElem = this.createNode()
     this.crossElem.classList.add(config.crossCls)
@@ -67,7 +63,7 @@ export class IframeBoxWidget extends BaseWidget {
   bindEvents() {
     this.crossElem.addEventListener('click', (event: MouseEvent) => {
       event.stopPropagation()
-      this.iframe.parentNode.removeChild(this.iframe)
+      this.iframe?.parentNode?.removeChild(this.iframe)
       this.iframe = null
       this.hide()
     })

@@ -131,7 +131,9 @@ export class App {
   }
 
   private init() {
-    this.options.context['hostUrl'] = encodeURI(window.location.href);
+    if (this.options.context !== undefined) {
+      this.options.context['hostUrl'] = encodeURI(window.location.href);
+    }
 
     if (parseUrlParam(window.location.href, 'ctrl') === 'forcenew') {
       UserService.deleteUser()
@@ -376,13 +378,13 @@ export class App {
   }
 
   private loadConfig(): Promise<MixedObject> {
-    const channel = this.options.context.channel
+    const channel = this.options.context?.channel
       ? this.options.context.channel
       : 'pwa-embed'
 
     return ApiService.getConfig(
       this.options.id,
-      UserService.getCustomerId(),
+      UserService.getCustomerId() as string,
       window.location.host,
       window.location.pathname,
       channel,
@@ -398,7 +400,7 @@ export class App {
         delete this.chatConfig.defaultLg
       }
 
-      if (this.chatConfig.channelOverride) {
+      if (this.chatConfig.channelOverride && this.options.context !== undefined) {
         this.options.context.channel = this.chatConfig.channelOverride
       }
 
@@ -495,7 +497,7 @@ export class App {
   getContext(key: string): Promise<any> {
     return new Promise((resolve, reject) => {
       if (UserService.getCustomerId()) {
-        ApiService.getContext(UserService.getCustomerId(), key).then(
+        ApiService.getContext(UserService.getCustomerId() as string, key).then(
           resolve,
           reject,
         )
@@ -508,11 +510,11 @@ export class App {
   setContext(key: string, value: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (UserService.getCustomerId()) {
-        ApiService.setContext(UserService.getCustomerId(), key, value).then(
+        ApiService.setContext(UserService.getCustomerId() as string, key, value).then(
           resolve,
           reject,
         )
-      } else {
+      } else if (this.options.context !== undefined) {
         this.options.context[key] = value
       }
     })
@@ -524,7 +526,7 @@ export class App {
 
   setInitialElement(initialElement: InitialElement) {
     const mergedInitialElement = mergeDeep(
-      this.options.initialElement,
+      this.options.initialElement as InitialElement,
       initialElement,
     )
 
@@ -538,7 +540,7 @@ export class App {
   }
 
   getInitialElement(): InitialElement {
-    return this.options.initialElement
+    return this.options.initialElement as InitialElement
   }
 
   triggerElement(options: {
@@ -621,7 +623,7 @@ export class App {
 
         UserService.touchUser(
           this.options.id,
-          this.options.locale,
+          this.options.locale as string,
           this.csrfToken,
           this.options.context,
         ).then((customerId: string) => {
@@ -636,7 +638,7 @@ export class App {
     const iframeWidget = this.widgetManager.getIframeWidget()
 
     if (!iframeWidget || !iframeWidget.isRendered()) {
-      const channel = this.options.context.channel
+      const channel = this.options.context?.channel
         ? this.options.context.channel
         : 'pwa-embed'
       const { id, initialElement, locale } = this.options

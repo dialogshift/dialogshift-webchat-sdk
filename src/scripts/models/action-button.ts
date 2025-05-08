@@ -41,8 +41,8 @@ export class ActionButton {
       return this.l10n[locale].title
     }
 
-    if (this.l10n[this.defaultLocale]) {
-      return this.l10n[this.defaultLocale].title
+    if (this.l10n[this.defaultLocale as string]) {
+      return this.l10n[this.defaultLocale as string].title
     }
 
     return null
@@ -63,7 +63,7 @@ export class ActionButton {
 
 export class ActionButtonNormalizer {
   static normalize(data: MixedObject): MixedObject {
-    const locales = ['en', 'de', 'fr', 'it', 'ru', 'ar', 'nl', 'cz', 'hu', 'ro', 'es', 'da', 'pl', 'cs', 'sv']
+    const locales = ['en', 'de', 'fr', 'it', 'ru', 'ar', 'nl', 'cz', 'hu', 'ro', 'es', 'da', 'pl', 'cs', 'sv', 'pt', 'sk']
     const result: MixedObject = {
       type: data.type,
       successor: data.successor,

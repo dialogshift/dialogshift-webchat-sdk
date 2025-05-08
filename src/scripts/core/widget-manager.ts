@@ -19,7 +19,8 @@ import { EventEmitter } from './event-emitter'
 import { MixedObject } from '../types'
 import { config } from '../config/config'
 import { WebchatService } from '../services'
-import { AppOptions, App } from './app'
+import { AppOptions, App, ChatPosition, AppTheme } from './app'
+import { CustidStoreMode } from '../enums'
 
 const getTeaserText = ({
   teaserText,
@@ -32,7 +33,7 @@ const getTeaserText = ({
 }): string => {
   let content = 'Can I help you?'
 
-  if (teaserText) {
+  if (teaserText && locale !== undefined) {
     if (teaserText[locale]) {
       content = teaserText[locale]
     } else if (defaultLocale && teaserText[defaultLocale]) {
@@ -78,7 +79,7 @@ export class WidgetManager {
   renderHeader(options: AppOptions) {
     this.headerWidget = new HeaderWidget({
       renderTo: this.chatboxWidget.getBoxElem(),
-      leftCloseButton: options.leftCloseButton,
+      leftCloseButton: options.leftCloseButton as boolean,
     })
 
     this.headerWidget.getCloseButton().on('click', () => {
@@ -106,9 +107,9 @@ export class WidgetManager {
   renderWrapper(options: AppOptions & { visible: boolean }) {
     this.wrapperWidget = new WrapperWidget({
       renderTo: document.body,
-      position: options.position,
-      theme: options.theme,
-      direction: options.direction,
+      position: options.position as ChatPosition,
+      theme: options.theme as AppTheme,
+      direction: options.direction as 'rtl' | 'ltr',
       baseCustomCls: options.baseCls,
       visible: options.visible,
     })
@@ -130,7 +131,7 @@ export class WidgetManager {
 
     let content = ''
 
-    if (buttonText) {
+    if (buttonText && locale !== undefined) {
       if (buttonText[locale]) {
         content = buttonText[locale]
       } else if (defaultLocale && buttonText[defaultLocale]) {
@@ -216,7 +217,7 @@ export class WidgetManager {
       renderTo: this.contentWrapperWidget.getBoxElem(),
       visible: isTeaserVisible,
       effects: effects?.teaser,
-      custidStoreMode: options.custidStoreMode,
+      custidStoreMode: options.custidStoreMode as CustidStoreMode,
       events: [
         {
           type: 'before:show',
@@ -262,7 +263,7 @@ export class WidgetManager {
     const { effects } = chatConfig
 
     this.unreadWidget = new UnreadWidget({
-      visible: options.unreadCounter > 0 ? true : false,
+      visible: (options.unreadCounter ?? 0) > 0,
       renderTo: this.wrapperWidget.getBoxElem(),
       unreadCounter: options.unreadCounter,
       effects: effects?.unreadCounter,
@@ -272,7 +273,7 @@ export class WidgetManager {
   renderChatboxWidget(options: AppOptions, beforeShowCallback: () => void) {
     this.chatboxWidget = new ChatboxWidget({
       visible: options.isChatboxVisible,
-      hasExtendedWidth: options.extendedWidth,
+      hasExtendedWidth: options.extendedWidth as boolean,
       events: [
         {
           type: 'before:show',

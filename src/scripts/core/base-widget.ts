@@ -36,8 +36,8 @@ export type BaseWidgetDisplayMode = 'block' | 'flex'
 export class BaseWidget extends Observable {
   private baseCls = ''
   private renderTo: HTMLElement
-  private boxElem: HTMLElement
-  private contentElem: HTMLElement
+  private boxElem?: HTMLElement
+  private contentElem?: HTMLElement
   private content: string | number
   private destroyed = false
   private displayMode: BaseWidgetDisplayMode = 'block'
@@ -110,13 +110,15 @@ export class BaseWidget extends Observable {
       const handler = () => {
         boxElem.removeEventListener('animationend', handler)
         boxElem.classList.add(config.visibleCls)
-        boxElem.classList.remove(config.fxCls[this.effects.appear])
+        if (this.effects.appear) {
+          boxElem.classList.remove(config.fxCls[this.effects.appear])
+        }
       }
 
       boxElem.addEventListener('animationend', handler)
-
-      boxElem.classList.add(config.fxCls[this.effects.appear])
-
+      if (this.effects.appear) {
+        boxElem.classList.add(config.fxCls[this.effects.appear])
+      }
       if (this.effects.sound) {
         AudioService.playSound(this.effects.sound)
       }
@@ -125,7 +127,9 @@ export class BaseWidget extends Observable {
 
   protected hideAnimateNode(boxElem: HTMLElement) {
     boxElem.style.removeProperty('animationDelay')
-    boxElem.classList.remove(config.fxCls[this.effects.appear])
+    if (this.effects.appear) {
+      boxElem.classList.remove(config.fxCls[this.effects.appear])
+    }
   }
 
   startAttention() {
@@ -134,18 +138,23 @@ export class BaseWidget extends Observable {
 
       const handler = () => {
         boxElem.removeEventListener('animationend', handler)
-        boxElem.classList.remove(config.fxCls[this.effects.attention])
+        if (this.effects.attention) {
+          boxElem.classList.remove(config.fxCls[this.effects.attention])
+        }
       }
       boxElem.addEventListener('animationend', handler)
-
-      boxElem.classList.add(config.fxCls[this.effects.attention])
+      if (this.effects.attention) {
+        boxElem.classList.add(config.fxCls[this.effects.attention])
+      }
     }, this.effects.attentionInterval)
   }
 
   stopAttention() {
     this.attentionInterval && clearInterval(this.attentionInterval)
     const boxElem = this.getBoxElem()
-    boxElem.classList.remove(config.fxCls[this.effects.attention])
+    if (this.effects.attention) {
+      boxElem.classList.remove(config.fxCls[this.effects.attention])
+    }
   }
 
   isDestroyed(): boolean {
@@ -185,7 +194,7 @@ export class BaseWidget extends Observable {
         classes = [...classes, ...baseCls]
       }
 
-      classes.forEach((item: string) => this.boxElem.classList.add(item))
+      classes.forEach((item: string) => this.boxElem?.classList.add(item))
     }
 
     return this.boxElem
@@ -242,7 +251,7 @@ export class BaseWidget extends Observable {
   }
 
   isRendered(): boolean {
-    return this.boxElem && document.body.contains(this.boxElem)
+    return this.boxElem !== undefined && document.body.contains(this.boxElem)
   }
 
   show() {
@@ -297,14 +306,14 @@ export class BaseWidget extends Observable {
     if (contentElem && contentElem.parentNode) {
       contentElem.parentNode.removeChild(contentElem)
     }
-    this.contentElem = null
+    this.contentElem = undefined
 
     const boxElem = this.getBoxElem()
 
     if (boxElem && boxElem.parentNode) {
       boxElem.parentNode.removeChild(boxElem)
     }
-    this.boxElem = null
+    this.boxElem = undefined
 
     this.destroyed = true
 
