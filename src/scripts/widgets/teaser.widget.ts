@@ -42,7 +42,7 @@ export class TeaserWidget extends BaseWidget {
     let timesCounter = 0
 
     if (this.custidStoreMode === CustidStoreMode.cookie) {
-      let storedTimesCounter = null
+      let storedTimesCounter: string | null = null
       try {
         storedTimesCounter = sessionStorage.getItem('ds-times-counter')
       } catch (e) {
@@ -81,7 +81,7 @@ export class TeaserWidget extends BaseWidget {
       return
     }
 
-    let teaserDisplay = null
+    let teaserDisplay: string | null = null
     if (this.custidStoreMode === CustidStoreMode.cookie) {
       try {
         teaserDisplay = sessionStorage.getItem('ds-teaser-display')

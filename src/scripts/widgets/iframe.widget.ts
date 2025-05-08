@@ -26,7 +26,7 @@ export class IframeWidget extends BaseWidget {
   constructor(options: IframeWidgetOptions) {
     super(options)
 
-    this.initialElement = options.initialElement
+    this.initialElement = options.initialElement as InitialElement
     this.channel = options.channel || 'pwa-embed'
   }
 
@@ -88,10 +88,6 @@ export class IframeWidget extends BaseWidget {
 
   setContent() {
     throw new Error('Method is not allowed for an iframe')
-  }
-
-  getContentElem(): null {
-    return null
   }
 
   getInitialElement(): InitialElement {

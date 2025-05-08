@@ -56,9 +56,13 @@ export const injectCss = (css: string) => {
 }
 
 export const isFontLoaded = (fontName: string): boolean => {
-  let canvas = document.createElement('canvas')
+  let canvas: HTMLCanvasElement | null = document.createElement('canvas')
   const context = canvas.getContext('2d')
   const text = 'abcdefghijklmnopqrstuvwxyz0123456789'
+
+  if (context === null) {
+    return false;
+  }
 
   context.font = '72px monospace'
 
@@ -70,11 +74,7 @@ export const isFontLoaded = (fontName: string): boolean => {
 
   canvas = null
 
-  if (newSize === baselineSize) {
-    return false
-  }
-
-  return true
+  return newSize !== baselineSize;
 }
 
 export const loadOpenSans = () => {}
@@ -87,6 +87,7 @@ export const mergeDeep = <T extends object, U>(target: T, source: U): (T & U) | 
   const output = Object.assign({}, target)
 
   if (isObject(target) && isObject(source)) {
+    // @ts-ignore
     Object.keys(source).forEach((key: any) => {
       if (isObject(source[key])) {
         if (!(key in target)) Object.assign(output, { [key]: source[key] })
@@ -104,7 +105,7 @@ export const removeURLParameters = (removeParams: string[]) => {
   const deleteRegex = new RegExp(`${removeParams.join('=|')}=`)
 
   const params = location.search.slice(1).split('&')
-  const search = []
+  const search: string[] = []
 
   for (let i = 0; i < params.length; i++) {
     if (!deleteRegex.test(params[i])) {

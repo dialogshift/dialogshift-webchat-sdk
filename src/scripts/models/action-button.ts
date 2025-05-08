@@ -41,8 +41,8 @@ export class ActionButton {
       return this.l10n[locale].title
     }
 
-    if (this.l10n[this.defaultLocale]) {
-      return this.l10n[this.defaultLocale].title
+    if (this.l10n[this.defaultLocale as string]) {
+      return this.l10n[this.defaultLocale as string].title
     }
 
     return null

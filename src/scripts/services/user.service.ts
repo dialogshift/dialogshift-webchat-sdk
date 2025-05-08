@@ -69,7 +69,7 @@ export class UserService {
   static updateCookieLifetime(forgetCustomerAfterHours: number) {
     if (this.custidStoreMode === CustidStoreMode.cookie && UserService.getCustomerId()) {
       UserService.setCustomerId(
-        UserService.getCustomerId(),
+        UserService.getCustomerId() as string,
         3600 * forgetCustomerAfterHours,
       )
     }
@@ -128,7 +128,7 @@ export class UserService {
 
       if (this.loadGaContext) {
         const ga = GaService.getGaValue()
-        if (ga !== null) {
+        if (ga !== null && context) {
           context['_ga'] = ga
         }
       }
@@ -148,7 +148,7 @@ export class UserService {
           resolve(data.custid)
         })
       } else {
-        const currentURL = parseUrlParam(window.location.href, 'curl')
+        const currentURL = parseUrlParam(window.location.href, 'curl') as string
 
         ApiService.validateUser({
           clientId,

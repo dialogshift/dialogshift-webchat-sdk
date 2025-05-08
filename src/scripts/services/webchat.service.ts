@@ -24,7 +24,9 @@ export class WebchatService {
       message.teaserButton = options.teaserButton
     }
 
-    this.targetWindow.contentWindow.postMessage(message, '*')
+    if (this.targetWindow.contentWindow) {
+      this.targetWindow.contentWindow.postMessage(message, '*')
+    }
   }
 
   setMinimized(isMinimized: boolean) {
@@ -33,6 +35,8 @@ export class WebchatService {
       type: 'setMinimized',
     }
 
-    this.targetWindow.contentWindow.postMessage(message, '*')
+    if (this.targetWindow.contentWindow) {
+      this.targetWindow.contentWindow.postMessage(message, '*')
+    }
   }
 }
