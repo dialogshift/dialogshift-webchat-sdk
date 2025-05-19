@@ -314,7 +314,9 @@ export class WidgetManager {
               this.iframeBoxWidget.hide()
             }
 
-            this.chatButtonWidget.toggle(false)
+            if (this.chatButtonWidget) {
+              this.chatButtonWidget.toggle(false)
+            }
 
             if (this.getWebchatService()) {
               this.getWebchatService().setMinimized(true)
