@@ -13,6 +13,12 @@ export class ChatButtonWidget extends BaseWidget {
     this.getBoxElem().addEventListener('click', () => {
       this.toggle()
     })
+
+    this.getBoxElem().addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        this.toggle()
+      }
+    })
   }
 
   getBaseCls(): string {
@@ -24,6 +30,7 @@ export class ChatButtonWidget extends BaseWidget {
 
     const iconContainer = document.createElement('div')
     iconContainer.classList.add(config.buttonIconContainerCls)
+    iconContainer.tabIndex = 0
     iconContainer.innerHTML = iconSvg
     boxElem.appendChild(iconContainer)
 

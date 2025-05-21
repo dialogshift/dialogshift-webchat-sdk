@@ -17,10 +17,19 @@ export class HeaderCloseButtonWidget extends BaseWidget {
     this.getBoxElem().addEventListener('click', () => {
       this.fire('click')
     })
+
+    this.getBoxElem().addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        this.fire('click')
+      }
+    })
   }
 
   render() {
     super.render()
+
+    this.getBoxElem().tabIndex = 0
+    this.getBoxElem().ariaLabel = 'Close Chat'
 
     this.bindEvents()
   }
