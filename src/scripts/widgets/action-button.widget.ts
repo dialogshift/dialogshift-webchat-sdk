@@ -28,6 +28,15 @@ export class ActionButtonWidget extends BaseWidget {
           teaserButton: true,
         })
       })
+
+      this.getBoxElem().addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          this.app.triggerElement({
+            successor: this.actionButton.getSuccessor(),
+            teaserButton: true,
+          })
+        }
+      })
     }
 
     if (this.actionButton.getType() === ActionButtonType.callback) {
@@ -35,11 +44,20 @@ export class ActionButtonWidget extends BaseWidget {
         const callback = this.actionButton.getCallback()
         callback()
       })
+
+      this.getBoxElem().addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          const callback = this.actionButton.getCallback()
+          callback()
+        }
+      })
     }
   }
 
   render() {
     super.render()
+
+    this.getBoxElem().tabIndex = 0
 
     this.bindEvents()
   }
