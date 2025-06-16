@@ -1,8 +1,5 @@
 const path = require('path')
 const webpack = require('webpack')
-const WebpackAutoInject = require('webpack-auto-inject-version')
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-// .BundleAnalyzerPlugin
 // const envConfig = require('./src/scripts/config/env-config.ts')
 
 module.exports = (env, argv) => ({
@@ -36,14 +33,5 @@ module.exports = (env, argv) => ({
       },
     ],
   },
-  plugins: [
-    new WebpackAutoInject({
-      componentsOptions: {
-        InjectAsComment: {
-          tag: 'Build version: {version} Environment: ' + process.env.NODE_ENV,
-        },
-      },
-    }),
-    // new BundleAnalyzerPlugin(),
-  ],
+  plugins: [],
 })
