@@ -47,7 +47,21 @@ export class IframeWidget extends BaseWidget {
   }
 
   createNode(): HTMLIFrameElement {
-    return document.createElement('iframe')
+    const node = document.createElement('iframe')
+    node.sandbox.add('allow-downloads')
+    node.sandbox.add('allow-forms')
+    node.sandbox.add('allow-modals')
+    node.sandbox.add('allow-pointer-lock')
+    node.sandbox.add('allow-popups')
+    node.sandbox.add('allow-popups-to-escape-sandbox')
+    node.sandbox.add('allow-presentation')
+    node.sandbox.add('allow-same-origin')
+    node.sandbox.add('allow-scripts')
+    node.sandbox.add('allow-storage-access-by-user-activation')
+    node.sandbox.add('allow-top-navigation')
+    node.sandbox.add('allow-top-navigation-by-user-activation')
+    node.sandbox.add('allow-top-navigation-to-custom-protocols')
+    return node
   }
 
   getViewportWidth(): number {
