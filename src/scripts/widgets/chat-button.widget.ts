@@ -52,7 +52,7 @@ export class ChatButtonWidget extends BaseWidget {
   }
 
   toggle(state?: boolean, suppressEvent = false, timeout = 100): void {
-    const isPressed = state === undefined ? !this.isPressed : !!state
+    const isPressed = state === undefined ? !this.isPressed : state
 
     if (isPressed === this.isPressed) {
       return
