@@ -57,6 +57,7 @@ export interface AppOptions {
   loadGaContext?: boolean
   channelOverride?: string
   leftCloseButton?: boolean
+  iconUrl?: string
 }
 
 const appOptionsDefault = {
@@ -425,6 +426,7 @@ export class App {
       custidStoreMode,
       loadGaContext,
       leftCloseButton,
+      iconUrl,
     } = this.chatConfig
 
     if (setUnreadCounter) {
@@ -479,6 +481,10 @@ export class App {
 
     if (leftCloseButton) {
       this.options.leftCloseButton = leftCloseButton
+    }
+
+    if (iconUrl) {
+      this.options.iconUrl = iconUrl
     }
   }
 

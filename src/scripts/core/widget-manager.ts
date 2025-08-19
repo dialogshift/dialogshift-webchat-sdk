@@ -144,6 +144,7 @@ export class WidgetManager {
       renderTo: this.footerWidget.getBoxElem(),
       visible: options.isButtonVisible,
       effects: effects?.chatButton,
+      iconUrl: options.iconUrl ?? undefined,
       events: [
         {
           type: 'toggle',

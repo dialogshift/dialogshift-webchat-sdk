@@ -1,6 +1,6 @@
 {
   "name": "dialogshift-webchat-sdk",
-  "version": "2.10.2-develop.0",
+  "version": "2.10.3-develop.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/dialogshift/dialogshift-webchat-sdk"
@@ -34,23 +34,23 @@
     "publish-prod": "npm run clear-env && cp src/scripts/config/env.prod.ts src/scripts/config/env.ts && npm publish"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^5.2.0",
+    "@stylistic/eslint-plugin": "^5.2.3",
     "@types/chai": "^5.2.2",
     "@types/mocha": "^10.0.10",
     "@types/sinon": "^17.0.4",
-    "@typescript-eslint/eslint-plugin": "^8.37.0",
-    "@typescript-eslint/parser": "^8.37.0",
-    "chai": "^5.2.1",
-    "eslint": "^9.31.0",
-    "eslint-plugin-jsdoc": "^51.4.1",
+    "@typescript-eslint/eslint-plugin": "^8.40.0",
+    "@typescript-eslint/parser": "^8.40.0",
+    "chai": "^5.3.1",
+    "eslint": "^9.33.0",
+    "eslint-plugin-jsdoc": "^54.1.0",
     "globals": "^16.3.0",
     "mocha": "^11.7.1",
-    "sass": "^1.89.2",
+    "sass": "^1.90.0",
     "sinon": "^21.0.0",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "webpack": "^5.100.2",
+    "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1"
   }
 }
