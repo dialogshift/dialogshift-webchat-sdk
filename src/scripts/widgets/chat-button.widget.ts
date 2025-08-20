@@ -2,10 +2,15 @@ import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
 import { iconSvg } from '../consts'
 
+interface ChatButtonWidgetOptions extends BaseWidgetOptions {
+  iconUrl?: string
+}
+
 export class ChatButtonWidget extends BaseWidget {
   private isPressed = false
+  protected iconUrl: string | undefined = undefined
 
-  constructor(options: BaseWidgetOptions) {
+  constructor(options: ChatButtonWidgetOptions) {
     super(options)
   }
 
@@ -28,13 +33,18 @@ export class ChatButtonWidget extends BaseWidget {
   render() {
     const boxElem = this.getBoxElem()
 
-    const iconContainer = document.createElement('div')
-    iconContainer.classList.add(config.buttonIconContainerCls)
-    iconContainer.tabIndex = 0
-    iconContainer.innerHTML = iconSvg
-    boxElem.appendChild(iconContainer)
+    if (this.iconUrl === undefined) {
+      const iconContainer = document.createElement('div')
+      iconContainer.classList.add(config.buttonIconContainerCls)
+      iconContainer.tabIndex = 0
+      iconContainer.innerHTML = iconSvg
+      boxElem.appendChild(iconContainer)
 
-    boxElem.classList.add(config.buttonLogoCls)
+      boxElem.classList.add(config.buttonLogoCls)
+    } else {
+      boxElem.style.backgroundColor = ''
+      boxElem.style.background = `url(${this.iconUrl})`
+    }
 
     this.bindEvents()
 
@@ -42,7 +52,7 @@ export class ChatButtonWidget extends BaseWidget {
   }
 
   toggle(state?: boolean, suppressEvent = false, timeout = 100): void {
-    const isPressed = state === undefined ? !this.isPressed : !!state
+    const isPressed = state === undefined ? !this.isPressed : state
 
     if (isPressed === this.isPressed) {
       return
