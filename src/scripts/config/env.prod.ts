@@ -1,5 +1,5 @@
 export const environment = {
-  coreApiEndpoint: 'https://core.prod.co25.net',
-  ibeApiEndpoint: 'https://ibe.prod.co25.net',
+  coreApiEndpoint: 'https://core.dialogshift.com',
+  ibeApiEndpoint: 'https://helper.dialogshift.com',
   iframeHost: 'https://webchat.dialogshift.com',
 }
