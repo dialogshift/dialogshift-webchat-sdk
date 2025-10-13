@@ -10,11 +10,9 @@
   border-radius: 12px;
   z-index: 20;
   background-color: #fff;
-  right: 460px;
   transition: opacity .25s ease,
     transform .5s ease,
     width .5s ease;
-  transform: translateX(150px);
   background-color: #fff;
 
   iframe {
@@ -51,10 +49,19 @@
   }
 
   &.ds-widget--visible {
-    transform: translateX(0);
+    transform: translateX(0) !important;
   }
 }
 
+.ds-wrapper--pr .ds-iframe-box {
+  right: 460px;
+  transform: translateX(150px);
+}
+
+.ds-wrapper--pl .ds-iframe-box {
+  left: 460px;
+  transform: translateX(-150px);
+}
 
 @media (max-width: 576px) {
   .ds-iframe-box {
