@@ -1,6 +1,6 @@
 {
   "name": "dialogshift-webchat-sdk",
-  "version": "2.11.0",
+  "version": "2.11.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/dialogshift/dialogshift-webchat-sdk"
@@ -38,11 +38,11 @@
     "@types/chai": "^5.2.2",
     "@types/mocha": "^10.0.10",
     "@types/sinon": "^17.0.4",
-    "@typescript-eslint/eslint-plugin": "^8.46.0",
-    "@typescript-eslint/parser": "^8.46.0",
-    "chai": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^8.46.1",
+    "@typescript-eslint/parser": "^8.46.1",
+    "chai": "^6.2.0",
     "eslint": "^9.37.0",
-    "eslint-plugin-jsdoc": "^54.7.0",
+    "eslint-plugin-jsdoc": "^61.1.2",
     "globals": "^16.4.0",
     "mocha": "^11.7.4",
     "sass": "^1.93.2",
