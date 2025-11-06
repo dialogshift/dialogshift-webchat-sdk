@@ -53,12 +53,12 @@
 }
 
 .ds-wrapper--pr .ds-iframe-box {
-  right: 460px;
+  right: calc(440px + var(--base-margin-right));
   transform: translateX(150px);
 }
 
 .ds-wrapper--pl .ds-iframe-box {
-  left: 460px;
+  left: calc(440px + var(--base-margin-left));
   transform: translateX(-150px);
 }
 
