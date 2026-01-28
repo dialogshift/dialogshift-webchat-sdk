@@ -37,6 +37,11 @@ export class IframeBoxWidget extends BaseWidget {
       this.iframe.sandbox.add('allow-same-origin')
       this.iframe.sandbox.add('allow-scripts')
       this.iframe.sandbox.add('allow-forms')
+      this.iframe.sandbox.add('allow-modals')
+      this.iframe.sandbox.add('allow-popups')
+      this.iframe.sandbox.add('allow-popups-to-escape-sandbox')
+      this.iframe.sandbox.add('allow-top-navigation-by-user-activation')
+      this.iframe.allow = 'clipboard-write'
 
       this.getBoxElem().appendChild(this.iframe)
     } else {
