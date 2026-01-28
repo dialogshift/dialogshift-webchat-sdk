@@ -43,7 +43,7 @@
     "chai": "^6.2.2",
     "eslint": "^9.39.2",
     "eslint-plugin-jsdoc": "^62.4.1",
-    "globals": "^16.5.0",
+    "globals": "^17.2.0",
     "mocha": "^11.7.5",
     "sass": "^1.97.3",
     "sinon": "^21.0.1",
