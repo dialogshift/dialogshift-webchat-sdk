@@ -533,7 +533,7 @@ export class App {
   getClientConfig(): MixedObject {
     return {
       clientid: this.options.id,
-      channel: this.options.context?.channel,
+      channel: this.options.context?.channel ? this.options.context.channel : 'pwa-embed',
     }
   }
 
