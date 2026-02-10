@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-// const envConfig = require('./src/scripts/config/env-config.ts')
+const pkg = require('./package.json')
 
 module.exports = (env, argv) => ({
   mode: process.env.NODE_ENV === 'prod' ? 'production' : 'development',
@@ -33,5 +33,9 @@ module.exports = (env, argv) => ({
       },
     ],
   },
-  plugins: [],
+  plugins: [
+    new webpack.DefinePlugin({
+      __VERSION__: JSON.stringify(pkg.version),
+    }),
+  ],
 })

@@ -105,6 +105,10 @@ export const createFacade = (instance: App) => {
       return instance.getConfig()
     },
 
+    getClientConfig(): MixedObject {
+      return instance.getClientConfig()
+    },
+
     setUnreadCounter(amount: number) {
       instance.getWidgetManager().getUnreadWidget().setCounter(amount)
     },

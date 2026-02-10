@@ -92,7 +92,7 @@ export class ApiService {
 
     url.indexOf('?') === -1 ? (url += '?origin=sdk') : (url += '&origin=sdk')
 
-    url += '&v=2.3.16'
+    url += `&v=${__VERSION__}`
 
     if (options.debug) {
       url += `&debug=${options.debug}`

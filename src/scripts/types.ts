@@ -1,3 +1,5 @@
-export interface MixedObject {
-  [key: string]: any
+export type MixedObject = { [key: string]: any }
+
+declare global {
+  const __VERSION__: string
 }
