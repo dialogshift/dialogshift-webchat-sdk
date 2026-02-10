@@ -530,6 +530,13 @@ export class App {
     return this.chatConfig
   }
 
+  getClientConfig(): MixedObject {
+    return {
+      clientid: this.options.id,
+      channel: this.options.context?.channel,
+    }
+  }
+
   setInitialElement(initialElement: InitialElement) {
     const mergedInitialElement = mergeDeep(
       this.options.initialElement as InitialElement,
