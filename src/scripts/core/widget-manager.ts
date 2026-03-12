@@ -423,7 +423,9 @@ export class WidgetManager {
           type: 'before:hide',
           callback: () => {
             this.iframeWidget.show()
-            this.whatsappButtonWidget.toggle(false)
+            if (this.whatsappButtonWidget) {
+              this.whatsappButtonWidget.toggle(false)
+            }
           },
         },
         {
