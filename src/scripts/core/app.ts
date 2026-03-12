@@ -232,8 +232,9 @@ export class App {
 
     if (this.options.renderWaButton) {
       this.widgetManager.renderWhatsappButtonWidget(this.chatConfig)
-      this.widgetManager.renderWhatsappWindowWidget(this.options)
     }
+    // Always render the window widget because it is possible to configure only the button in the chat window
+    this.widgetManager.renderWhatsappWindowWidget(this.options)
 
     this.widgetManager.renderIframeBox()
 
