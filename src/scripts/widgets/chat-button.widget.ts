@@ -44,6 +44,7 @@ export class ChatButtonWidget extends BaseWidget {
     } else {
       boxElem.style.backgroundColor = ''
       boxElem.style.background = `url(${this.iconUrl})`
+      boxElem.style.backgroundSize = 'contain'
     }
 
     this.bindEvents()
