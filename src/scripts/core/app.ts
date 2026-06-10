@@ -455,6 +455,7 @@ export class App {
     }
 
     if (forgetCustomerAfterHours) {
+      UserService.cookieLifetime = forgetCustomerAfterHours
       UserService.updateCookieLifetime(forgetCustomerAfterHours)
     }
 
