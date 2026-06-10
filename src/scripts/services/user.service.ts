@@ -33,7 +33,7 @@ export class UserService {
   static saveCustomerId(id: string, expires?: number) {
     if (this.custidStoreMode === CustidStoreMode.cookie) {
       CookieService.set(customerIdCookieName, id, {
-        expires: expires ? expires : 86400 * this.cookieLifetime,
+        expires: expires ? expires : 3600 * this.cookieLifetime,
       })
     } else {
       this.customerId = id
