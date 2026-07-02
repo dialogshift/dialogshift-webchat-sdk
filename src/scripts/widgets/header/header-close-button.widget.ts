@@ -19,7 +19,8 @@ export class HeaderCloseButtonWidget extends BaseWidget {
     })
 
     this.getBoxElem().addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
         this.fire('click')
       }
     })
@@ -30,6 +31,7 @@ export class HeaderCloseButtonWidget extends BaseWidget {
 
     this.getBoxElem().tabIndex = 0
     this.getBoxElem().ariaLabel = 'Close Chat'
+    this.getBoxElem().role = 'button'
 
     this.bindEvents()
   }

@@ -30,7 +30,8 @@ export class ActionButtonWidget extends BaseWidget {
       })
 
       this.getBoxElem().addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
           this.app.triggerElement({
             successor: this.actionButton.getSuccessor(),
             teaserButton: true,
@@ -46,7 +47,8 @@ export class ActionButtonWidget extends BaseWidget {
       })
 
       this.getBoxElem().addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
           const callback = this.actionButton.getCallback()
           callback()
         }
@@ -58,6 +60,7 @@ export class ActionButtonWidget extends BaseWidget {
     super.render()
 
     this.getBoxElem().tabIndex = 0
+    this.getBoxElem().role = 'button'
 
     this.bindEvents()
   }
