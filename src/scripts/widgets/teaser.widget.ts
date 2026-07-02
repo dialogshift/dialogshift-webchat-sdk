@@ -28,6 +28,9 @@ export class TeaserWidget extends BaseWidget {
     this.crossElem.classList.add(config.teaserCrossCls)
     this.crossElem.tabIndex = 0
     this.crossElem.ariaLabel = 'Close Chat Teaser'
+    this.crossElem.role = 'button'
+
+    this.getBoxElem().role = 'button'
 
     this.bindEvents()
 
@@ -112,7 +115,8 @@ export class TeaserWidget extends BaseWidget {
       this.hide()
     })
     this.crossElem.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
         event.stopPropagation()
         this.hide()
       }
@@ -120,7 +124,8 @@ export class TeaserWidget extends BaseWidget {
 
     this.getBoxElem().addEventListener('click', () => this.fire('click'))
     this.getBoxElem().addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
         this.fire('click')
       }
     })

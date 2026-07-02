@@ -58,6 +58,9 @@ export class IframeBoxWidget extends BaseWidget {
   render() {
     this.crossElem = this.createNode()
     this.crossElem.classList.add(config.crossCls)
+    this.crossElem.tabIndex = 0
+    this.crossElem.ariaLabel = 'Close Chat'
+    this.crossElem.role = 'button'
     this.bindEvents()
 
     this.getBoxElem().appendChild(this.crossElem)
@@ -65,12 +68,23 @@ export class IframeBoxWidget extends BaseWidget {
     super.render()
   }
 
+  private close() {
+    this.iframe?.parentNode?.removeChild(this.iframe)
+    this.iframe = null
+    this.hide()
+  }
+
   bindEvents() {
     this.crossElem.addEventListener('click', (event: MouseEvent) => {
       event.stopPropagation()
-      this.iframe?.parentNode?.removeChild(this.iframe)
-      this.iframe = null
-      this.hide()
+      this.close()
+    })
+    this.crossElem.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        event.stopPropagation()
+        this.close()
+      }
     })
   }
 

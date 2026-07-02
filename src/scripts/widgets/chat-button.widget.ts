@@ -20,7 +20,8 @@ export class ChatButtonWidget extends BaseWidget {
     })
 
     this.getBoxElem().addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
         this.toggle()
       }
     })
@@ -36,7 +37,6 @@ export class ChatButtonWidget extends BaseWidget {
     if (this.iconUrl === undefined) {
       const iconContainer = document.createElement('div')
       iconContainer.classList.add(config.buttonIconContainerCls)
-      iconContainer.tabIndex = 0
       iconContainer.innerHTML = iconSvg
       boxElem.appendChild(iconContainer)
 
@@ -46,6 +46,10 @@ export class ChatButtonWidget extends BaseWidget {
       boxElem.style.background = `url(${this.iconUrl})`
       boxElem.style.backgroundSize = 'contain'
     }
+
+    boxElem.tabIndex = 0
+    boxElem.role = 'button'
+    boxElem.ariaLabel = 'Open Chat'
 
     this.bindEvents()
 
