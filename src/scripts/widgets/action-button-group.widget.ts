@@ -50,7 +50,7 @@ export class ActionButtonGroupWidget extends BaseWidget {
 
     setTimeout(() => {
       boxElem.style.overflowY = 'visible'
-      boxElem.style.maxHeight = 'auto'
+      boxElem.style.maxHeight = 'none'
     }, 500)
 
     super.showNode()
