@@ -11,6 +11,7 @@ import {
 import {
   parseUrlParam,
   isExternalUrl,
+  isHttpUrl,
   injectCss,
   mergeDeep,
   removeURLParameters,
@@ -346,6 +347,10 @@ export class App {
   private proceedActionEvent(message: MixedObject) {
     if (message.name === ActionEventName.tabOpen) {
       let url = message.payload.targetUrl
+
+      if (typeof url !== 'string' || !isHttpUrl(url)) {
+        return
+      }
 
       if (message.payload.urlType === 'openSameTab') {
         if (!isExternalUrl(url)) {

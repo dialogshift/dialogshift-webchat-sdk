@@ -2,6 +2,7 @@ import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
 import { config } from '../config/config'
 import { ActionButton, ActionButtonType } from '../models'
 import { App } from '../core/app'
+import { setTextWithFormatting } from '../core/utils'
 
 export interface ActionButtonWidgetOptions extends BaseWidgetOptions {
   actionButton: ActionButton
@@ -67,6 +68,11 @@ export class ActionButtonWidget extends BaseWidget {
 
   getBaseCls(): string {
     return config.actionButtonCls
+  }
+
+  setContent(content: string | number) {
+    this.content = content
+    setTextWithFormatting(this.getContentElem(), content.toString())
   }
 
   setLocale(locale: string) {

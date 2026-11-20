@@ -1,6 +1,7 @@
 import { BaseWidget, BaseWidgetOptions } from '../core/base-widget'
 import { config } from '../config/config'
 import { CustidStoreMode } from '../enums';
+import { setTextWithFormatting } from '../core/utils'
 
 interface TeaserWidgetOptions extends BaseWidgetOptions {
   showTeaserOnce: boolean
@@ -21,6 +22,11 @@ export class TeaserWidget extends BaseWidget {
 
   getBaseCls(): string {
     return config.teaserCls
+  }
+
+  setContent(content: string | number) {
+    this.content = content
+    setTextWithFormatting(this.getContentElem(), content.toString())
   }
 
   render() {

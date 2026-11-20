@@ -38,7 +38,7 @@ export class BaseWidget extends Observable {
   private renderTo: HTMLElement
   private boxElem?: HTMLElement
   private contentElem?: HTMLElement
-  private content: string | number
+  protected content: string | number
   private destroyed = false
   private displayMode: BaseWidgetDisplayMode = 'block'
   private effects: BaseWidgetEffectsOptions = {

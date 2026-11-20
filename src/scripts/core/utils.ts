@@ -43,6 +43,50 @@ export const isExternalUrl = (url: string): boolean => {
   return false
 }
 
+// Texts from the chat configuration are shown as text, only line breaks and bold text are kept
+const textFormattingTags = ['BR', 'STRONG']
+
+const copyFormattedText = (source: Node, target: Node) => {
+  for (let i = 0; i < source.childNodes.length; i++) {
+    const child = source.childNodes[i]
+
+    if (child.nodeType === Node.TEXT_NODE) {
+      target.appendChild(document.createTextNode(child.nodeValue || ''))
+    } else if (child.nodeType === Node.ELEMENT_NODE) {
+      const tagName = (child as Element).tagName
+
+      if (textFormattingTags.indexOf(tagName) === -1) {
+        // other tags are removed, their text is kept
+        copyFormattedText(child, target)
+      } else {
+        // a new element, so no attribute is copied
+        const elem = document.createElement(tagName.toLowerCase())
+        copyFormattedText(child, elem)
+        target.appendChild(elem)
+      }
+    }
+  }
+}
+
+// DOMParser builds an inert document that runs no script and loads nothing, it also decodes entities like &amp;
+export const setTextWithFormatting = (elem: HTMLElement, text: string) => {
+  const parsed = new DOMParser().parseFromString(text, 'text/html')
+  elem.textContent = ''
+  copyFormattedText(parsed.body, elem)
+}
+
+export const isHttpUrl = (
+  url: string,
+  base: string = window.location.href,
+): boolean => {
+  try {
+    const protocol = new URL(url, base).protocol
+    return protocol === 'http:' || protocol === 'https:'
+  } catch (e) {
+    return false
+  }
+}
+
 export const injectCss = (css: string) => {
   const style = document.createElement('style')
   const head = document.querySelector('head')
