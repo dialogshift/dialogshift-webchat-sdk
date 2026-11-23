@@ -1,4 +1,5 @@
 import { BaseWidgetOptions, BaseWidget } from '../core/base-widget'
+import { isHttpUrl } from '../core/utils'
 import { ApiService, UserService } from '../services'
 import { MixedObject } from '../types'
 
@@ -40,6 +41,27 @@ const getText = (locale: string, key: string) => {
   }
 
   return texts[lg][key]
+}
+
+const createElem = (tag: string, cls: string, text?: string): HTMLElement => {
+  const elem = document.createElement(tag)
+  elem.classList.add(cls)
+
+  if (text !== undefined) {
+    elem.textContent = text
+  }
+
+  return elem
+}
+
+// waSvg is an img tag with the QR code as data URL, only its image source is used
+const getQrImageSrc = (html: string): string | null => {
+  const img = new DOMParser()
+    .parseFromString(html || '', 'text/html')
+    .querySelector('img')
+  const src = img ? img.getAttribute('src') : null
+
+  return src !== null && src.indexOf('data:image/') === 0 ? src : null
 }
 
 interface WhatsappWindowWidgetOptions extends BaseWidgetOptions {
@@ -90,31 +112,48 @@ export class WhatsappWindowWidget extends BaseWidget {
     }
   }
 
+  // The link contains the start message configured by the hotel, so the content is built as DOM nodes and not as HTML
   private renderContent() {
-    const title = `<div class="${config.titleCls}">${getText(
-      this.locale,
-      'title',
-    )}</div>`
-    const description = `<div class="${config.textCls}">${getText(
-      this.locale,
-      'description',
-    )}</div>`
-    const qr = `<div class="${config.qr}">${this.waSvg}</div>`
-    const linkText = `<div class="${config.textLinkCls}">${getText(
-      this.locale,
-      'linkText',
-    )}</div>`
-    const linkMobileText = `<div class="${config.textLinkMobileCls}">${getText(
-      this.locale,
-      'linkMobileText',
-    )}</div>`
-    const link = `<a class="${config.linkCls}" href="${
-      this.waLink
-    }" target="_blank">
-      <span class="${config.linkTestCls}">${getText(this.locale, 'link')}</span>
-    </a>`
+    const qr = createElem('div', config.qr)
+    const qrSrc = getQrImageSrc(this.waSvg)
 
-    this.setContent(title + description + qr + linkText + linkMobileText + link)
+    if (qrSrc !== null) {
+      const img = document.createElement('img')
+      img.src = qrSrc
+      qr.appendChild(img)
+    }
+
+    const link = createElem('a', config.linkCls) as HTMLAnchorElement
+
+    if (typeof this.waLink === 'string' && isHttpUrl(this.waLink)) {
+      link.href = this.waLink
+    }
+    link.target = '_blank'
+    link.rel = 'noopener'
+    link.appendChild(
+      createElem('span', config.linkTestCls, getText(this.locale, 'link')),
+    )
+
+    const contentElem = this.getContentElem()
+    contentElem.textContent = ''
+    contentElem.appendChild(
+      createElem('div', config.titleCls, getText(this.locale, 'title')),
+    )
+    contentElem.appendChild(
+      createElem('div', config.textCls, getText(this.locale, 'description')),
+    )
+    contentElem.appendChild(qr)
+    contentElem.appendChild(
+      createElem('div', config.textLinkCls, getText(this.locale, 'linkText')),
+    )
+    contentElem.appendChild(
+      createElem(
+        'div',
+        config.textLinkMobileCls,
+        getText(this.locale, 'linkMobileText'),
+      ),
+    )
+    contentElem.appendChild(link)
   }
 
   getBaseCls(): string {

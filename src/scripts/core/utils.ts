@@ -55,6 +55,104 @@ export const isHttpUrl = (
   }
 }
 
+export const isLinkUrl = (
+  url: string,
+  base: string = window.location.href,
+): boolean => {
+  try {
+    const protocol = new URL(url, base).protocol
+    return (
+      protocol === 'http:' ||
+      protocol === 'https:' ||
+      protocol === 'mailto:' ||
+      protocol === 'tel:'
+    )
+  } catch (e) {
+    return false
+  }
+}
+
+// Formatting tags that stay in texts shown on the hotel website. They keep no attributes except href and target
+// on links. Unknown tags are replaced by their content, the dropped tags are removed together with their content.
+const sanitizeAllowedTags = [
+  'a', 'b', 'br', 'div', 'em', 'i', 'li', 'ol', 'p', 's', 'small', 'span', 'strong', 'sub', 'sup', 'u', 'ul',
+]
+const sanitizeDroppedTags = [
+  'embed', 'iframe', 'noscript', 'object', 'script', 'select', 'style', 'template', 'textarea', 'title',
+]
+const htmlNamespace = 'http://www.w3.org/1999/xhtml'
+const elementNode = 1
+const textNode = 3
+
+const copySafeLinkAttributes = (source: Element, link: HTMLElement) => {
+  const href = source.getAttribute('href')
+
+  if (href === null || !isLinkUrl(href)) {
+    return
+  }
+
+  link.setAttribute('href', href)
+
+  if (source.getAttribute('target') === '_blank') {
+    link.setAttribute('target', '_blank')
+    link.setAttribute('rel', 'noopener')
+  }
+}
+
+const appendSanitizedNodes = (source: Node, target: Node) => {
+  for (let i = 0; i < source.childNodes.length; i++) {
+    const node = source.childNodes[i]
+
+    if (node.nodeType === textNode) {
+      target.appendChild(document.createTextNode(node.nodeValue || ''))
+    }
+
+    if (node.nodeType !== elementNode) {
+      continue
+    }
+
+    const element = node as Element
+    const tag = element.localName
+
+    if (
+      element.namespaceURI !== htmlNamespace ||
+      sanitizeDroppedTags.indexOf(tag) >= 0
+    ) {
+      continue
+    }
+
+    if (sanitizeAllowedTags.indexOf(tag) < 0) {
+      appendSanitizedNodes(element, target)
+      continue
+    }
+
+    const copy = document.createElement(tag)
+
+    if (tag === 'a') {
+      copySafeLinkAttributes(element, copy)
+    }
+
+    appendSanitizedNodes(element, copy)
+    target.appendChild(copy)
+  }
+}
+
+/**
+ * Builds new DOM nodes from HTML with only formatting tags and links, so the result can not run script on the
+ * page. The HTML is parsed in an inert document and never serialized again.
+ *
+ * @param html Text with HTML from the chat configuration, the chat or the website.
+ * @returns Nodes to append to the page.
+ */
+export const sanitizeHtml = (html: string): DocumentFragment => {
+  const parsed = new DOMParser().parseFromString(html, 'text/html')
+  const fragment = document.createDocumentFragment()
+
+  appendSanitizedNodes(parsed.body, fragment)
+
+  return fragment
+}
+
 export const injectCss = (css: string) => {
   const style = document.createElement('style')
   const head = document.querySelector('head')
