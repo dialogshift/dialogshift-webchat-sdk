@@ -43,6 +43,18 @@ export const isExternalUrl = (url: string): boolean => {
   return false
 }
 
+export const isHttpUrl = (
+  url: string,
+  base: string = window.location.href,
+): boolean => {
+  try {
+    const protocol = new URL(url, base).protocol
+    return protocol === 'http:' || protocol === 'https:'
+  } catch (e) {
+    return false
+  }
+}
+
 export const injectCss = (css: string) => {
   const style = document.createElement('style')
   const head = document.querySelector('head')
