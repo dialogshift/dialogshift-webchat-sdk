@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify'
+
 export const parseUrlParam = (
   source: string,
   name: string,
@@ -55,86 +57,41 @@ export const isHttpUrl = (
   }
 }
 
-export const isLinkUrl = (
-  url: string,
-  base: string = window.location.href,
-): boolean => {
-  try {
-    const protocol = new URL(url, base).protocol
-    return (
-      protocol === 'http:' ||
-      protocol === 'https:' ||
-      protocol === 'mailto:' ||
-      protocol === 'tel:'
-    )
-  } catch (e) {
-    return false
-  }
+// Formatting tags that stay in texts shown on the hotel website. Links keep only href (http, https, mailto, tel or
+// relative) and target _blank. Unknown tags are replaced by their content, the forbidden tags are removed together
+// with their content.
+const sanitizeConfig = {
+  ALLOWED_TAGS: [
+    'a', 'b', 'br', 'div', 'em', 'i', 'li', 'ol', 'p', 's', 'small', 'span', 'strong', 'sub', 'sup', 'u', 'ul',
+  ],
+  ALLOWED_ATTR: ['href', 'target'],
+  ALLOW_ARIA_ATTR: false,
+  ALLOW_DATA_ATTR: false,
+  ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+  ADD_FORBID_CONTENTS: ['embed', 'object', 'select', 'textarea'],
+  RETURN_DOM_FRAGMENT: true as const,
 }
 
-// Formatting tags that stay in texts shown on the hotel website. They keep no attributes except href and target
-// on links. Unknown tags are replaced by their content, the dropped tags are removed together with their content.
-const sanitizeAllowedTags = [
-  'a', 'b', 'br', 'div', 'em', 'i', 'li', 'ol', 'p', 's', 'small', 'span', 'strong', 'sub', 'sup', 'u', 'ul',
-]
-const sanitizeDroppedTags = [
-  'embed', 'iframe', 'noscript', 'object', 'script', 'select', 'style', 'template', 'textarea', 'title',
-]
-const htmlNamespace = 'http://www.w3.org/1999/xhtml'
-const elementNode = 1
-const textNode = 3
+let purifier: typeof DOMPurify | null = null
 
-const copySafeLinkAttributes = (source: Element, link: HTMLElement) => {
-  const href = source.getAttribute('href')
-
-  if (href === null || !isLinkUrl(href)) {
-    return
+// An own instance, so the hook does not change a DOMPurify that the website loads from the same package
+const getPurifier = (): typeof DOMPurify => {
+  if (purifier === null) {
+    purifier = DOMPurify(window)
+    purifier.addHook('afterSanitizeAttributes', (element) => {
+      if (
+        element.localName === 'a' &&
+        element.hasAttribute('href') &&
+        element.getAttribute('target') === '_blank'
+      ) {
+        element.setAttribute('rel', 'noopener')
+      } else {
+        element.removeAttribute('target')
+      }
+    })
   }
 
-  link.setAttribute('href', href)
-
-  if (source.getAttribute('target') === '_blank') {
-    link.setAttribute('target', '_blank')
-    link.setAttribute('rel', 'noopener')
-  }
-}
-
-const appendSanitizedNodes = (source: Node, target: Node) => {
-  for (let i = 0; i < source.childNodes.length; i++) {
-    const node = source.childNodes[i]
-
-    if (node.nodeType === textNode) {
-      target.appendChild(document.createTextNode(node.nodeValue || ''))
-    }
-
-    if (node.nodeType !== elementNode) {
-      continue
-    }
-
-    const element = node as Element
-    const tag = element.localName
-
-    if (
-      element.namespaceURI !== htmlNamespace ||
-      sanitizeDroppedTags.indexOf(tag) >= 0
-    ) {
-      continue
-    }
-
-    if (sanitizeAllowedTags.indexOf(tag) < 0) {
-      appendSanitizedNodes(element, target)
-      continue
-    }
-
-    const copy = document.createElement(tag)
-
-    if (tag === 'a') {
-      copySafeLinkAttributes(element, copy)
-    }
-
-    appendSanitizedNodes(element, copy)
-    target.appendChild(copy)
-  }
+  return purifier
 }
 
 /**
@@ -145,12 +102,11 @@ const appendSanitizedNodes = (source: Node, target: Node) => {
  * @returns Nodes to append to the page.
  */
 export const sanitizeHtml = (html: string): DocumentFragment => {
-  const parsed = new DOMParser().parseFromString(html, 'text/html')
-  const fragment = document.createDocumentFragment()
-
-  appendSanitizedNodes(parsed.body, fragment)
-
-  return fragment
+  // DOMPurify returns null when the HTML has no body, for example a frameset
+  return (
+    getPurifier().sanitize(html, sanitizeConfig) ||
+    document.createDocumentFragment()
+  )
 }
 
 export const injectCss = (css: string) => {

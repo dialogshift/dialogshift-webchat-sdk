@@ -10,7 +10,8 @@
     "sourceMap": true,
     "outDir": "./dist",
     "strict": false,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "esModuleInterop": true
   },
   "files": ["src/scripts/index.ts"],
   "include": ["src/scripts/**/*"],

@@ -123,6 +123,10 @@ describe('sanitizeHtml()', () => {
     )
   })
 
+  it('should return no nodes for HTML without a body', () => {
+    expect(render('<frameset onload="alert(1)"><frame src="https://x.example"></frameset>')).equal('')
+  })
+
   it('should not create script for payloads that rely on parsing differences', () => {
     const payloads = [
       '<noscript><p title="</noscript><img src=x onerror=alert(1)>">',
