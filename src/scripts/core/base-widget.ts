@@ -1,5 +1,6 @@
 import { Observable, ObservableOptions } from './observable'
 import { AudioSound, AudioService } from '../services/audio.service'
+import { sanitizeHtml } from './utils'
 
 export const config = {
   rootCls: 'ds-widget',
@@ -288,13 +289,18 @@ export class BaseWidget extends Observable {
     this.getBoxElem().classList.remove(cls)
   }
 
+  // Content comes from the chat configuration, the chat or the website and is shown on the hotel website, so HTML
+  // keeps only formatting and links
   setContent(content: string | number, safe = false) {
     this.content = content
 
+    const contentElem = this.getContentElem()
+
     if (safe) {
-      this.getContentElem().innerText = content.toString()
+      contentElem.innerText = content.toString()
     } else {
-      this.getContentElem().innerHTML = content.toString()
+      contentElem.textContent = ''
+      contentElem.appendChild(sanitizeHtml(content.toString()))
     }
   }
 

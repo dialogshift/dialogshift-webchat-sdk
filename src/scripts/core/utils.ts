@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify'
+
 export const parseUrlParam = (
   source: string,
   name: string,
@@ -41,6 +43,70 @@ export const isExternalUrl = (url: string): boolean => {
   }
 
   return false
+}
+
+export const isHttpUrl = (
+  url: string,
+  base: string = window.location.href,
+): boolean => {
+  try {
+    const protocol = new URL(url, base).protocol
+    return protocol === 'http:' || protocol === 'https:'
+  } catch (e) {
+    return false
+  }
+}
+
+// Formatting tags that stay in texts shown on the hotel website. Links keep only href (http, https, mailto, tel or
+// relative) and target _blank. Unknown tags are replaced by their content, the forbidden tags are removed together
+// with their content.
+const sanitizeConfig = {
+  ALLOWED_TAGS: [
+    'a', 'b', 'br', 'div', 'em', 'i', 'li', 'ol', 'p', 's', 'small', 'span', 'strong', 'sub', 'sup', 'u', 'ul',
+  ],
+  ALLOWED_ATTR: ['href', 'target'],
+  ALLOW_ARIA_ATTR: false,
+  ALLOW_DATA_ATTR: false,
+  ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+  ADD_FORBID_CONTENTS: ['embed', 'object', 'select', 'textarea'],
+  RETURN_DOM_FRAGMENT: true as const,
+}
+
+let purifier: typeof DOMPurify | null = null
+
+// An own instance, so the hook does not change a DOMPurify that the website loads from the same package
+const getPurifier = (): typeof DOMPurify => {
+  if (purifier === null) {
+    purifier = DOMPurify(window)
+    purifier.addHook('afterSanitizeAttributes', (element) => {
+      if (
+        element.localName === 'a' &&
+        element.hasAttribute('href') &&
+        element.getAttribute('target') === '_blank'
+      ) {
+        element.setAttribute('rel', 'noopener')
+      } else {
+        element.removeAttribute('target')
+      }
+    })
+  }
+
+  return purifier
+}
+
+/**
+ * Builds new DOM nodes from HTML with only formatting tags and links, so the result can not run script on the
+ * page. The HTML is parsed in an inert document and never serialized again.
+ *
+ * @param html Text with HTML from the chat configuration, the chat or the website.
+ * @returns Nodes to append to the page.
+ */
+export const sanitizeHtml = (html: string): DocumentFragment => {
+  // DOMPurify returns null when the HTML has no body, for example a frameset
+  return (
+    getPurifier().sanitize(html, sanitizeConfig) ||
+    document.createDocumentFragment()
+  )
 }
 
 export const injectCss = (css: string) => {
