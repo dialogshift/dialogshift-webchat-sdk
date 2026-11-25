@@ -11,6 +11,7 @@ import {
 import {
   parseUrlParam,
   isExternalUrl,
+  isHttpUrl,
   injectCss,
   mergeDeep,
   removeURLParameters,
@@ -279,7 +280,14 @@ export class App {
 
   private bindEvents() {
     window.addEventListener('message', (event: MixedObject) => {
-      if (event.origin === (config as MixedObject).env.iframeHost) {
+      const iframeWidget = this.widgetManager.getIframeWidget()
+
+      // Only the chat iframe of this widget may send events, not another window of the webchat host
+      if (
+        event.origin === (config as MixedObject).env.iframeHost &&
+        iframeWidget &&
+        event.source === iframeWidget.getBoxElem().contentWindow
+      ) {
         const message = event.data as ActionEvent
 
         if (message.type === ActionEventType.message) {
@@ -294,7 +302,12 @@ export class App {
           this.proceedActionEvent(message)
         }
 
-        if (message.payload && message.payload.openInBox === true) {
+        if (
+          message.payload &&
+          message.payload.openInBox === true &&
+          typeof message.payload.url === 'string' &&
+          isHttpUrl(message.payload.url)
+        ) {
           this.widgetManager.getIframeBoxWidget().load(message.payload.url)
 
           setTimeout(() => {
@@ -347,6 +360,10 @@ export class App {
     if (message.name === ActionEventName.tabOpen) {
       let url = message.payload.targetUrl
 
+      if (typeof url !== 'string' || !isHttpUrl(url)) {
+        return
+      }
+
       if (message.payload.urlType === 'openSameTab') {
         if (!isExternalUrl(url)) {
           url += `${url.split('?')[1] ? '&' : '?'}dschat=open`
@@ -355,7 +372,7 @@ export class App {
       }
 
       if (message.payload.urlType === 'openNewTab') {
-        window.open(url, '_blank')
+        window.open(url, '_blank', 'noopener')
       }
     }
 

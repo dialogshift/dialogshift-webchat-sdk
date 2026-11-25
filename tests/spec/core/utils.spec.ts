@@ -1,4 +1,4 @@
-import { parseUrlParam } from '../../../src/scripts/core/utils'
+import { isHttpUrl, parseUrlParam } from '../../../src/scripts/core/utils'
 import { expect } from 'chai'
 
 // import * as jsdom from 'mocha-jsdom'
@@ -19,6 +19,24 @@ describe('Utils', () => {
       const param = parseUrlParam(url, 'dschat')
 
       expect(param).equal(value)
+    })
+  })
+
+  describe('isHttpUrl()', () => {
+    const base = 'https://www.dialog.com/rooms'
+
+    it('should accept http, https and relative URLs', () => {
+      expect(isHttpUrl('https://booking.dialog.com/?a=1', base)).equal(true)
+      expect(isHttpUrl('http://www.dialog.com', base)).equal(true)
+      expect(isHttpUrl('/offers', base)).equal(true)
+    })
+
+    it('should reject script and data URLs', () => {
+      expect(isHttpUrl('javascript:alert(1)', base)).equal(false)
+      expect(isHttpUrl(' JavaScript:alert(1)', base)).equal(false)
+      expect(isHttpUrl('data:text/html,<script>alert(1)</script>', base)).equal(
+        false,
+      )
     })
   })
 })
